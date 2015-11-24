@@ -1,20 +1,18 @@
 <?php namespace App\Auth;
 
-use Illuminate\Auth\GenericUser;
-use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+//use Illuminate\Contracts\Auth\User as UserContract;
+//use Illuminate\Auth\UserProviderInterface;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Illuminate\Contracts\Auth\UserProvider as UserProviderInterface;
+
 use App\Http\Controllers\Auth\Itsc\Itscapi;
 use DB;
 use App\User;
 use Session;
 
-
-class CustomUserProvider implements UserProvider {
+class CustomUserProvider implements UserProviderInterface {
 
     protected $model;
-
-    protected $spec_model;
 
     public function __construct($model)
     {
@@ -26,13 +24,23 @@ class CustomUserProvider implements UserProvider {
         return $this->createModel()->newQuery()->find($identifier);
     }
 
+    public function retrieveByToken($identifier, $token)
+    {
+
+    }
+
+    public function updateRememberToken(UserContract $user, $token)
+    {
+
+    }
+
     public function retrieveByCredentials(array $credentials)
     {
         //set semester and year to session
         $sql=DB::select('select * from semester_year sy where sy.use=1');
         Session::put('semester',$sql[0]->semester);
         Session::put('year',$sql[0]->year);
-//        dd($sql);
+
         Session::forget('course_list');
 //        $query = $this->createModel()->newQuery();
 //        $query->where('username',$credentials['email']);
@@ -149,67 +157,13 @@ class CustomUserProvider implements UserProvider {
         return null;
     }
 
-    protected function findUser($userDetails)
-    {
-
-    }
-
-    /**
-     * Retrieve a user by their unique identifier and "remember me" token.
-     *
-     * @param  mixed  $identifier
-     * @param  string  $token
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    public function retrieveByToken($identifier, $token)
-    {
-//        $model = $this->createModel();
-//
-//        return $model->newQuery()
-//            ->where($model->getKeyName(), $identifier)
-//            ->where($model->getRememberTokenName(), $token)
-//            ->first();
-    }
-
-    /**
-     * Update the "remember me" token for the given user in storage.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  string  $token
-     * @return void
-     */
-    public function updateRememberToken(UserContract $user, $token)
-    {
-//        $user->setRememberToken($token);
-//
-//        $user->save();
-    }
-
-    /**
-     * Validate a user against the given credentials.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  array  $credentials
-     * @return bool
-     */
     public function validateCredentials(UserContract $user, array $credentials)
     {
-//        $plain = $credentials['password'];
-//
-//        return $this->hasher->check($plain, $user->getAuthPassword());
         return true;
     }
 
-    /**
-     * Create a new instance of the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
     public function createModel()
     {
-//        $name = class_basename($this->model);
-//        $name = 'App\\' . $name;
-
         $class = '\\'.ltrim($this->model, '\\');
 
         return new $class;

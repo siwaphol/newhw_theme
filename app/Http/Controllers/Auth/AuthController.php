@@ -111,36 +111,20 @@
 
 //=================================================
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\Guard;
+use Validator;
+use Auth;
 
 class AuthController extends Controller {
 
-//	use AuthenticatesAndRegistersUsers;
-
-    public function __construct(Guard $auth, Registrar $registrar)
-    {
-        $this->auth = $auth;
-        $this->registrar = $registrar;
-
-        $this->middleware('guest', ['except' => 'getLogout']);
-    }
-
-    /**
-     * The Guard implementation.
-     *
-     * @var \Illuminate\Contracts\Auth\Guard
-     */
     protected $auth;
 
-    /**
-     * The registrar implementation.
-     *
-     * @var \Illuminate\Contracts\Auth\Registrar
-     */
-    protected $registrar;
+    public function __construct()
+    {
+        $this->middleware('guest', ['except' => 'getLogout']);
+    }
 
     /**
      * Show the application registration form.
@@ -160,18 +144,18 @@ class AuthController extends Controller {
      */
     public function postRegister(Request $request)
     {
-        $validator = $this->registrar->validator($request->all());
-
-        if ($validator->fails())
-        {
-            $this->throwValidationException(
-                $request, $validator
-            );
-        }
-
-        $this->auth->login($this->registrar->create($request->all()));
-
-        return redirect($this->redirectPath());
+//        $validator = $this->registrar->validator($request->all());
+//
+//        if ($validator->fails())
+//        {
+//            $this->throwValidationException(
+//                $request, $validator
+//            );
+//        }
+//
+//        $this->auth->login($this->registrar->create($request->all()));
+//
+//        return redirect($this->redirectPath());
     }
 
     /**
@@ -195,15 +179,20 @@ class AuthController extends Controller {
         $this->validate($request, [
             'email' => 'required', 'password' => 'required',
         ]);
-
+//
         $credentials = $request->only('email', 'password');
 
-        if ($this->auth->attempt($credentials, $request->has('remember')))
-        {
-//            dd($this->redirectPath());
-            return redirect()->intended($this->redirectPath());
+//        if (!is_null(Auth::attempt($credentials, $request->has('remember'))))
+//        {
+//            return redirect()->intended($this->redirectPath());
+//        }
+        //Nong test
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            return $this->handleUserWasAuthenticated($request);
         }
+        //End Nong test
 
+        dd('outside attempt fun');
         return redirect($this->loginPath())
             ->withInput($request->only('email', 'remember'))
             ->withErrors([
@@ -211,6 +200,16 @@ class AuthController extends Controller {
             ]);
     }
 
+    //Nong test
+    protected function handleUserWasAuthenticated(Request $request)
+    {
+        if (method_exists($this, 'authenticated')) {
+            return $this->authenticated($request, Auth::user());
+        }
+
+        return redirect()->intended($this->redirectPath());
+    }
+    //End Nong test
     /**
      * Get the failed login message.
      *
@@ -228,7 +227,7 @@ class AuthController extends Controller {
      */
     public function getLogout()
     {
-        $this->auth->logout();
+        Auth::logout();
 
         return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
@@ -240,12 +239,13 @@ class AuthController extends Controller {
      */
     public function redirectPath()
     {
+        dd('redirectPath');
         if (property_exists($this, 'redirectPath'))
         {
             return $this->redirectPath;
         }
 
-       // return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
+//       // return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
         return property_exists($this, 'redirectTo') ? $this->redirectTo : '/index';
     }
 

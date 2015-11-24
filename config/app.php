@@ -136,6 +136,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Illuminate\Html\HtmlServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -203,6 +204,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Datatables' => yajra\Datatables\Datatables::class,
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+        'Form'      => Illuminate\Html\FormFacade::class,
+        'Html'      => Illuminate\Html\HtmlFacade::class,
     ],
 
 ];
