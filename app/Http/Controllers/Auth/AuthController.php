@@ -192,7 +192,6 @@ class AuthController extends Controller {
         }
         //End Nong test
 
-        dd('outside attempt fun');
         return redirect($this->loginPath())
             ->withInput($request->only('email', 'remember'))
             ->withErrors([
@@ -239,7 +238,6 @@ class AuthController extends Controller {
      */
     public function redirectPath()
     {
-        dd('redirectPath');
         if (property_exists($this, 'redirectPath'))
         {
             return $this->redirectPath;
