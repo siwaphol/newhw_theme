@@ -157,3 +157,8 @@ Route::post('semesteryear/create/save','SemesteryearController@store');
 Route::patch('semesteryear/update/{id}','SemesteryearController@update');
 Route::post('semesteryear/showlist','SemesteryearController@showlist');
 
+Route::group(array('prefix' => 'api/v1'),function()
+{
+    Route::get('semesters_and_years','SemesteryearController@getAll');
+});
+

@@ -136,4 +136,11 @@ class SemesteryearController extends Controller {
 		return redirect('semesteryear');
 	}
 
+	public function getAll()
+	{
+		$all_semester_and_year = Semesteryears::orderBy('year', 'DESC')->orderBy('semester')->get();
+
+		return $all_semester_and_year->toJson();
+	}
+
 }
