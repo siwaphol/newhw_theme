@@ -44,23 +44,22 @@
         for(var i=0; i<json.years.length; i++){
             $('#year_select').append('<option value="' +json.years[i]+'">'+json.years[i]+'</option>');
         }
-//        console.log(json.data[json.years[0]]);
-        removeSemester(json, json.years[0]);
+
+        removeSemester(current_year);
     });
 
-    function removeSemester(json, year){
+    function removeSemester(year){
         var all_semesters = ['1','2','3'];
-        var temp = json.data[year];
-
-        for(var i=0; i<temp.length; i++){
-            var removing_index = all_semesters.indexOf(temp[i]);
-            if(removing_index>=0){
-                all_semesters.splice(removing_index,1);
-            }
+        var temp = semester_year_json.data[year];
+        // Init hidden to all semester
+        for(var i=0; i<all_semesters.length; i++){
+            var $option_semester = $('#option_sem_' + all_semesters[i]);
+            $option_semester.addClass('hidden');
         }
-
-        for(i=0; i<all_semesters.length; i++){
-            $('#option_sem_' + all_semesters[i]).addClass('hidden');
+        // Remove item which exists in semester of that year
+        for(i=0; i<temp.length; i++){
+            var $option_semester2 = $('#option_sem_' + temp[i]);
+            $option_semester2.removeClass('hidden');
         }
     }
 
@@ -74,10 +73,16 @@
 
         $('#semester_year_modal').modal();
     });
-</script>
-<script>
+
     $('#refresh_sem_year').click(function (event) {
         event.preventDefault();
         $('#year_select').selectpicker('refresh');
+    });
+
+    $('#year_select').change(function () {
+        $( "#year_select option:selected" ).each(function() {
+            removeSemester($( this ).val());
+            $('#semester_select').selectpicker('refresh');
+        });
     });
 </script>
