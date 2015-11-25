@@ -139,8 +139,20 @@ class SemesteryearController extends Controller {
 	public function getAll()
 	{
 		$all_semester_and_year = Semesteryears::orderBy('year', 'DESC')->orderBy('semester')->get();
+		$return_json = [];
+        $all_years = [];
 
-		return $all_semester_and_year->toJson();
+		foreach($all_semester_and_year as $anItem){
+			if(!array_key_exists($anItem->year, $return_json)){
+                $return_json[$anItem->year] = [];
+                array_push($all_years, $anItem->year);
+			}
+			array_push($return_json[$anItem->year],$anItem->semester);
+		}
+
+//        dd(json_encode(["years"=>$all_years,"data"=>$return_json]));
+//		return $all_semester_and_year->toJson();
+		return json_encode(["years"=>$all_years,"data"=>$return_json]);
 	}
 
 }
