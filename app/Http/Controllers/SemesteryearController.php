@@ -149,10 +149,21 @@ class SemesteryearController extends Controller {
 			}
 			array_push($return_json[$anItem->year],$anItem->semester);
 		}
-
-//        dd(json_encode(["years"=>$all_years,"data"=>$return_json]));
-//		return $all_semester_and_year->toJson();
+		
 		return json_encode(["years"=>$all_years,"data"=>$return_json]);
+	}
+
+	public function updateSemesterAndYear(Request $request)
+	{
+        $old_semester_year = Semesteryears::where('use','1')->first();
+        $old_semester_year->use = "0";
+        $old_semester_year->save();
+
+        $new_semester_year = Semesteryears::where('semester',$request->input('semester'))->where('year',$request->input('year'))->firstOrFail();
+        $new_semester_year->use = "1";
+        $new_semester_year->save();
+
+		return "success";
 	}
 
 }

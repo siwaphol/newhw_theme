@@ -160,5 +160,7 @@ Route::post('semesteryear/showlist','SemesteryearController@showlist');
 Route::group(array('prefix' => 'api/v1'),function()
 {
     Route::get('semesters_and_years','SemesteryearController@getAll');
+    Route::post('semesters_and_years/edit','SemesteryearController@updateSemesterAndYear');
+
 });
 

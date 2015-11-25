@@ -26,7 +26,7 @@
 
                 <div class="modal-footer text-center">
                     <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="">Change</button>
+                    <button type="button" class="btn btn-primary" id="semester_year_change_btn">Change</button>
                 </div>
             </form>
         </div>
@@ -35,54 +35,81 @@
 <!-- /inline form modal -->
 
 <script>
-    var semester_year_json = null;
-    var current_semester = '{{\Session::get('semester')}}';
-    var current_year = '{{\Session::get('year')}}';
-    $.getJSON('{{url('/api/v1/semesters_and_years')}}', function (json) {
-        semester_year_json = json;
-        $('#year_select').empty();
-        for(var i=0; i<json.years.length; i++){
-            $('#year_select').append('<option value="' +json.years[i]+'">'+json.years[i]+'</option>');
-        }
 
-        removeSemester(current_year);
-    });
+        var semester_year_json = null;
+        var current_semester = '{{\Session::get('semester')}}';
+        var current_year = '{{\Session::get('year')}}';
+        $.getJSON('{{url('/api/v1/semesters_and_years')}}', function (json) {
+            semester_year_json = json;
+            $('#year_select').empty();
+            for(var i=0; i<json.years.length; i++){
+                $('#year_select').append('<option value="' +json.years[i]+'">'+json.years[i]+'</option>');
+            }
 
-    function removeSemester(year){
-        var all_semesters = ['1','2','3'];
-        var temp = semester_year_json.data[year];
-        // Init hidden to all semester
-        for(var i=0; i<all_semesters.length; i++){
-            var $option_semester = $('#option_sem_' + all_semesters[i]);
-            $option_semester.addClass('hidden');
-        }
-        // Remove item which exists in semester of that year
-        for(i=0; i<temp.length; i++){
-            var $option_semester2 = $('#option_sem_' + temp[i]);
-            $option_semester2.removeClass('hidden');
-        }
-    }
-
-    $('#change_sem_year').click(function (event) {
-        event.preventDefault();
-
-        $('#year_select').selectpicker('refresh');
-        $('#year_select').selectpicker('val', current_year);
-        $('#semester_select').selectpicker('refresh');
-        $('#semester_select').selectpicker('val', current_semester);
-
-        $('#semester_year_modal').modal();
-    });
-
-    $('#refresh_sem_year').click(function (event) {
-        event.preventDefault();
-        $('#year_select').selectpicker('refresh');
-    });
-
-    $('#year_select').change(function () {
-        $( "#year_select option:selected" ).each(function() {
-            removeSemester($( this ).val());
-            $('#semester_select').selectpicker('refresh');
+            removeSemester(current_year);
         });
-    });
+
+        function removeSemester(year){
+            var all_semesters = ['1','2','3'];
+            var temp = semester_year_json.data[year];
+            // Init hidden to all semester
+            for(var i=0; i<all_semesters.length; i++){
+                var $option_semester = $('#option_sem_' + all_semesters[i]);
+                $option_semester.addClass('hidden');
+            }
+            // Remove item which exists in semester of that year
+            for(i=0; i<temp.length; i++){
+                var $option_semester2 = $('#option_sem_' + temp[i]);
+                $option_semester2.removeClass('hidden');
+            }
+        }
+
+        $('#change_sem_year').click(function (event) {
+            event.preventDefault();
+
+            $('#year_select').selectpicker('refresh');
+            $('#year_select').selectpicker('val', current_year);
+            $('#semester_select').selectpicker('refresh');
+            $('#semester_select').selectpicker('val', current_semester);
+
+            $('#semester_year_modal').modal();
+        });
+
+        $('#refresh_sem_year').click(function (event) {
+            event.preventDefault();
+            $('#year_select').selectpicker('refresh');
+        });
+
+        $('#year_select').change(function () {
+            $( "#year_select option:selected" ).each(function() {
+                removeSemester($( this ).val());
+                $('#semester_select').selectpicker('refresh');
+            });
+        });
+
+        $('#semester_year_change_btn').click(function () {
+            var selected_semester = $('#semester_select').val();
+            var selected_year = $('#year_select').val();
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+            if(!(current_semester !== selected_semester && current_year !== selected_year)){
+                $.ajax({
+                    type: "POST",
+                    url:'{{url('/api/v1/semesters_and_years/edit')}}',
+                    data: {_token:token ,semester:selected_semester, year:selected_year},
+                    async: false,
+                })
+                .done(function (data) {
+                    console.log(data);
+//                    if(data==='success'){
+//                        location.reload();
+//                    }
+                })
+                .fail(function (data) {
+                    console.log(data);
+                    alert('There was an error please see console.log for more details.');
+                });
+            }
+        });
+
 </script>
