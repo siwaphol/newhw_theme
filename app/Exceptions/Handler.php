@@ -44,13 +44,16 @@ class Handler extends ExceptionHandler
     {
 
         if ($e instanceof ModelNotFoundException) {
+            // Nong ajax response the format might change for future maintenance.
+            // There is good resource for api json format at http://jsonapi.org/format/#error-objects
             if($request->ajax()){
                 return \Response::json( [
                     'error' => [
                         'exception' => class_basename( $e ) . ' in ' . basename( $e->getFile() ) . ' line ' . $e->getLine() . ': ' . $e->getMessage(),
                     ]
                 ], 500 );
-            }else{
+            }
+            else{
                 $e = new NotFoundHttpException($e->getMessage(), $e);
             }
         }

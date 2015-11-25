@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content text-center">
             <div class="modal-header">
-                <h5 class="modal-title">Semester and Year configuration <a id="refresh_sem_year"><i class="icon icon-spinner11"></i></a></h5>
+                <h5 class="modal-title">Semester and Year configuration</h5>
             </div>
 
             <form action="#" class="form-inline">
@@ -26,7 +26,7 @@
 
                 <div class="modal-footer text-center">
                     <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="semester_year_change_btn">Change</button>
+                    <button type="button" class="btn btn-primary" id="semester_year_change_btn">Change  <img src="{{asset('images/spinner.gif')}}" alt="" class="hidden" id="modal-spinner"></button>
                 </div>
             </form>
         </div>
@@ -75,15 +75,14 @@
             $('#semester_year_modal').modal();
         });
 
-        $('#refresh_sem_year').click(function (event) {
-            event.preventDefault();
-            $('#year_select').selectpicker('refresh');
-        });
-
         $('#year_select').change(function () {
             $( "#year_select option:selected" ).each(function() {
                 removeSemester($( this ).val());
-                $('#semester_select').selectpicker('refresh');
+                // Get first option that are not hidden
+                if($('#semester_select option:not(.hidden):first').length > 0){
+                    $('#semester_select').selectpicker('val',$('#semester_select option:not(.hidden):first').val());
+                    $('#semester_select').selectpicker('refresh');
+                }
             });
         });
 
@@ -92,22 +91,26 @@
             var selected_year = $('#year_select').val();
             var token = $('meta[name="csrf-token"]').attr('content');
 
-            if(!(current_semester !== selected_semester && current_year !== selected_year)){
+            if(current_semester !== selected_semester || current_year !== selected_year){
                 $.ajax({
                     type: "POST",
                     url:'{{url('/api/v1/semesters_and_years/edit')}}',
                     data: {_token:token ,semester:selected_semester, year:selected_year},
-                    async: false,
+                    beforeSend: function () {
+                        $('#modal-spinner').removeClass('hidden');
+                    }
                 })
                 .done(function (data) {
-                    console.log(data);
-//                    if(data==='success'){
-//                        location.reload();
-//                    }
+                    if(data==='success'){
+                        location.reload();
+                    }
                 })
                 .fail(function (data) {
                     console.log(data);
                     alert('There was an error please see console.log for more details.');
+                })
+                .always(function () {
+                    $('#modal-spinner').addClass('hidden');
                 });
             }
         });
