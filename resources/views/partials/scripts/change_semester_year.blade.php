@@ -1,3 +1,4 @@
+@if(!\Auth::guest())
 <!-- Inline form modal -->
 <div id="semester_year_modal" class="modal fade">
     <div class="modal-dialog">
@@ -116,3 +117,4 @@
         });
     });
 </script>
+@endif

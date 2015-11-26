@@ -504,7 +504,7 @@ class Course_SectionController extends Controller
         $count_overview = $count_summary[0]+$count_summary[1]+$count_summary[2];
 
         if($request->ajax()){
-            dd($overview);
+            dd(json_encode(compact('overview','count_summary','count_overview')));
         }
         return view('admin.course_section_import',compact('overview','count_summary','count_overview'));
     }

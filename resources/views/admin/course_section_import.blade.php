@@ -49,47 +49,47 @@
     </div>
 @endsection
 
-@section('script_tag')
+@section('script')
     <script>
-        $(document).ready(function() {
-            $('#myTabs a').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            });
+    $(function(){
+        $('#myTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
 
-            var cimport_table = $('#course_import_overview').DataTable( {
-                "footerCallback": function ( row, data, start, end, display ) {
-                    var api = this.api(), data;
+        var cimport_table = $('#course_import_overview').DataTable( {
+            "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
 
-                    // Update footer
-                    $('#total_footer').html('Total : '+ {{$count_summary[0]}} +' Added '+ {{$count_summary[1]}} +' Duplicate '+ {{$count_summary[2]}} +' Fail.');
+                // Update footer
+                $('#total_footer').html('Total : '+ {{$count_summary[0]}} +' Added '+ {{$count_summary[1]}} +' Duplicate '+ {{$count_summary[2]}} +' Fail.');
 
-                },
-                "dom" : 'l<"#mycustombutton.dataTables_filter">ftipr'
+            },
+            "dom" : 'l<"#mycustombutton.dataTables_filter">ftipr'
 
-            } );
-
-            $('#mycustombutton').html('' +
-                    '<label style="margin-left: 5px;"> Success Filter: ' +
-                        '<select id="success_select">' +
-                            '<option value="All">All</option>' +
-                            '<option value="Added">Added</option>' +
-                            '<option value="Duplicate">Duplicate</option>' +
-                            '<option value="Fail">Fail</option>' +
-                        '</select>' +
-                    '</label>');
-
-            $('#success_select').change(function () {
-                if($(this).val() === "All"){
-                    cimport_table.search('').draw();
-                }else{
-                    cimport_table.search($(this).val()).draw();
-                }
-            });
-
-            $('#test_filter').click(function () {
-                cimport_table.search('Added').draw();
-            });
         } );
+
+        $('#mycustombutton').html('' +
+                '<label style="margin-left: 5px;"> Success Filter: ' +
+                '<select id="success_select">' +
+                '<option value="All">All</option>' +
+                '<option value="Added">Added</option>' +
+                '<option value="Duplicate">Duplicate</option>' +
+                '<option value="Fail">Fail</option>' +
+                '</select>' +
+                '</label>');
+
+        $('#success_select').change(function () {
+            if($(this).val() === "All"){
+                cimport_table.search('').draw();
+            }else{
+                cimport_table.search($(this).val()).draw();
+            }
+        });
+
+        $('#test_filter').click(function () {
+            cimport_table.search('Added').draw();
+        });
+    });
     </script>
 @endsection

@@ -92,10 +92,11 @@
             </li>
         </ul>
     </div>
+@endif
 </div>
 <!-- /main navbar -->
 
-@if(Auth::user()->isAdmin())
+@if(!\Auth::guest() && \Auth::user()->isAdmin())
 <!-- Second navbar -->
 <div class="navbar navbar-default" id="navbar-second">
    <ul class="nav navbar-nav no-border visible-xs-block">
@@ -149,7 +150,7 @@
        </ul>
 
        <ul class="nav navbar-nav navbar-right">
-           <li class="dropdown open">
+           <li class="dropdown">
                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                    <i class="icon-cog3"></i>
                    <span class="visible-xs-inline-block position-right">Share</span>
@@ -162,6 +163,5 @@
        </ul>
    </div>
 </div>
-@endif
 <!-- /second navbar -->
 @endif

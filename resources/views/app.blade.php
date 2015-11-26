@@ -19,8 +19,10 @@
 
 </head>
 <body>
+
 @include('partials.nav')
 
+@if(!\Auth::guest())
 <!-- Page header -->
 <div class="page-header">
     <div class="page-header-content">
@@ -30,16 +32,17 @@
             </h4>
         </div>
 
-        <div class="heading-elements">
-            <div class="heading-btn-group">
-                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
-            </div>
-        </div>
+        {{--<div class="heading-elements">--}}
+            {{--<div class="heading-btn-group">--}}
+                {{--<a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>--}}
+                {{--<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>--}}
+                {{--<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>--}}
+            {{--</div>--}}
+        {{--</div>--}}
     </div>
 </div>
 <!-- /page header -->
+@endif
 
 <!-- Page container -->
 <div class="page-container">
@@ -54,7 +57,9 @@
 
 @include('partials.scripts_import')
 
-@include('partials.scripts.change_semester_year')
+@if(!\Auth::guest() && (\Auth::user()->isAdmin() || \Auth::user()->isTeacher()))
+    @include('partials.scripts.change_semester_year')
+@endif
 
 @yield('script')
 
