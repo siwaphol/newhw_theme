@@ -332,7 +332,7 @@ class Course_SectionController extends Controller
 
         return $teacher_for_section_array;
     }
-    public function auto(){
+    public function auto(Request $request){
 
 //        return view('admin.course_section_import');
 
@@ -349,13 +349,16 @@ class Course_SectionController extends Controller
                 'content' => $postdata
             )
         );
-//        $context  = stream_context_create($opts);
+
         $semester=Session::get('semester');
         $year=substr(Session::get('year'),-2);
-//        $result = file_get_contents('https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/search.php?act=search', false, $context);
-        //this is for test
-        $result = \File::get('C:\xampp\htdocs\newHW\temp\regist157.txt');
-        //end this is for test
+        if(env('APP_DEBUG')){
+            $result = \File::get('C:\xampp\htdocs\newHW\temp\regist157.txt');
+        }else{
+            $context  = stream_context_create($opts);
+            $result = file_get_contents('https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/search.php?act=search', false, $context);
+        }
+
         $e_result = explode('<span coursetitle>',$result);
         array_shift($e_result);
         $all_courses_array = array();
@@ -499,6 +502,10 @@ class Course_SectionController extends Controller
         }
         //endtest
         $count_overview = $count_summary[0]+$count_summary[1]+$count_summary[2];
+
+        if($request->ajax()){
+            dd($overview);
+        }
         return view('admin.course_section_import',compact('overview','count_summary','count_overview'));
     }
 }

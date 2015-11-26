@@ -35,7 +35,7 @@
 <!-- /inline form modal -->
 
 <script>
-
+    $(function () {
         var semester_year_json = null;
         var current_semester = '{{\Session::get('semester')}}';
         var current_year = '{{\Session::get('year')}}';
@@ -114,5 +114,5 @@
                 });
             }
         });
-
+    });
 </script>

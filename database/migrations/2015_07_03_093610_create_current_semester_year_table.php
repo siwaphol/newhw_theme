@@ -17,7 +17,7 @@ class CreateCurrentSemesterYearTable extends Migration {
             $table->increments('id');
             $table->char('semester',1);
             $table->char('year',4);
-            $table->char('use',1);
+            $table->char('use',1)->default('0');
             $table->timestamps();
         });
 	}

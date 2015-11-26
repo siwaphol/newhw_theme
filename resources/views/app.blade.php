@@ -26,9 +26,7 @@
     <div class="page-header-content">
         <div class="page-title">
             <h4>
-                <i class="icon-arrow-left52 position-left"></i>
-                <span class="text-semibold">Home</span> - Dashboard
-                <small class="display-block">Good morning, Victoria Baker!</small>
+                <span class="text-semibold">Course</span> - Overview
             </h4>
         </div>
 

@@ -149,7 +149,7 @@ class SemesteryearController extends Controller {
 			}
 			array_push($return_json[$anItem->year],$anItem->semester);
 		}
-		
+
 		return json_encode(["years"=>$all_years,"data"=>$return_json]);
 	}
 

@@ -11,3 +11,5 @@
 <link rel="stylesheet" href="{{ asset('/libs/datatables/css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('/css/bootstrap-select.min.css') }}">
 <!-- /3rd stylesheets -->
+
+<link rel="stylesheet" href="{{ asset('/css/custom.css') }}">

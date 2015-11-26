@@ -16,7 +16,7 @@ class CreateCourseTable extends Migration {
         {
             $table->char('id',6);
             $table->string('name',50);
-            $table->string('detail',255);
+            $table->string('detail',255)->nullable();
             $table->timestamps();
 
             $table->primary('id');
@@ -39,7 +39,7 @@ class CreateCourseTable extends Migration {
             $table->char('course_id',6);
             $table->char('section',3);
             $table->char('student_id',9);
-            $table->char('status',1);
+            $table->char('status',1)->nullable();
             $table->char('semester',1);
             $table->char('year',4);
             $table->timestamps();

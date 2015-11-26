@@ -19,6 +19,9 @@ Route::post('semester', 'HomeController@semester');
 Route::get('index', 'HomeController@firstpage');
 Route::get('index/preview', 'HomeController@preview');
 
+// Automate First Time Wizard
+Route::get('first_time_wizard', 'AutomateController@firstTimeWizard');
+
 //upload section
 Route::post('index/uploadFiles', 'CourseHomeworkController@uploadFiles');
 
