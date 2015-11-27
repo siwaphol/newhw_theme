@@ -15,7 +15,6 @@ use Illuminate\Http\RedirectResponse;
 
 class HomeController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -67,6 +66,9 @@ class HomeController extends Controller
 
     public function firstpage()
     {
+        $page_name = "Main";
+        $sub_name = "Overview";
+
         $assist = DB::select('select * from course_ta cs');
         if (\Auth::user()->isAdmin()) {
             $result = Course_Section::semesterAndYear(Session::get('semester'),Session::get('year'))->orderBy('course_id','section')->get();
@@ -86,7 +88,7 @@ class HomeController extends Controller
             $assist = Course_Ta::assist(Auth::user()->id,Session::get('semester'), Session::get('year'))->get();
         }
 
-        return view('home.index', compact('result', 'assist'));
+        return view('home.index', compact('result', 'assist', 'page_name', 'sub_name'));
     }
 
     public function preview()

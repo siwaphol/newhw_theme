@@ -334,8 +334,6 @@ class Course_SectionController extends Controller
     }
     public function auto(Request $request){
 
-//        return view('admin.course_section_import');
-
         $postdata = http_build_query(
             array(
                 'op' => 'precourse',
@@ -509,5 +507,180 @@ class Course_SectionController extends Controller
         $page_name = "Course Section";
         $sub_name = "Auto-import result";
         return view('admin.course_section_import',compact('overview','count_summary','count_overview', 'page_name', 'sub_name'));
+    }
+    
+    //for ajax auto steps
+    public function auto_ajax1()
+    {
+        $postdata = http_build_query(
+            array(
+                'op' => 'precourse',
+                'precourse' => '204'
+            )
+        );
+        $opts = array('http' =>
+            array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => $postdata
+            )
+        );
+
+        $semester=Session::get('semester');
+        $year=substr(Session::get('year'),-2);
+        if(env('APP_DEBUG')){
+            $result = \File::get('C:\xampp\htdocs\newHW\temp\regist157.txt');
+        }else{
+            $context  = stream_context_create($opts);
+            $result = file_get_contents('https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/search.php?act=search', false, $context);
+        }
+
+        $e_result = explode('<span coursetitle>',$result);
+        array_shift($e_result);
+        $all_courses_array = array();
+
+        foreach($e_result as $aCourse){
+            //for closed course will be <tr coursedata close>
+            $e2_result= explode('<tr coursedata',$aCourse);
+
+            preg_match('/([0-9]{6}) - (.*?) \(([0-9]{1,2}) Section[s]?\)/',strip_tags($e2_result[0]),$matches);
+            $a_course_array = array();
+            if(count($matches)==4){
+                $course_no = $matches[1];
+                $course_name = $matches[2];
+                $course_section_count = $matches[3];
+                $a_course_array = array('id'=>$course_no,'name'=>$course_name,'sections'=>array());
+                try {
+                    Course::findOrFail($course_no);
+                }catch (ModelNotFoundException $e){
+                    Log::info($e->getMessage() . '\nNew Course was created: ' .$course_no.' '.$course_name);
+                    $new_course = new Course();
+                    $new_course->id = $course_no;
+                    $new_course->name = ucwords($course_name);
+                    $new_course->save();
+                }
+            }else{
+                Log::error('Cannot find course details in this block of text: ' . strip_tags($e2_result[0]));
+                continue;
+            }
+            array_shift($e2_result);
+
+            foreach ($e2_result as $aSection) {
+                $a_section_array = array();
+                preg_match('/SECLEC=([0-9]{3})&SECLAB=([0-9]{3})/', $aSection, $section_matches);
+                if(count($section_matches)==3) {
+                    if ($section_matches[1] === '000') {
+                        $course_sec = $section_matches[2];
+                    } else {
+                        $course_sec = $section_matches[1];
+                    }
+                    $a_section_array = array_add($a_section_array,'no',$course_sec);
+                }else{
+                    Log::error('Cannot find course section in this block of text: ' . $aSection);
+                    continue;
+                }
+                $t_array_for_section = $this->getTeacherName($aSection);
+                $a_section_array = array_add($a_section_array,'teacher',$t_array_for_section);
+
+                //push one section to course
+                array_push($a_course_array['sections'],$a_section_array);
+            }
+            //push one course to all courses array
+            array_push($all_courses_array,$a_course_array);
+
+        } //end foreach foreach($e_result as $aCourse)
+
+        return json_encode($all_courses_array);
+    }
+
+    public function auto_ajax2(Request $request)
+    {
+        // We support to get course_id, course_name, section, firstname_en, lastname_en, firstname_th, lastname_th
+
+        // This function should return success type and if error if error detail
+
+        $semester = Session::get("semester");
+        $year = Session::get("year");
+        //success 0 = success , 1= duplicate, 2=fail
+        $overview = array('course_id'=>array(),'course_name'=>array(),'section'=>array(),'teacher_name'=>array(),'success'=>array(),'detail'=>array());
+        $count_summary = array(0,0,0);
+
+        $old_course_section = null;
+        $teacher = null;
+        //find if there is this teacher in database
+        try {
+            $teacher = User::where('firstname_en',trim($request->input('firstname_en')))
+                ->where('lastname_en',trim($request->input('lastname_en')))->firstOrFail();
+            $teacher_id = $teacher->id;
+        }catch (ModelNotFoundException $e){
+            $last_emp_id = User::lastEmployee()->id;
+            $new_employee = new User();
+            $new_id = intval($last_emp_id) + 1;
+            $new_employee->id = str_pad((string)$new_id,9,"0",STR_PAD_LEFT);
+            $new_employee->role_id = '0100';
+            $new_employee->firstname_th = $request->input('firstname_th');
+            $new_employee->lastname_th = $request->input('lastname_th');
+            $new_employee->firstname_en = $request->input('firstname_en');
+            $new_employee->lastname_en = $request->input('lastname_en');
+            $new_employee->faculty_id = '05';
+            $new_employee->semester = $semester;
+            $new_employee->year = $year;
+            $new_employee->save();
+            $teacher_id = $new_employee->id;
+        }
+        //find if there is course section with the exact same courseid,section,teacherid,semester,year
+        try{
+            $course_section_model = \App\Course_Section::where('course_id', $request->input('course_id'))
+                ->where('section', $request->input('section'))
+                ->where('teacher_id', $teacher_id)
+                ->where('semester', $semester)
+                ->where('year', $year)->firstOrFail();
+
+            array_push($overview['course_id'],$request->input('course_id'));
+            array_push($overview['course_name'],$request->input('course_name'));
+            array_push($overview['section'],$request->input('section'));
+            array_push($overview['teacher_name'],$request->input('firstname_en') .' ' . $request->input('lastname_en') . ' ' . $request->input('firstname_th') . ' ' . $request->input('lastname_th'));
+            array_push($overview['success'],1);
+            array_push($overview['detail'],'Duplicate course section is already exist.');
+            $count_summary[1] = $count_summary[1] + 1;
+        }catch (ModelNotFoundException $e){
+            $course_section_model = new \App\Course_Section();
+            $course_section_model->course_id = $request->input('course_id');
+            $course_section_model->section = $request->input('section');
+            $course_section_model->teacher_id = $teacher_id;
+            $course_section_model->semester = $semester;
+            $course_section_model->year = $year;
+            $save_result = $course_section_model->save();
+
+            array_push($overview['course_id'], $request->input('course_id'));
+            array_push($overview['course_name'], $request->input('course_name'));
+            array_push($overview['section'], $request->input('section'));
+            array_push($overview['teacher_name'], $request->input('firstname_en') .' ' . $request->input('lastname_en') . ' ' . $request->input('firstname_th') . ' ' . $request->input('lastname_th'));
+
+            if($save_result){
+                array_push($overview['success'],0);
+                array_push($overview['detail'],'');
+                $count_summary[0] = $count_summary[0] + 1;
+            }else{
+                array_push($overview['success'],2);
+                array_push($overview['detail'],'Fail to create new course section data.');
+                $count_summary[2] = $count_summary[2] + 1;
+            }
+        }
+
+        // This section will be delete i guess
+        if(count($aSection['teacher'])==0) {
+            //In case no teacher name found
+            array_push($overview['course_id'], $aCourse['id']);
+            array_push($overview['course_name'], $aCourse['name']);
+            array_push($overview['section'], $aSection['no']);
+            array_push($overview['teacher_name'], '');
+            array_push($overview['success'], 2);
+            array_push($overview['detail'], 'Cannot find teacher name or only "Staff" found.');
+            $count_summary[2] = $count_summary[2] + 1;
+        }
+        //endtest
+        $count_overview = $count_summary[0]+$count_summary[1]+$count_summary[2];
+
     }
 }

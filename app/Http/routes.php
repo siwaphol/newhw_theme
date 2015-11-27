@@ -165,5 +165,8 @@ Route::group(array('prefix' => 'api/v1'),function()
     Route::get('semesters_and_years','SemesteryearController@getAll');
     Route::post('semesters_and_years/edit','SemesteryearController@updateSemesterAndYear');
 
+    Route::get('auto_ajax1', 'Course_SectionController@auto_ajax1');
+    Route::get('auto_ajax2', 'Course_SectionController@auto_ajax2');
+
 });
 
