@@ -28,7 +28,7 @@
     <div class="page-header-content">
         <div class="page-title">
             <h4>
-                <span class="text-semibold">Course</span> - Overview
+                <span class="text-semibold"> {{ isset($page_name) ? "$page_name" : "Page Name" }}</span> - {{ isset($sub_name) ? "$sub_name" : "Sub Name" }}
             </h4>
         </div>
 

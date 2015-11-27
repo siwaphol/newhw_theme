@@ -506,6 +506,8 @@ class Course_SectionController extends Controller
         if($request->ajax()){
             dd(json_encode(compact('overview','count_summary','count_overview')));
         }
-        return view('admin.course_section_import',compact('overview','count_summary','count_overview'));
+        $page_name = "Course Section";
+        $sub_name = "Auto-import result";
+        return view('admin.course_section_import',compact('overview','count_summary','count_overview', 'page_name', 'sub_name'));
     }
 }

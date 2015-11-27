@@ -1,49 +1,51 @@
 @extends('app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <h1>Course Details Import Result</h1>
-        </div>
-        <div class="row clearfix">
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <div class="row">
+                <h1>Course Details Import Result</h1>
+            </div>
+            <div class="row clearfix">
 
-            <div class="table-responsive">
-                <table class="table" id="course_import_overview" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Course No</th>
-                        <th>Title</th>
-                        <th>Section</th>
-                        <th>Teacher Name</th>
-                        <th>Success</th>
-                        <th>Detail</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th colspan="6" style="text-align:right" id="total_footer">Total: </th>
-                    </tr>
-                    </tfoot>
-
-                    <tbody>
-                        @for($i = 0; $i < $count_overview; $i++)
+                <div class="table-responsive">
+                    <table class="table" id="course_import_overview" cellspacing="0" width="100%">
+                        <thead>
                         <tr>
-                            <td>{{$overview['course_id'][$i]}}</td>
-                            <td>{{$overview['course_name'][$i]}}</td>
-                            <td>{{$overview['section'][$i]}}</td>
-                            <td>{{$overview['teacher_name'][$i]}}</td>
-                            @if($overview['success'][$i]==0)
-                                <td><span class="label label-success">Added</span></td>
-                            @elseif($overview['success'][$i]==1)
-                                <td><span class="label label-warning">Duplicate</span></td>
-                            @elseif($overview['success'][$i]==2)
-                                <td><span class="label label-danger">Fail</span></td>
-                            @endif
-                            <td>{{$overview['detail'][$i]}}</td>
+                            <th>Course No</th>
+                            <th>Title</th>
+                            <th>Section</th>
+                            <th>Teacher Name</th>
+                            <th>Success</th>
+                            <th>Detail</th>
                         </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th colspan="6" style="text-align:right" id="total_footer">Total: </th>
+                        </tr>
+                        </tfoot>
+
+                        <tbody>
+                        @for($i = 0; $i < $count_overview; $i++)
+                            <tr>
+                                <td>{{$overview['course_id'][$i]}}</td>
+                                <td>{{$overview['course_name'][$i]}}</td>
+                                <td>{{$overview['section'][$i]}}</td>
+                                <td>{{$overview['teacher_name'][$i]}}</td>
+                                @if($overview['success'][$i]==0)
+                                    <td><span class="label label-success">Added</span></td>
+                                @elseif($overview['success'][$i]==1)
+                                    <td><span class="label label-warning">Duplicate</span></td>
+                                @elseif($overview['success'][$i]==2)
+                                    <td><span class="label label-danger">Fail</span></td>
+                                @endif
+                                <td>{{$overview['detail'][$i]}}</td>
+                            </tr>
                         @endfor
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
