@@ -125,6 +125,8 @@ $(function() {
                 } );
             }
 
+            // TODO-nong Add import functionality here (see if we can change Next step text from here)
+
             if((newIndex == 2 || newIndex ==3) && !tableLoaded){
                 swal({
                     title: "Please select correct semester and year",
