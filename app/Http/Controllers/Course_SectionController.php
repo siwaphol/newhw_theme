@@ -512,6 +512,7 @@ class Course_SectionController extends Controller
     //for ajax auto steps
     public function auto_ajax1()
     {
+        $fullCourseSectionArr = array();
         $postdata = http_build_query(
             array(
                 'op' => 'precourse',
@@ -580,13 +581,16 @@ class Course_SectionController extends Controller
                     continue;
                 }
                 $t_array_for_section = $this->getTeacherName($aSection);
-                $a_section_array = array_add($a_section_array,'teacher',$t_array_for_section);
+//                $a_section_array = array_add($a_section_array,'teacher',$t_array_for_section);
 
                 //push one section to course
-                array_push($a_course_array['sections'],$a_section_array);
+//                array_push($a_course_array['sections'],$a_section_array);
+                //This is for ajax optimization
+                $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec, 'teacher' => $t_array_for_section);
+                array_push($all_courses_array,$a_course_array);
             }
             //push one course to all courses array
-            array_push($all_courses_array,$a_course_array);
+//            array_push($all_courses_array,$a_course_array);
 
         } //end foreach foreach($e_result as $aCourse)
 
@@ -595,6 +599,7 @@ class Course_SectionController extends Controller
 
     public function auto_ajax2(Request $request)
     {
+        dd($request->input());
         // We support to get course_id, course_name, section, firstname_en, lastname_en, firstname_th, lastname_th
 
         // This function should return success type and if error if error detail
@@ -669,11 +674,11 @@ class Course_SectionController extends Controller
         }
 
         // This section will be delete i guess
-        if(count($aSection['teacher'])==0) {
+        if(count($request->input('teacher'))==0) {
             //In case no teacher name found
-            array_push($overview['course_id'], $aCourse['id']);
-            array_push($overview['course_name'], $aCourse['name']);
-            array_push($overview['section'], $aSection['no']);
+            array_push($overview['course_id'], $request->input('course_id'));
+            array_push($overview['course_name'],$request->input('course_name'));
+            array_push($overview['section'], $request->input('section'));
             array_push($overview['teacher_name'], '');
             array_push($overview['success'], 2);
             array_push($overview['detail'], 'Cannot find teacher name or only "Staff" found.');
@@ -681,6 +686,8 @@ class Course_SectionController extends Controller
         }
         //endtest
         $count_overview = $count_summary[0]+$count_summary[1]+$count_summary[2];
+
+        return compact('overview');
 
     }
 }
