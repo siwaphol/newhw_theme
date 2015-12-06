@@ -8,7 +8,7 @@
 <!-- Basic setup -->
 <div class="panel panel-white">
     <div class="panel-heading">
-        <h6 class="panel-title">Basic example</h6>
+        <h6 class="panel-title">First Time Wizard</h6>
     </div>
 
     <div class="steps-basic" action="#">
@@ -58,25 +58,37 @@
         <h6>Course Section</h6>
         <fieldset>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
-                        <label>University:</label>
-                        <input type="text" name="university" placeholder="University name" class="form-control">
+                        <a type="button" class="btn btn-default" id="import-course-section"><i class="icon-cog3 position-left"></i> Import</a>
                     </div>
                 </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Country:</label>
-                        <select name="university-country" data-placeholder="Choose a Country..." class="select">
-                            <option></option>
-                            <option value="1">United States</option>
-                            <option value="2">France</option>
-                            <option value="3">Germany</option>
-                            <option value="4">Spain</option>
-                        </select>
-                    </div>
-                </div>
+            </div>
+            <div class="row">
+                <table id="course-section-list" class="display" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Course No</th>
+                        <th>Name</th>
+                        <th>Section</th>
+                        <th>E.Teacher Name</th>
+                        <th>T.Teacher Name</th>
+                        <th>Status</th>
+                        <th>Detail</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Course No</th>
+                        <th>Name</th>
+                        <th>Section</th>
+                        <th>E.Teacher Name</th>
+                        <th>T.Teacher Name</th>
+                        <th>Status</th>
+                        <th>Detail</th>
+                    </tr>
+                    </tfoot>
+                </table>
             </div>
         </fieldset>
 
@@ -113,21 +125,47 @@
     <script type="text/javascript" src="{{asset('limitless_assets/js/core/libraries/jasny_bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/validation/validate.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/extensions/cookie.js')}}"></script>
-
-    <script type="text/javascript" src="{{asset('limitless_assets/js/pages/wizard_steps.js')}}"></script>
+    <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/notifications/sweet_alert.min.js')}}"></script>
 
     <script type="text/javascript">
-        $(function () {
-            $('#new_ys').click(function () {
-                $("select[name='year-semester']").prop('disabled', true);
-                $("select[name='new-year']").prop('disabled', false);
-                $("select[name='new-semester']").prop('disabled', false);
-            });
-            $('#cancel_new_ys').click(function () {
-                $("select[name='year-semester']").prop('disabled', false);
-                $("select[name='new-year']").prop('disabled', true);
-                $("select[name='new-semester']").prop('disabled', true);
-            });
-        });
+        var getAllCourseSectionURL = '{{url('api/v1/auto_ajax1')}}';
     </script>
+    <script type="text/javascript" src="{{asset('limitless_assets/js/pages/wizard_steps.js')}}"></script>
+
+    {{--<script type="text/javascript">--}}
+
+
+        {{--$(function () {--}}
+
+{{--//            // show course and section list from autoajax1 before insert or update--}}
+{{--//            $('#course-section-list').DataTable({--}}
+{{--//                "processing": true,--}}
+{{--//                "ajax": {--}}
+{{--//                    url: getAllCourseSectionURL,--}}
+{{--//                    data: {"semester": '', "year": ''}--}}
+{{--//                },--}}
+{{--//                "columns": [--}}
+{{--//                    { "data": "id"},--}}
+{{--//                    { "data": "name"},--}}
+{{--//                    { "data": "section"},--}}
+{{--//                    { "data": "teacher"--}}
+{{--//                    ,"render": function ( data, type, full, meta) {--}}
+{{--//                        return data.length==0?'<p style="color:red;">Not found</p>':(data.firstname_en+' '+data.lastname_en);--}}
+{{--//                    }},--}}
+{{--//                    { "data": "teacher"--}}
+{{--//                    ,"render": function ( data, type, full, meta) {--}}
+{{--//                        return data.length==0?'<p style="color:red;">Not found</p>':(data.firstname_th+' '+data.lastname_th);--}}
+{{--//                    }},--}}
+{{--//                    { "data": null--}}
+{{--//                    ,"render": function ( data, type, full, meta) {--}}
+{{--//                        return '';--}}
+{{--//                    }},--}}
+{{--//                    { "data": null--}}
+{{--//                    ,"render": function ( data, type, full, meta) {--}}
+{{--//                        return '';--}}
+{{--//                    }}--}}
+{{--//                ]--}}
+{{--//            });--}}
+        {{--});--}}
+    {{--</script>--}}
 @endsection

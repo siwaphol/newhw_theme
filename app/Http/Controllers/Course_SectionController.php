@@ -14,6 +14,10 @@ use Illuminate\Http\RedirectResponse;
 use App\Course;
 class Course_SectionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => array('auto_ajax1', 'auto_ajax2')]);
+    }
 
     public function index()
     {
@@ -510,9 +514,8 @@ class Course_SectionController extends Controller
     }
     
     //for ajax auto steps
-    public function auto_ajax1()
+    public function auto_ajax1(Request $request)
     {
-        $fullCourseSectionArr = array();
         $postdata = http_build_query(
             array(
                 'op' => 'precourse',
@@ -527,13 +530,25 @@ class Course_SectionController extends Controller
             )
         );
 
-        $semester=Session::get('semester');
-        $year=substr(Session::get('year'),-2);
+        // Request should have query string like ?semester=2&year=2557
+        $semester= $request->input('semester');
+        $year=substr($request->input('year'),-2);
         if(env('APP_DEBUG')){
             $result = \File::get('C:\xampp\htdocs\newHW\temp\regist157.txt');
         }else{
             $context  = stream_context_create($opts);
-            $result = file_get_contents('https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/search.php?act=search', false, $context);
+            //TODO-nong: optimize error exception to match how Laravel handle errors
+            try{
+                $result = file_get_contents('https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/search.php?act=search', false, $context);
+            }catch (\Exception $e){
+                Log::error('Cannot find course section from url : ' . 'https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/search.php?act=search');
+
+                return \Response::json( [
+                    'error' => [
+                        'exception' => $e->getMessage()
+                    ]
+                ], 500 );
+            }
         }
 
         $e_result = explode('<span coursetitle>',$result);
@@ -586,26 +601,40 @@ class Course_SectionController extends Controller
                 //push one section to course
 //                array_push($a_course_array['sections'],$a_section_array);
                 //This is for ajax optimization
-                $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec, 'teacher' => $t_array_for_section);
-                array_push($all_courses_array,$a_course_array);
+                if(count($t_array_for_section)>0)
+                {
+                    foreach($t_array_for_section as $teacher)
+                    {
+                        $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec,
+                            'teacher' => ['firstname_en'=>$teacher['firstname_en'], 'lastname_en'=>$teacher['lastname_en'],
+                                'firstname_th'=>$teacher['firstname_th'], 'lastname_th'=>$teacher['lastname_th']]);
+                        array_push($all_courses_array,$a_course_array);
+                    }
+                }
+                else{
+                    $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec, 'teacher' => []);
+                    array_push($all_courses_array,$a_course_array);
+                }
             }
             //push one course to all courses array
 //            array_push($all_courses_array,$a_course_array);
 
         } //end foreach foreach($e_result as $aCourse)
 
+        $all_courses_array = array("data"=>$all_courses_array);
         return json_encode($all_courses_array);
     }
 
     public function auto_ajax2(Request $request)
     {
-        dd($request->input());
-        // We support to get course_id, course_name, section, firstname_en, lastname_en, firstname_th, lastname_th
+//        dd($request->input());
+        // We support to get course_id, course_name, section, firstname_en, lastname_en, firstname_th, lastname_th, semester, year
 
         // This function should return success type and if error if error detail
 
-        $semester = Session::get("semester");
-        $year = Session::get("year");
+        $semester = $request->input('semester');
+        $year = $request->input('year');
+
         //success 0 = success , 1= duplicate, 2=fail
         $overview = array('course_id'=>array(),'course_name'=>array(),'section'=>array(),'teacher_name'=>array(),'success'=>array(),'detail'=>array());
         $count_summary = array(0,0,0);
@@ -673,18 +702,8 @@ class Course_SectionController extends Controller
             }
         }
 
-        // This section will be delete i guess
-        if(count($request->input('teacher'))==0) {
-            //In case no teacher name found
-            array_push($overview['course_id'], $request->input('course_id'));
-            array_push($overview['course_name'],$request->input('course_name'));
-            array_push($overview['section'], $request->input('section'));
-            array_push($overview['teacher_name'], '');
-            array_push($overview['success'], 2);
-            array_push($overview['detail'], 'Cannot find teacher name or only "Staff" found.');
-            $count_summary[2] = $count_summary[2] + 1;
-        }
-        //endtest
+        //For empty teacher array จะบังคับไม่ให้อัพขึ้น server จาก frontend
+
         $count_overview = $count_summary[0]+$count_summary[1]+$count_summary[2];
 
         return compact('overview');

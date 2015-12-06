@@ -10,6 +10,11 @@ use App\Http\Controllers\Controller;
 
 class AutomateController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function firstTimeWizard()
     {
         // Support 2 year backward and 5 year ahead

@@ -14,6 +14,10 @@ use App\HomeworkStudent;
 
 class Homework1Controller extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
