@@ -17,6 +17,8 @@ $(function() {
     var oldSemesterYear = true;
     var secondStepFirstRun = false;
 
+    var courseSectionTable = null;
+
     function getSemester(){
         var temp;
         var splitArr = null;
@@ -74,7 +76,7 @@ $(function() {
                 secondStepFirstRun = true;
 
                 // show course and section list from autoajax1 before insert or update
-                $('#course-section-list').DataTable({
+                courseSectionTable = $('#course-section-list').DataTable({
                     "bDestroy": true,
                     "processing": true,
                     "scrollX": true,
@@ -98,11 +100,11 @@ $(function() {
                         { "data": "section"},
                         { "data": "teacher"
                             ,"render": function ( data, type, full, meta) {
-                            return data.length==0?'<p style="color:red;">Not found</p>':(data.firstname_en+' '+data.lastname_en);
+                            return data.length==0?'<p>Not found</p>':(data.firstname_en+' '+data.lastname_en);
                         }},
                         { "data": "teacher"
                             ,"render": function ( data, type, full, meta) {
-                            return data.length==0?'<p style="color:red;">Not found</p>':(data.firstname_th+' '+data.lastname_th);
+                            return data.length==0?'<p>Not found</p>':(data.firstname_th+' '+data.lastname_th);
                         }},
                         { "data": "teacher"
                             ,"render": function ( data, type, full, meta) {
@@ -115,8 +117,10 @@ $(function() {
                             return data.length==0?'No teacher found or only "Staff" found':'';
                         }}
                     ],
-                    "init": function(){
-                        alert('complete');
+                    "rowCallback": function (row, data, index) {
+                        if(data.skip){
+                            $('td', row).css('background-color', 'rgba(255, 0, 0, 0.50)');
+                        }
                     }
                 })
                 .on( 'init.dt', function () {
@@ -126,6 +130,7 @@ $(function() {
             }
 
             // TODO-nong Add import functionality here (see if we can change Next step text from here)
+            //console.log(this.find(""));
 
             if((newIndex == 2 || newIndex ==3) && !tableLoaded){
                 swal({
@@ -159,7 +164,15 @@ $(function() {
     });
 
     $('#import-course-section').click(function () {
-        alert('test');
+        courseSectionTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var data = this.data();
+
+            // TODO-nong we will call inport autoajax2 from here to insert course and section to tables
+            //if(data.skip)
+            //{
+            //    console.log(data);
+            //}
+        });
     });
 
     //TODO-nong ข้างล่างนี้ลงไปจะต้องถูกลบ

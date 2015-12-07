@@ -607,12 +607,12 @@ class Course_SectionController extends Controller
                     {
                         $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec,
                             'teacher' => ['firstname_en'=>$teacher['firstname_en'], 'lastname_en'=>$teacher['lastname_en'],
-                                'firstname_th'=>$teacher['firstname_th'], 'lastname_th'=>$teacher['lastname_th']]);
+                                'firstname_th'=>$teacher['firstname_th'], 'lastname_th'=>$teacher['lastname_th']], 'skip'=> false);
                         array_push($all_courses_array,$a_course_array);
                     }
                 }
                 else{
-                    $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec, 'teacher' => []);
+                    $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec, 'teacher' => [], 'skip'=>true);
                     array_push($all_courses_array,$a_course_array);
                 }
             }
