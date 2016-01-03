@@ -60,7 +60,7 @@ class UsersTableSeeder extends Seeder {
         User::create([
             'id' => '540510795',
             'username' => 'boonchuay_ruk',
-            'role_id' => '0001',
+            'role_id' => '0010',
             'firstname_th' => 'เจม',
             'firstname_en' => 'Jame',
             'lastname_th' => 'บุญช่วย',
@@ -196,7 +196,7 @@ class CoursesTableSeeder extends Seeder
         DB::table('course_ta')->insert([
             'course_id' => '204111',
             'section' => '001',
-            'student_id' => '540510828',
+            'student_id' => '540510795',
             'semester' => '1',
             'year' => '2557',
             'created_at' => $date,

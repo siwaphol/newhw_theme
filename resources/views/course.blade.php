@@ -1,5 +1,5 @@
 @extends('app')
-@section('header_content')
+@section('css')
 {{--<link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"--}}
       {{--xmlns="http://www.w3.org/1999/html">--}}
       <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.css">
@@ -83,7 +83,7 @@ echo Form::close();
 </div>
 
   @endsection
-  @section('footer')
+  @section('script')
   <script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.7/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.js"></script>
     <script type="text/javascript">

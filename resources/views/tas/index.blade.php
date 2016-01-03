@@ -59,7 +59,7 @@
         </div>
     </div>
 @endsection
-@section('footer')
+@section('script')
 
     <script type="text/javascript">
         $(document).ready(function () {

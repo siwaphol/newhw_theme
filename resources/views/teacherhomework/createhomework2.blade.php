@@ -635,7 +635,7 @@ foreach($dir_name as $dir => $name) :
             ?>
             @extends('app')
 
-            @section('header_content')
+            @section('css')
             <meta name="generator" content="Bootstrap Listr" />
 
             {{--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />--}}
@@ -705,7 +705,7 @@ foreach($dir_name as $dir => $name) :
 </div>
 </div>
 @endsection
-@section('footer')
+@section('script')
 <script type="text/javascript" src="{{ asset('/js/moment-with-locales.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/bootstrap/transition.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/bootstrap/collapse.js') }}"></script>

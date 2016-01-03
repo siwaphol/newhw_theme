@@ -23,6 +23,7 @@
 @include('partials.nav')
 
 @if(!\Auth::guest())
+@if(!isset($removeHeader))
 <!-- Page header -->
 <div class="page-header">
     <div class="page-header-content">
@@ -42,6 +43,7 @@
     </div>
 </div>
 <!-- /page header -->
+@endif
 @endif
 
 <!-- Page container -->

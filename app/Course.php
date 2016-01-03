@@ -22,7 +22,9 @@ class Course extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function students(){
-        return $this->belongsToMany('App\Student', 'course_student', 'course_id', 'student_id')->withTimestamps();
+        return $this->belongsToMany('App\User', 'course_student', 'course_id', 'student_id')
+            ->withTimestamps()
+            ->withPivot(['section','student_id','status','semester','year']);
     }
 
     public function users(){
@@ -30,7 +32,15 @@ class Course extends Model {
     }
 
     public function teachers(){
-        return $this->belongsToMany('App\User', 'course_section', 'course_id', 'teacher_id')->withTimestamps();
+        return $this->belongsToMany('App\User', 'course_section', 'course_id', 'teacher_id')
+            ->withTimestamps()
+            ->withPivot(['section','teacher_id','semester','year']);
+    }
+
+    public function assistants(){
+        return $this->belongsToMany('App\User', 'course_ta', 'course_id', 'student_id')
+            ->withTimestamps()
+            ->withPivot(['section','student_id','semester','year']);
     }
 
 }

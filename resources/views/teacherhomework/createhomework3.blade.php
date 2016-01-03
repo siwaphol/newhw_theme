@@ -1,5 +1,5 @@
 @extends('app')
-@section('header_content')
+@section('css')
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -81,7 +81,7 @@
     </div>
 @endsection
 
-@section('footer')
+@section('script')
     <script type="text/javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ asset('/js/moment-with-locales.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/bootstrap/transition.js') }}"></script>

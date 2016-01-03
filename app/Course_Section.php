@@ -58,4 +58,7 @@ class Course_Section extends Model {
 //    public function teachers(){
 //        return $this->belongsToMany('App\User', 'course_section', 'course_id', 'teacher_id')->withTimestamps();
 //    }
+    public function teachers(){
+        return $this->belongsToMany('App\User', 'course_section', 'teacher_id','id')->withTimestamps();
+    }
 }

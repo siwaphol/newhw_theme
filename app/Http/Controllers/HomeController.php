@@ -66,8 +66,13 @@ class HomeController extends Controller
 
     public function firstpage()
     {
-        $page_name = "Main";
-        $sub_name = "Overview";
+        if(Auth::user()->isAdmin()){
+            $page_name = "Main";
+            $sub_name = "Overview";
+        }else{
+            $page_name = "My Courses";
+            $sub_name = "Overview";
+        }
 
         $assist = DB::select('select * from course_ta cs');
         if (\Auth::user()->isAdmin()) {
@@ -95,44 +100,90 @@ class HomeController extends Controller
     {
         $course_no = $_GET['course'];
         $section = $_GET['sec'];
+        $currentSemester = Session::get('semester');
+        $currentYear = Session::get('year');
 
-        $teachers = DB::select('select cs.id as id,tea.id as teacher_id,tea.firstname_en as firstname,tea.lastname_en as lastname
-                            from course_section cs
-                            LEFT  join users tea on cs.teacher_id=tea.id
-                            where cs.semester=? and cs.year=? and cs.course_id=? and cs.section=?', array(Session::get('semester'), Session::get('year'), $course_no, $section));
-        $ta = DB::select('select ct.id as id,tea.id as ta_id,tea.firstname_th as firstname,tea.lastname_th as lastname
-                            from course_ta ct
-                            LEFT  join users tea on ct.student_id=tea.id
-                            where ct.semester=? and ct.year=? and ct.course_id=? and ct.section=?', array(Session::get('semester'), Session::get('year'), $course_no, $section));
+//        $teachers = User::teacher()->with(['teachcourses'=>function($q) use($course_no,$section,$currentSemester,$currentYear){
+//            $q->where('course_section.course_id','=', $course_no)
+//            ->where('course_section.section','=', section);
+//        }])->get(['id','firstname_en','lastname_en']);
+
+        $courseWithTeaAssist = Course::with(['teachers'=>function($q) use($section,$currentSemester,$currentYear){
+            $q->where('course_section.section','=',$section)
+                ->where('course_section.semester','=',$currentSemester)
+                ->where('course_section.year','=',$currentYear);
+        }])
+            ->with(['assistants'=>function($q) use($section,$currentSemester,$currentYear) {
+            $q->where('course_ta.section', '=', $section)
+                ->where('course_ta.semester', '=', $currentSemester)
+                ->where('course_ta.year', '=', $currentYear);
+        }])->where('id','=',$course_no)->first();
+//        dd($teachers->toJson());
+//        $teachers = DB::select('select cs.id as id,tea.id as teacher_id,tea.firstname_en as firstname,tea.lastname_en as lastname
+//                            from course_section cs
+//                            LEFT  join users tea on cs.teacher_id=tea.id
+//                            where cs.semester=? and cs.year=? and cs.course_id=? and cs.section=?', array(Session::get('semester'), Session::get('year'), $course_no, $section));
+
+//        $ta = DB::select('select ct.id as id,tea.id as ta_id,tea.firstname_th as firstname,tea.lastname_th as lastname
+//                            from course_ta ct
+//                            LEFT  join users tea on ct.student_id=tea.id
+//                            where ct.semester=? and ct.year=? and ct.course_id=? and ct.section=?', array(Session::get('semester'), Session::get('year'), $course_no, $section));
 
         if (Auth::user()->isAdmin() || Auth::user()->isTeacher()) {
 //            $student = DB::select('select * from users where role_id=0001');
             $student = User::student()->get();
         }
-        if (Auth::user()->isStudent()) {
+        else if (Auth::user()->isStudent()) {
             $student = User::find(Auth::user()->id);
 //            $student = DB::select('select * from users where id=?', array(Auth::user()->id));
         }
 
-        $homework = Homework::fromCourseAndSection($course_no,$section,Session::get('semester'),Session::get('year'))->get();
+        //การบ้านทั้งหมดที่นักเรียนต้องส่ง / All homework that should be submitted by students
+        $homework = Homework::fromCourseAndSection($course_no,$section,Session::get('semester'),Session::get('year'))->orderBy('due_date')->get();
 
         if (Auth::user()->isAdmin() || Auth::user()->isTeacher() || Auth::user()->isTa() || Auth::user()->isStudentandTa()) {
-            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
-                            from course_student cs
-                            left join users stu on cs.student_id=stu.id
-                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=?',
-                array($course_no, $section, Session::get('semester'), Session::get('year')));
-        }
-        if (Auth::user()->isStudent()) {
-            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
-                            from course_student cs
-                            left join users stu on cs.student_id=stu.id
-                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=? and cs.student_id=?',
-                array($course_no, $section, Session::get('semester'), Session::get('year'), Auth::user()->id));
-        }
+            $sent = Course::with(['students'=>function($q) use($section,$currentSemester,$currentYear){
+                $q->wherePivot('section','=',$section)
+                    ->wherePivot('semester','=',$currentSemester)
+                    ->wherePivot('year','=',$currentYear)
+                    ->orderBy('id');
+            },'students.submittedHomework'=>function($q) use($section,$currentSemester,$currentYear){ //constraints on children
+                $q->wherePivot('section','=',$section)
+                    ->wherePivot('semester','=',$currentSemester)
+                    ->wherePivot('year','=',$currentYear);
+            }])->where('id','=',$course_no)->first();
 
-        return view('home.preview', compact('teachers', 'ta', 'student', 'homework', 'sent'))->with('course', array('co' => $course_no, 'sec' => $section));
+//            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
+//                            from course_student cs
+//                            left join users stu on cs.student_id=stu.id
+//                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=?',
+//                array($course_no, $section, Session::get('semester'), Session::get('year')));
+        }
+        else if (Auth::user()->isStudent()) {
+            $currentStudentId = Auth::user()->id;
+            $sent = Course::with([
+                'students'=>function($q) use($section,$currentSemester,$currentYear,$currentStudentId){ //constraints on parent
+                $q->wherePivot('section','=',$section)
+                    ->wherePivot('semester','=',$currentSemester)
+                    ->wherePivot('year','=',$currentYear)
+                    ->wherePivot('student_id','=',$currentStudentId);
+            },'students.submittedHomework'=>function($q) use($section,$currentSemester,$currentYear){ //constraints on children
+                    $q->wherePivot('section','=',$section)
+                        ->wherePivot('semester','=',$currentSemester)
+                        ->wherePivot('year','=',$currentYear);
+            }])->where('id','=',$course_no)->first();
+//            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
+//                            from course_student cs
+//                            left join users stu on cs.student_id=stu.id
+//                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=? and cs.student_id=?',
+//                array($course_no, $section, Session::get('semester'), Session::get('year'), Auth::user()->id));
+        }
+//        dd($sent->toJson());
 
+        $removeHeader = true;
+
+//        return view('home.preview', compact('teachers', 'ta', 'student', 'homework', 'sent', 'removeHeader','teachersAndTA','course_no','section'))->with('course', array('co' => $course_no, 'sec' => $section));
+        return view('home.preview', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
     }
 
 //    public function preview1()

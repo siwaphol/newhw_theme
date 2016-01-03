@@ -50,7 +50,7 @@
     </div>
 @endsection
 
-@section('footer')
+@section('script')
     <script type="text/javascript">
         $(document).ready(function () {
             $('#data_table_for_teacher').dataTable({

@@ -10,9 +10,10 @@ class Homework extends Model {
 
     //s is short for simple :P
     protected $appends = ['extension','s_due_date','s_accept_date','no_id_name'];
-    protected $fillable = ['course_id', 'section', 'name', 'type_id'
-        ,'detail', 'assign_date', 'due_date'
-        ,'accept_date','created_by','semester','year'];
+//    protected $fillable = ['course_id', 'section', 'name', 'type_id'
+//        ,'detail', 'assign_date', 'due_date'
+//        ,'accept_date','created_by','semester','year'];
+    protected $guarded = [];
 
     public function extension(){
         return $this->hasMany('App\HomeworkType','id','type_id')->first();
@@ -75,5 +76,15 @@ class Homework extends Model {
             }
         }
         return $fullname_arr;
+    }
+
+    /**
+     * Relations
+     */
+    public function students()
+    {
+        return $this->belongsToMany('App\User', 'homework_student', 'homework_id', 'student_id')
+            ->withTimestamps()
+            ->withPivot(['course_id','section','homework_name','status','submitted_at','semester','year']);
     }
 }

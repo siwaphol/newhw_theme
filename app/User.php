@@ -32,7 +32,15 @@ class User extends Model implements AuthenticatableContract {
     public $incrementing = false;
 
     public function teachcourses(){
-        return $this->belongsToMany('App\Course', 'course_section', 'teacher_id', 'course_id')->withTimestamps();
+        return $this->belongsToMany('App\Course', 'course_section', 'teacher_id', 'course_id')
+            ->withTimestamps()
+            ->withPivot(['section','teacher_id','semester','year']);
+    }
+
+    public function assisting_courses(){
+        return $this->belongsToMany('App\Course', 'course_ta', 'student_id', 'course_id')
+            ->withTimestamps()
+            ->withPivot(['section','student_id','semester','year']);
     }
 
     public function teaching()
@@ -42,7 +50,9 @@ class User extends Model implements AuthenticatableContract {
 
     public function submittedHomework()
     {
-        return $this->hasMany('App\HomeworkStudent','student_id');
+        return $this->belongsToMany('App\Homework','homework_student','student_id','homework_id')
+            ->withTimestamps()
+            ->withPivot(['course_id','section','homework_name','status','submitted_at','semester','year']);
     }
 
     public function teachingCourseSection($course_no,$section,$semester,$year)
