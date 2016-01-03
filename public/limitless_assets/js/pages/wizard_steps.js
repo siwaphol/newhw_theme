@@ -15,9 +15,56 @@ $(function() {
     var selectedYear = null;
     var tableLoaded = false;
     var oldSemesterYear = true;
+    var isCourseSectionUpdated = false;
     var secondStepFirstRun = false;
+    var onLoadingState = false;
 
     var courseSectionTable = null;
+
+    function customSleep(miliseconds) {
+           var currentTime = new Date().getTime();
+
+       while (currentTime + miliseconds >= new Date().getTime()) {
+       }
+    }
+
+    var ajaxManager = (function() {
+         var requests = [];
+
+         return {
+            addReq:  function(opt) {
+                requests.push(opt);
+            },
+            removeReq:  function(opt) {
+                if( $.inArray(opt, requests) > -1 )
+                    requests.splice($.inArray(opt, requests), 1);
+            },
+            run: function() {
+                var self = this,
+                    oriSuc;
+
+                if( requests.length ) {
+                    oriSuc = requests[0].complete;
+
+                    requests[0].complete = function() {
+                         if( typeof(oriSuc) === 'function' ) oriSuc();
+                         requests.shift();
+                         self.run.apply(self, []);
+                    };   
+
+                    $.ajax(requests[0]);
+                } else {
+                  self.tid = setTimeout(function() {
+                     self.run.apply(self, []);
+                  }, 200); //Set เพื่อปรับเวลาที่หยุดระหว่างแต่ละ ajax call
+                }
+            },
+            stop:  function() {
+                requests = [];
+                clearTimeout(this.tid);
+            }
+         };
+    }());
 
     function getSemester(){
         var temp;
@@ -63,8 +110,13 @@ $(function() {
             var newSemester = getSemester();
             var newYear = getYear();
 
+            if(onLoadingState){
+                return false;
+            }
+
             if(newSemester !== selectedSemester || newYear !== selectedYear) {
                 tableLoaded = false;
+                isCourseSectionUpdated = false
             }
             selectedSemester = newSemester;
             selectedYear = newYear;
@@ -72,6 +124,7 @@ $(function() {
             if(newIndex == 1 && !tableLoaded){
                 if(secondStepFirstRun){
                     $('#course-section-list').dataTable().fnDestroy();
+                    courseSectionTable = null;
                 }
                 secondStepFirstRun = true;
 
@@ -127,6 +180,57 @@ $(function() {
                     console.log( 'Table initialisation complete: '+new Date().getTime() );
                     tableLoaded = true;
                 } );
+            }
+            // TODO-nong เพื่อป้องกันเมื่อบันทึกข้อมูลลงดาต้าเบส แล้ว user กลับมาเปลี่ยน semester หรือ year
+            if(newIndex == 0 && isCourseSectionUpdated){
+                return false;
+            }
+            // TODO-nong โหลดทุก course และ section เข้าไปยัง database
+            if((newIndex == 2 || newIndex ==3) && tableLoaded && !isCourseSectionUpdated){
+                var notSkipCourseSection = $.grep(courseSectionTable.data(), function (element, index) {
+                    return element.skip===false;
+                });
+                var allRequests = notSkipCourseSection.length;
+                var counter = 0;
+                console.log('allRequests : ', allRequests);
+                // start ajaxManager
+                ajaxManager.run();
+                onLoadingState = true;
+                notSkipCourseSection.forEach(function (element) {
+                    element.semester = selectedSemester;
+                    element.year = selectedYear;
+                    var elementAsJsonString = JSON.stringify(element);
+                    var currentIdAndSection = element.id + ' ,' + element.section;
+                    //use ajaxManager to throttle between each ajax call, preventing unexpected error
+
+                     ajaxManager.addReq({
+                           url: storeEachCourseSection,
+                            data: elementAsJsonString,
+                            // dataType: 'json',
+                            contentType: 'application/json',
+                            type: 'post',
+                            success: function (data) {
+                                counter++;
+                                console.log(data);
+                            },
+                            error: function (data) {
+                                counter++;
+                                console.log(' Error at ',currentIdAndSection);
+                            },
+                            complete: function () {
+                                allRequests--;
+                                if(allRequests<1){
+                                    console.log('last course section');
+                                    // stop ajaxManager after push all requests to server
+                                    ajaxManager.stop();
+                                    isCourseSectionUpdated = true;
+                                    onLoadingState = false;
+                                }
+                            }
+                       });
+                });
+                console.log("Waiting for course section insert to complete...");
+                return false;
             }
 
             // TODO-nong Add import functionality here (see if we can change Next step text from here)
@@ -277,6 +381,7 @@ $(function() {
             // Used to skip the "Warning" step if the user is old enough.
             if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
                 form.steps("next");
+
             }
 
             // Used to skip the "Warning" step if the user is old enough and wants to the previous step.

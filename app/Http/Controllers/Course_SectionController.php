@@ -533,6 +533,8 @@ class Course_SectionController extends Controller
         // Request should have query string like ?semester=2&year=2557
         $semester= $request->input('semester');
         $year=substr($request->input('year'),-2);
+        $virtualId = 1;
+
         if(env('APP_DEBUG')){
             $result = \File::get('C:\xampp\htdocs\newHW\temp\regist157.txt');
         }else{
@@ -607,12 +609,12 @@ class Course_SectionController extends Controller
                     {
                         $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec,
                             'teacher' => ['firstname_en'=>$teacher['firstname_en'], 'lastname_en'=>$teacher['lastname_en'],
-                                'firstname_th'=>$teacher['firstname_th'], 'lastname_th'=>$teacher['lastname_th']], 'skip'=> false);
+                                'firstname_th'=>$teacher['firstname_th'], 'lastname_th'=>$teacher['lastname_th']], 'skip'=> false, 'virtual_id'=>$virtualId++);
                         array_push($all_courses_array,$a_course_array);
                     }
                 }
                 else{
-                    $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec, 'teacher' => [], 'skip'=>true);
+                    $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec, 'teacher' => [], 'skip'=>true, 'virtual_id'=>$virtualId++);
                     array_push($all_courses_array,$a_course_array);
                 }
             }
@@ -641,10 +643,13 @@ class Course_SectionController extends Controller
 
         $old_course_section = null;
         $teacher = null;
+
+        // TODO-nong remove this when starting to test course and section insert
+        // return json_encode($request->input());
         //find if there is this teacher in database
         try {
-            $teacher = User::where('firstname_en',trim($request->input('firstname_en')))
-                ->where('lastname_en',trim($request->input('lastname_en')))->firstOrFail();
+            $teacher = User::where('firstname_en',trim($request->input('teacher.firstname_en')))
+                ->where('lastname_en',trim($request->input('teacher.lastname_en')))->firstOrFail();
             $teacher_id = $teacher->id;
         }catch (ModelNotFoundException $e){
             $last_emp_id = User::lastEmployee()->id;
@@ -652,10 +657,10 @@ class Course_SectionController extends Controller
             $new_id = intval($last_emp_id) + 1;
             $new_employee->id = str_pad((string)$new_id,9,"0",STR_PAD_LEFT);
             $new_employee->role_id = '0100';
-            $new_employee->firstname_th = $request->input('firstname_th');
-            $new_employee->lastname_th = $request->input('lastname_th');
-            $new_employee->firstname_en = $request->input('firstname_en');
-            $new_employee->lastname_en = $request->input('lastname_en');
+            $new_employee->firstname_th = $request->input('teacher.firstname_th');
+            $new_employee->lastname_th = $request->input('teacher.lastname_th');
+            $new_employee->firstname_en = $request->input('teacher.firstname_en');
+            $new_employee->lastname_en = $request->input('teacher.lastname_en');
             $new_employee->faculty_id = '05';
             $new_employee->semester = $semester;
             $new_employee->year = $year;
@@ -664,32 +669,32 @@ class Course_SectionController extends Controller
         }
         //find if there is course section with the exact same courseid,section,teacherid,semester,year
         try{
-            $course_section_model = \App\Course_Section::where('course_id', $request->input('course_id'))
+            $course_section_model = \App\Course_Section::where('course_id', $request->input('id'))
                 ->where('section', $request->input('section'))
                 ->where('teacher_id', $teacher_id)
                 ->where('semester', $semester)
                 ->where('year', $year)->firstOrFail();
 
-            array_push($overview['course_id'],$request->input('course_id'));
-            array_push($overview['course_name'],$request->input('course_name'));
+            array_push($overview['course_id'],$request->input('id'));
+            array_push($overview['course_name'],$request->input('name'));
             array_push($overview['section'],$request->input('section'));
-            array_push($overview['teacher_name'],$request->input('firstname_en') .' ' . $request->input('lastname_en') . ' ' . $request->input('firstname_th') . ' ' . $request->input('lastname_th'));
+            array_push($overview['teacher_name'],$request->input('teacher.firstname_en') .' ' . $request->input('teacher.lastname_en') . ' ' . $request->input('teacher.firstname_th') . ' ' . $request->input('teacher.lastname_th'));
             array_push($overview['success'],1);
             array_push($overview['detail'],'Duplicate course section is already exist.');
             $count_summary[1] = $count_summary[1] + 1;
         }catch (ModelNotFoundException $e){
             $course_section_model = new \App\Course_Section();
-            $course_section_model->course_id = $request->input('course_id');
+            $course_section_model->course_id = $request->input('id');
             $course_section_model->section = $request->input('section');
             $course_section_model->teacher_id = $teacher_id;
             $course_section_model->semester = $semester;
             $course_section_model->year = $year;
             $save_result = $course_section_model->save();
 
-            array_push($overview['course_id'], $request->input('course_id'));
-            array_push($overview['course_name'], $request->input('course_name'));
+            array_push($overview['course_id'], $request->input('id'));
+            array_push($overview['course_name'], $request->input('name'));
             array_push($overview['section'], $request->input('section'));
-            array_push($overview['teacher_name'], $request->input('firstname_en') .' ' . $request->input('lastname_en') . ' ' . $request->input('firstname_th') . ' ' . $request->input('lastname_th'));
+            array_push($overview['teacher_name'], $request->input('teacher.firstname_en') .' ' . $request->input('teacher.lastname_en') . ' ' . $request->input('teacher.firstname_th') . ' ' . $request->input('teacher.lastname_th'));
 
             if($save_result){
                 array_push($overview['success'],0);

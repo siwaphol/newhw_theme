@@ -76,17 +76,12 @@
 
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="{{asset('limitless_assets/images/placeholder.jpg')}}" alt="">
-                    <span>Victoria</span>
+                    <span>{{\Auth::user()->firstname_en}} {{\Auth::user()->lastname_en}} ({{\Auth::user()->role()}})</span>
                     <i class="caret"></i>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-                    <li><a href="#"><i class="icon-coins"></i> My balance</a></li>
-                    <li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
                     <li><a href="{{ url('/auth/logout') }}"><i class="icon-switch2"></i> Logout</a></li>
                 </ul>
             </li>
@@ -127,7 +122,8 @@
                </a>
                <ul class="dropdown-menu width-150">
                    <li><a href="{{url('course')}}"> Course</a></li>
-                   <li><a href="{{url('course_section/selectcreate')}}"> Section</a></li>
+                   <li><a href="{{url('course_section/create')}}"> A Section</a></li>
+                   <li><a href="{{url('course_section/selectcreate')}}"> Multiple Section</a></li>
                    <li><a href="{{url('semesteryear')}}"> Semester and Year</a></li>
                </ul>
            </li>

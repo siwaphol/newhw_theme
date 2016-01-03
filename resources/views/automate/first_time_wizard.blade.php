@@ -119,7 +119,8 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/wizards/steps.min.js')}}"></script>
+    {{--<script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/wizards/steps.min.js')}}"></script>--}}
+    <script type="text/javascript" src="{{asset('js/jquery-steps/jquery.steps.js')}}"></script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/selects/select2.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/styling/uniform.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/core/libraries/jasny_bootstrap.min.js')}}"></script>
@@ -129,6 +130,7 @@
 
     <script type="text/javascript">
         var getAllCourseSectionURL = '{{url('api/v1/auto_ajax1')}}';
+        var storeEachCourseSection = '{{url('api/v1/auto_ajax2')}}';
     </script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/pages/wizard_steps.js')}}"></script>
 
