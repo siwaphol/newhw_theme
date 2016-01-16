@@ -168,5 +168,7 @@ Route::group(array('prefix' => 'api/v1'),function()
     Route::get('auto_ajax1', 'Course_SectionController@auto_ajax1');
     Route::post('auto_ajax2', 'Course_SectionController@auto_ajax2');
 
+    Route::get('download_xlsx/{semester}/{year}','StudentsController@downloadAllExcelForCourseSection');
+
 });
 

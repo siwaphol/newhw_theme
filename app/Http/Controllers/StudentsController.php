@@ -235,4 +235,23 @@ class StudentsController extends Controller {
         $sec = $_GET['ddlSection'];
         return view('students.selectexcel')->with('course',array('co'=>$course,'sec'=>$sec));
     }
+    //TODO-nong this one is for test to download all excel file for each course section to server, Never use this in production
+    public function downloadAllExcelForCourseSection($semester, $year)
+    {
+        $year_2char = substr($year,-2);
+        $all_course_sections = Course_Section::semesterAndYear($semester,$year)
+        ->distinct()
+        ->groupBy('course_id')
+        ->groupBy('section')
+        ->get();
+        $basePath= storage_path('temp/');
+        foreach($all_course_sections as $aSection){
+            $seclab = $aSection->section === '000' ? '001':'000';
+            $xlsx_url = 'https://www3.reg.cmu.ac.th/regist'.$semester.$year_2char.'/public/stdtotal_xlsx.php?var=maxregist&COURSENO='.$aSection->course_id.'&SECLEC='.$aSection->section.'&SECLAB='.$seclab.'&border=1&mime=xlsx&ctype=&';
+            $fileupload = $basePath . $aSection->course_id . '_' . $aSection->section . '.xlsx';
+            if(copy($xlsx_url,$fileupload)){
+                echo "complete ". $fileupload ." </br>";
+            }
+        }
+    }
 }
