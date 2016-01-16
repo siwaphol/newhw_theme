@@ -254,6 +254,7 @@ $(function() {
                                     ajaxManager.stop();
                                     isCourseSectionUpdated = true;
                                     onLoadingState = false;
+                                    swal('Import all available course and section complete');
                                 }
                             }
                        });
