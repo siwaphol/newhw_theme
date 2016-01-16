@@ -355,7 +355,8 @@ class Course_SectionController extends Controller
         $semester=Session::get('semester');
         $year=substr(Session::get('year'),-2);
         if(env('APP_DEBUG')){
-            $result = \File::get('C:\xampp\htdocs\newHW\temp\regist157.txt');
+            $tempRegistPath = storage_path('temp\regist157.txt');
+            $result = \File::get($tempRegistPath);
         }else{
             $context  = stream_context_create($opts);
             $result = file_get_contents('https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/search.php?act=search', false, $context);
@@ -536,7 +537,8 @@ class Course_SectionController extends Controller
         $virtualId = 1;
 
         if(env('APP_DEBUG')){
-            $result = \File::get('C:\xampp\htdocs\newHW\temp\regist157.txt');
+            $tempRegistPath = storage_path('temp\regist157.txt');
+            $result = \File::get($tempRegistPath);
         }else{
             $context  = stream_context_create($opts);
             //TODO-nong: optimize error exception to match how Laravel handle errors

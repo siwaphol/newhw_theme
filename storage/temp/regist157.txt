@@ -1,0 +1,914 @@
+﻿<html>\r\n
+<head>\r\n
+<meta charset="utf-8">\r\n
+<META NAME="AUTHOR" CONTENT="apples">\r\n
+<title></title>\r\n
+\r\n
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">\r\n
+</script>\r\n
+<script type="text/javascript">\r\n
+_uacct = "UA-4794188-2";\r\n
+urchinTracker();\r\n
+</script>\r\n
+<style>\r\n
+<!-- Hide style for old browsers\r\n
+.taho { color: #000000; font-family: Tahoma; font-size: 12pt }\r\n
+.taho7 { color: #000000; font-family: Tahoma; font-size: 7pt }\r\n
+.msan { color: #000000; font-family: MS Sans Serif; font-size: 10pt }\r\n
+.msan12 { color: #000000; font-family: MS Sans Serif; font-size: 12pt }\r\n
+.msan8 { color: #000000; font-family: MS Sans Serif; font-size: 8pt }\r\n
+.arial { color: #000000; font-family: arial narrow; font-size: 8pt; text-decoration: none }\r\n
+.whitelink{ color: #FFFFFF; font-family: MS Sans Serif; font-size: 12pt; text-decoration: none }\r\n
+\tA.whitelink:link { color: #FFFFFF; font-family: MS Sans Serif; font-size: 12pt; text-decoration: none }\r\n
+\tA.whitelink:visited { color: #FFFFFF; font-family: MS Sans Serif; font-size: 12pt; text-decoration: none }\r\n
+\tA.whitelink:hover { color: #FFFFFF; font-family: MS Sans Serif; font-size: 12pt; text-decoration: underline }\r\n
+\tA:whitelink:active  {text-decoration: none; color: #FFFFFF }\r\n
+.blue8 { color: blue; font-family: MS Sans Serif; font-size: 10pt; text-decoration: none} \r\n
+\tA.blue8:link { color: blue; font-family: MS Sans Serif; font-size: 8pt; text-decoration: none }\r\n
+\tA.blue8:visited { color: blue; font-family: MS Sans Serif; font-size: 8pt; text-decoration: none }\r\n
+\tA.blue8:hover { color: red; font-family: MS Sans Serif; font-size: 8pt; text-decoration: underline }\r\n
+\tA:blue8:active  { color: red; font-family: MS Sans Serif; font-size: 8pt; text-decoration: none }\r\n
+.blackred{ color: #000000; font-family: MS Sans Serif; font-size: 10pt; text-decoration: none }\r\n
+\tA.blackred:link { color: #000000; font-family: MS Sans Serif; font-size: 10pt; text-decoration: none }\r\n
+\tA.blackred:visited { color: #000000; font-family: MS Sans Serif; font-size: 10pt; text-decoration: none }\r\n
+\tA.blackred:hover { color: red; font-family: MS Sans Serif; font-size: 10pt; text-decoration: underline }\r\n
+\tA:blackred:active  {text-decoration: none; color: #FF0000}\r\n
+.blue10 { color: blue; font-family: MS Sans Serif; font-size: 10pt; text-decoration: none }\r\n
+\tA.blue10:link { color: blue; font-family: MS Sans Serif; font-size: 10pt; text-decoration: none }\r\n
+\tA.blue10:visited { color: blue; font-family: MS Sans Serif; font-size: 10pt; text-decoration: none}\r\n
+\tA.blue10:hover { color: red; font-family: MS Sans Serif; font-size: 10pt; text-decoration: none }\r\n
+\tA:blue10:active  {text-decoration: none; color: #FF0000}\r\n
+-->\r\n
+</style>\r\n
+<script type="text/javascript">\r\n
+<!--\r\n
+function confirmOps(theLink, theSqlQuery)\r\n
+{\r\n
+var confirmMsg  = 'คุณต้องการที่จะ : ';\r\n
+// Confirmation is not required in the configuration file\r\n
+if (confirmMsg == '') {\r\n
+  return true;\r\n
+ }\r\n
+ var is_confirmed = confirm(confirmMsg + '\n' + theSqlQuery);\r\n
+ if (is_confirmed) {\r\n
+   theLink.href += '&is_js_confirmed=1';\r\n
+  }\r\n
+   return is_confirmed;\r\n
+}\r\n
+//-->\r\n
+</script>\r\n
+<script language="Javascript">\r\n
+<!--\r\n
+\tfunction reloadPage() {\r\n
+\t\tdocument.count_form.submit();\r\n
+\t\treturn false;\r\n
+\t}\r\n
+// -->\r\n
+</script>\r\n
+</head><!DOCTYPE html>\r\n
+<html>\r\n
+<meta name="format-detection" content="telephone=no">\r\n
+<meta name="apple-mobile-web-app-capable" content="yes">\r\n
+<meta charset="utf-8">\r\n
+<head>\r\n
+<title>Search</title>\r\n
+<style>\r\n
+* {-webkit-appearance:none;}\r\n
+cond {\r\n
+    -webkit-animation-name: blinker;\r\n
+    -webkit-animation-duration: 1s;\r\n
+    -webkit-animation-timing-function: linear;\r\n
+    -webkit-animation-iteration-count: infinite;\r\n
+\r\n
+    -moz-animation-name: blinker;\r\n
+    -moz-animation-duration: 1s;\r\n
+    -moz-animation-timing-function: linear;\r\n
+    -moz-animation-iteration-count: infinite;\r\n
+\r\n
+    animation-name: blinker;\r\n
+    animation-duration: 1s;\r\n
+    animation-timing-function: linear;\r\n
+    animation-iteration-count: infinite;\r\n
+}\r\n
+\r\n
+@-moz-keyframes blinker {  \r\n
+    0% { opacity: 1.0; }\r\n
+    50% { opacity: 0.8; }\r\n
+    100% { opacity: 1.0; }\r\n
+}\r\n
+\r\n
+@-webkit-keyframes blinker {  \r\n
+    0% { opacity: 1.0; }\r\n
+    50% { opacity: 0.8; }\r\n
+    100% { opacity: 1.0; }\r\n
+}\r\n
+\r\n
+@keyframes blinker {  \r\n
+    0% { opacity: 1.0; }\r\n
+    50% { opacity: 0.8; }\r\n
+    100% { opacity: 1.0; }\r\n
+}\r\n
+#context-inspect,#inspect-separator{display: none !important; }\r\n
+th {background:#f3f3f3;}\r\n
+th:nth-child(5) {max-width:120px;}\r\n
+details[open] summary [coursetitle] {background:#ddd;}\r\n
+details[open] {border:1px solid #ddd;border-left:none;border-right:none;}\r\n
+summary{outline:none;cursor:pointer;}\r\n
+[coursetitle]:hover{background:#fafafa;}\r\n
+summary::-webkit-details-marker {display: none}\r\n
+[sectionlist]{padding:0;border-radius:0;opacity:0.9;background:#ddd;table-layout:fixed;}\r\n
+[sectionlist] td{height:20px;}\r\n
+[coursedata] td:nth-child(7){max-width:120px;overflow:hidden;text-overflow:elipsis;}\r\n
+[coursedata] td:nth-child(8){max-width:100px;}\r\n
+.sectiontd{height:0;padding:0;}\r\n
+*{font-family:Tahoma;font-size:8pt;}\r\n
+[course]{border:1px solid #eee;}\r\n
+[course]:hover{border:1px solid #aaa; }\r\n
+[coursetitle]{height:20px;display:block;font-size:10pt;padding:5px;background:#eee;border-bottom:0px solid #aaa;}\r\n
+[courselist]{padding:5px;background:#eee;border-radius:5px;width:1000px;margin:auto;border:1px solid #ddd;}\r\n
+[coursecredit]{float:right;position:relative;margin-top:-25px;padding-right:10px;color:#666;font-size:1em;}\r\n
+[courseexam]{background:#f3f3f3;display:block;color:#333;padding-left:10px;line-height:150%;}\r\n
+[coursepre]{background:#f3f3f3;display:block;color:#333;padding-left:10px;line-height:150%;}\r\n
+[left]{text-align:left;}\r\n
+[credit]{width:30px;}\r\n
+td{text-align:center;}\r\n
+a,a:visited{font-size:6pt;color:#666;text-decoration:none;border:1px solid #666;padding:1px;text-overflow:ellipsis;display:inline-block;}\r\n
+a:hover{color:red;border:1px solid red;}\r\n
+[coursedata]:nth-child(even) {background: #e9e9e9}\r\n
+[coursedata]:nth-child(odd) {background: #f0f0f0}\r\n
+[close]{background:#fee!important;}\r\n
+[new]{background:#efe!important;}\r\n
+red{color:red;}\r\n
+gray{color:#aaa;}\r\n
+small{font-size:.8em;}\r\n
+cond{cursor:pointer;color:#a00;text-shadow:1px 1px 1px #f55;}\r\n
+cond b{font-size:8pt;}\r\n
+cond:hover{text-decoration:underline;}\r\n
+.glow{text-shadow:1px 1px 1px #0f0;}\r\n
+csection{color:#666;}\r\n
+a[total]{border:none;color:blue;font-size:1em;padding:0;}\r\n
+a[regular]{border:none;color:#666;font-size:1em;padding:0;text-decoration:auto;}\r\n
+a[regular]:hover{color:#f00;}\r\n
+[loading]{background:rgba(0,0,0,0.1);position:fixed;top:0px;left:0px;width:100%;height:100%;color:#fff;text-align:center;}\r\n
+[toolbox]{position:fixed;width:70px;height:83px;background:#eee;left:0px;top:100px;border:1px solid #ddd;border-radius:0px 5px 5px 0px;text-align:center;z-index:4;box-shadow:2px 2px 4px #999;opacity:0.5;transition-property:opacity;transition-duration:0.5s ;display:none;}\r\n
+[toolbox]:hover{opacity:1;}\r\n
+[tool]{width:60px;padding:10px;background:#d9c8e5;margin:auto;border:1px solid #bbb;border-radius:5px;outline:none;margin-top:5px;}\r\n
+[tool]:hover{background:#e9c8e5;cursor:pointer;}\r\n
+[tool]:active{background:#b9a8c5;}\r\n
+[in]{text-transform: capitalize;cursor:pointer;}\r\n
+[left] {text-align:left;}\r\n
+</style>\r\n
+<script>\r\n
+function append(){\r\n
+if (top.location == self.location){document.body.innerHTML='<link rel="stylesheet" href="style.css" type="text/css"><header><div fixsize=""><span>Registration Office<sup> 1/2557</sup></span></div></header>'+document.body.innerHTML;}\r\n
+var head = document.querySelectorAll("[sectionlist]");\r\n
+if(!head[0]){document.body.innerHTML='<body align="center"><br><br><br><br><br><br><div style="background:linear-gradient(#d9c8e5,#fcc);padding:10px;width:300px;margin:auto;font-family:\'Lucida Console\';border-radius:5px;border:5px solid #eee;"><h1>ERROR</h1>NO COURSE FOUND!<br><br><a href="?" style="text-decoration:none;">Back</a></div></body>';}\r\n
+for(i in head){head[i].innerHTML = '<tr bgcolor="#ddd"><th width="10" rowspan="2"><img src="images/status.gif"></th> <th width="40" rowspan="2">CONDITION</th><th width="200" rowspan="2">TITLE</th><th width="60" colspan="2">SECTION</th> <th width="100" colspan="2">SCHEDULE</th> <th width="60" rowspan="2">ROOM</th> <th width="100" rowspan="2">LECTURER</th> <th width="320" colspan=" 2">TOTAL</th> <th width="60" rowspan="2">ADD</th> </tr> <tr bgcolor="#ddd"> <th width="30">LEC</th> <th width="30">LAB</th> <th width="30">DATE</th> <th width="70">TIME</th> <th width="40">Seat</th> <th width="40">Enroll</th>  '+head[i].innerHTML;}\r\n
+}\r\n
+function ready(){document.querySelector("[loading]").style.display="none";\r\n
+var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;\r\n
+if(!is_firefox){document.querySelector("[toolbox]").style.display="block";}\r\n
+ //document.getElementById("s").style.opacity=0;\r\n
+}\r\n
+function expand(){var details = document.querySelectorAll("details");for(i in details){details[i].open = true;}}\r\n
+function collapse(){var details = document.querySelectorAll("details");for(i in details){details[i].open = false;}}\r\n
+</script>\r\n
+</head>\r\n
+<body onload="append();ready();">\r\n
+\t\t\t<div loading>LOADING...</div>\r\n
+\t\t\t<div toolbox>\r\n
+\t\t\t\t<input tool type="button" value="Expand" onclick="expand()"/>\r\n
+\t\t\t\t<input tool type="button" value="Collapse" onclick="collapse()"/>\r\n
+\t\t\t</div>\r\n
+\t\t\t<div courselist>\r\n
+\t\t\t<span coursetitle style="background:#d9c8e5;">Search result</span>\r\n
+\t\t\t<div wrapper style="border:1px solid #ddd">\r\n
+\t\t\t<div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204100 - <b>IT AND MODERN LIFE</b> <csection>(11 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam><b>MIDTERM EXAM</b> 11 OCT 2014 15:30-18:30 <b>FINAL EXAM</b> 08 DEC 2014 12:00-15:00</span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> IT AND MODERN LIFE </td><td width='30'>001</td><td><gray>000</gray></td><td>Mo<br><red>Th</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB100<br><red>CSB307+2</red></td><td in title="วาสนา นัยโพธิ์">wassana  naiyapo</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=001&SECLAB=000">132</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> IT AND MODERN LIFE </td><td width='30'>002</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>0930 - 1130<br><red>0930 - 1130</red></td><td>CSB100<br><red>CSB307+2</red></td><td in title="พรรณิภา ไพบูลย์นิมิตร">panipa  phaiboonnimit</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=002&SECLAB=000">131</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> IT AND MODERN LIFE </td><td width='30'>003</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB100<br><red>CSB307+2</red></td><td in title="ชุรี เตชะวุฒิ">churee  techawut</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=003&SECLAB=000">128</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> IT AND MODERN LIFE </td><td width='30'>004</td><td><gray>000</gray></td><td>Th<br><red>Mo</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB100<br><red>CSB307+2</red></td><td in title="คณาจารย์   ">  staff</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=004&SECLAB=000">135</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> IT AND MODERN LIFE </td><td width='30'>005</td><td><gray>000</gray></td><td>Fr<br><red>Tu</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB100<br><red>CSB307+2</red></td><td in title="ศุภกิจ อาวิพันธุ์">suphakit  awiphan</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=005&SECLAB=000">116</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> IT AND MODERN LIFE </td><td width='30'>006</td><td><gray>000</gray></td><td>Fr<br><red>Tu</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB100<br><red>CSB307+2</red></td><td in title="รัศมีทิพย์ วิตา">ratsameetip  wita</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=006&SECLAB=000">134</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>T</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะเศรษฐศาสตร์ ระดับปริญญาตรี - โท ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> IT AND MODERN LIFE </td><td width='30'>007</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB209<br><red>CSB302</red></td><td in title="คณาจารย์   ">  staff</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=007&SECLAB=000">18</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>T</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะสังคมศาสตร์ สาขาวิชาสังคมศาสตร์                                                            ระดับปริญญาตรี นานาชาติ&#13;" onclick="alert(this.title)">International</cond> </td><td left> IT AND MODERN LIFE </td><td width='30'>701</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB209<br><red>CSB302</red></td><td in title="คณาจารย์   ">  staff</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=701&SECLAB=000">26</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะนิติศาสตร์ ระดับปริญญาตรี ภาคพิเศษ&#13;" onclick="alert(this.title)">ภาคพิเศษ</cond> </td><td left> IT AND MODERN LIFE </td><td width='30'>801</td><td><gray>000</gray></td><td>Su<br><red>Su</red></td><td>0830 - 1030<br><red>1030 - 1230</red></td><td>CSB209<br><red>CSB303</red></td><td in title="คณาจารย์   ">  staff</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=801&SECLAB=000">52</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะนิติศาสตร์ ระดับปริญญาตรี ภาคพิเศษ&#13;" onclick="alert(this.title)">ภาคพิเศษ</cond> </td><td left> IT AND MODERN LIFE </td><td width='30'>802</td><td><gray>000</gray></td><td>Su<br><red>Su</red></td><td>1230 - 1430<br><red>1430 - 1630</red></td><td>CSB209<br><red>CSB303</red></td><td in title="กิตติพิชญ์ คุปตะวาณิช">kittipitch  kuptavanich</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=802&SECLAB=000">52</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะนิติศาสตร์ ระดับปริญญาตรี ภาคพิเศษ&#13;" onclick="alert(this.title)">ภาคพิเศษ</cond> </td><td left> IT AND MODERN LIFE </td><td width='30'>803</td><td><gray>000</gray></td><td>Su<br><red>Su</red></td><td>1230 - 1430<br><red>1430 - 1630</red></td><td>CSB210<br><red>CSB308</red></td><td in title="เบญจมาศ ปัญญางาม">benjamas  panyangam</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204100&SECLEC=803&SECLAB=000">38</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204101 - <b>INTRODUCTION TO COMPUTER</b> <csection>(2 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam><b>MIDTERM EXAM</b> 07 OCT 2014 12:00-15:00 <b>FINAL EXAM</b> 11 DEC 2014 15:30-18:30</span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> INTRODUCTION TO COMPUTER </td><td width='30'>001</td><td><gray>000</gray></td><td>Mo<br><red>Th</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB100<br><red>CSB307+1</red></td><td in title="ณัฐวดี นันตรัตน์">nattawadee   nantarat</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204101&SECLEC=001&SECLAB=000">88</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> INTRODUCTION TO COMPUTER </td><td width='30'>002</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB100<br><red>CSB307+1</red></td><td in title="ประภา วัฒนะคีรี&#13;คณาจารย์   ">prapa  vattanakeeree<br><b>co-instructor</b><br>  staff<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204101&SECLEC=002&SECLAB=000">79</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204105 - <b>INTRO TO COMP PROGRAM</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam><b>MIDTERM EXAM</b> 12 OCT 2014 08:00-11:00  <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata close>\r\n
+\t\t\t\t<td width='10'>c</td><td width='40'>  </td><td left> INTRO TO COMP PROGRAM </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>0800 - 0930</td><td>CSB100</td><td in title="คณาจารย์   ">  staff</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204105&SECLEC=001&SECLAB=000">0</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204111 - <b>FUNDAMENTALS OF COMP SC</b> <csection>(3 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam><b>MIDTERM EXAM</b> 12 OCT 2014 12:00-15:00 <b>FINAL EXAM</b> 12 DEC 2014 15:30-18:30</span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>S</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> FUNDAMENTALS OF COMP SC </td><td width='30'>001</td><td><gray>000</gray></td><td>Mo<br><red>Th</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB201<br><red>CSB303</red></td><td in title="รัศมีทิพย์ วิตา">ratsameetip  wita</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204111&SECLEC=001&SECLAB=000">32</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>S</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> FUNDAMENTALS OF COMP SC </td><td width='30'>002</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>0930 - 1130<br><red>0930 - 1130</red></td><td>CSB207<br><red>CSB303</red></td><td in title="กิตติพิชญ์ คุปตะวาณิช">kittipitch  kuptavanich</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204111&SECLEC=002&SECLAB=000">32</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>S</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> FUNDAMENTALS OF COMP SC </td><td width='30'>003</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>0930 - 1130<br><red>0930 - 1130</red></td><td>CSB210<br><red>CSB308</red></td><td in title="อารีรัตน์  ตรงรัศมีทอง">areerat  trongratsameethong</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204111&SECLEC=003&SECLAB=000">32</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204202 - <b>IT II</b> <csection>(2 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam><b>MIDTERM EXAM</b> 11 OCT 2014 12:00-15:00 </span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> IT II </td><td width='30'>001</td><td><gray>000</gray></td><td>Mo<br><red>Th</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB207<br><red>CSB308</red></td><td in title="เอกรัฐ บุญเชียง">ekkarat  boonchieng</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204202&SECLEC=001&SECLAB=000">51</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>S</td><td width='40'> <cond title="เฉพาะนักศึกษารหัส50 คณะบริหารธุรกิจ สาขาวิชาบริหารธุรกิจ                                                           ระดับปริญญาตรี ภาคพิเศษ&#13;" onclick="alert(this.title)">ภาคพิเศษ</cond> </td><td left> IT II </td><td width='30'>801</td><td><gray>000</gray></td><td>We</td><td>1630 - 2030</td><td>CSB207</td><td in title="เอกรัฐ บุญเชียง">ekkarat  boonchieng</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204202&SECLEC=801&SECLAB=000">1</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204211 - <b>OBJECT-ORIENTED PROGRAMMING</b> <csection>(3 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam><b>MIDTERM EXAM</b> 08 OCT 2014 08:00-11:00 </span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204112 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> OBJECT-ORIENTED PROGRAMMING </td><td width='30'>001</td><td><gray>000</gray></td><td>Th<br><red>Mo</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB207<br><red>CSB307</red></td><td in title="เบญจมาศ ปัญญางาม">benjamas  panyangam</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204211&SECLEC=001&SECLAB=000">19</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> OBJECT-ORIENTED PROGRAMMING </td><td width='30'>002</td><td><gray>000</gray></td><td>Th<br><red>Mo</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB209<br><red>CSB303</red></td><td in title="เมทินี เขียวกันยะ">matinee  kiewkanya</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204211&SECLEC=002&SECLAB=000">28</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> OBJECT-ORIENTED PROGRAMMING </td><td width='30'>003</td><td><gray>000</gray></td><td>Th<br><red>Mo</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB202<br><red>CSB308</red></td><td in title="จักริน ชวชาติ">jakarin  chawachat</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204211&SECLEC=003&SECLAB=000">22</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204216 - <b>C PROGRAMMING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204101 or 204111 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> C PROGRAMMING </td><td width='30'>001</td><td><gray>000</gray></td><td>Fr<br><red>Tu</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB202<br><red>CSB308</red></td><td in title="อารีรัตน์  ตรงรัศมีทอง">areerat  trongratsameethong</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204216&SECLEC=001&SECLAB=000">11</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204217 - <b>COMP PROG LANGUAGES</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204101 or 204105 or 204111 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> COMP PROG LANGUAGES </td><td width='30'>001</td><td><gray>000</gray></td><td>Th<br><red>Mo</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB207<br><red>CSB308</red></td><td in title="กิตติพิชญ์ คุปตะวาณิช">kittipitch  kuptavanich</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204217&SECLEC=001&SECLAB=000">17</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204219 - <b>JAVA PROGRAMMING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204101 or 204105 or 204111 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> JAVA PROGRAMMING </td><td width='30'>001</td><td><gray>000</gray></td><td>Fr<br><red>Tu</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB210<br><red>CSB308</red></td><td in title="วาสนา นัยโพธิ์">wassana  naiyapo</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204219&SECLEC=001&SECLAB=000">30</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204231 - <b>COMP ORG & ARCH</b> <csection>(3 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204112 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> COMP ORG & ARCH </td><td width='30'>001</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB201<br><red>CSB303</red></td><td in title="ชุมพล บุญคุ้มพรภัทร">chumphol  bunkhumpornpat</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204231&SECLEC=001&SECLAB=000">30</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> COMP ORG & ARCH </td><td width='30'>002</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB207<br><red>CSB308</red></td><td in title="วัฒนา จินดาหลวง">wattana  jindaluang</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204231&SECLEC=002&SECLAB=000">19</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> COMP ORG & ARCH </td><td width='30'>003</td><td><gray>000</gray></td><td>Fr<br><red>Tu</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB210<br><red>CSB303</red></td><td in title="ศุภกิจ อาวิพันธุ์">suphakit  awiphan</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204231&SECLEC=003&SECLAB=000">19</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204251 - <b>DATA STRUCTURES</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204211 or 204214 or 204215 or 204216 or 204217 or 204219 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata close>\r\n
+\t\t\t\t<td width='10'>c</td><td width='40'>  </td><td left> DATA STRUCTURES </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1100 - 1230</td><td>CSB201</td><td in title="นพรัตน์ วนิชชานันท์">noparut  vanitchanant</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204251&SECLEC=001&SECLAB=000">0</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204306 - <b>ETHICS FOR COMP PROF</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 1 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 3rd year standing </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> ETHICS FOR COMP PROF </td><td width='30'>001</td><td><gray>000</gray></td><td>Tu</td><td>0800 - 0900</td><td>CSB207</td><td in title="ประภา วัฒนะคีรี&#13;คณาจารย์   ">prapa  vattanakeeree<br><b>co-instructor</b><br>  staff<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204306&SECLEC=001&SECLAB=000">62</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204321 - <b>DATABASE SYSTEM I</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204351 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษารหัส51 คณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;เฉพาะนักศึกษารหัส52 คณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;เฉพาะนักศึกษารหัส53 คณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> DATABASE SYSTEM I </td><td width='30'>001</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB203<br><red>CSB303</red></td><td in title="นพรัตน์ วนิชชานันท์">noparut  vanitchanant</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204321&SECLEC=001&SECLAB=000">5</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204322 - <b>ADVANCED DATABASE SYSTEMS</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204222 or 204320 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> ADVANCED DATABASE SYSTEMS </td><td width='30'>001</td><td><gray>000</gray></td><td>Tu<br><red>Fr</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB210<br><red>CSB308</red></td><td in title="ดุษฎี ประเสริฐธิติพงษ์">dussadee  praseirttitipong</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204322&SECLEC=001&SECLAB=000">54</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204325 - <b>SYSTEM ANALYSIS & DESIGN</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204211 or 204214 or 204215 or 204216 or 204217 or 204219 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> SYSTEM ANALYSIS & DESIGN </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>1100 - 1230</td><td>CSB201</td><td in title="พรรณิภา ไพบูลย์นิมิตร">panipa  phaiboonnimit</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204325&SECLEC=001&SECLAB=000">20</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204331 - <b>DATA COM & COMP NET</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204218 or 204231 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> DATA COM & COMP NET </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1300 - 1430</td><td>CSB210</td><td in title="นพรัตน์ วนิชชานันท์">noparut  vanitchanant</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204331&SECLEC=001&SECLAB=000">61</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204333 - <b>INTERNET APP DEVELOPMENT</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204211 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> INTERNET APP DEVELOPMENT </td><td width='30'>001</td><td><gray>000</gray></td><td>Fr<br><red>Tu</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB207<br><red>CSB303</red></td><td in title="เมทินี เขียวกันยะ">matinee  kiewkanya</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204333&SECLEC=001&SECLAB=000">16</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204341 - <b>OPERATING SYSTEMS</b> <csection>(2 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204218 or 204231 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> OPERATING SYSTEMS </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1100 - 1230</td><td>CSB207</td><td in title="วาริน เชาวทัต">varin  chouvatut</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204341&SECLEC=001&SECLAB=000">30</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> OPERATING SYSTEMS </td><td width='30'>002</td><td><gray>000</gray></td><td>MTh</td><td>1100 - 1230</td><td>CSB209</td><td in title="วัฒนา จินดาหลวง">wattana  jindaluang</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204341&SECLEC=002&SECLAB=000">30</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204361 - <b>SOFTWARE ENGINEERING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204351 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษารหัส51 คณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;เฉพาะนักศึกษารหัส52 คณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;เฉพาะนักศึกษารหัส53 คณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> SOFTWARE ENGINEERING </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1100 - 1230</td><td>CSB201</td><td in title="วัชรี จำปามูล">watcharee  jumpamule</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204361&SECLEC=001&SECLAB=000">6</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204363 - <b>SW MODELING & REQUIREMENTS</b> <csection>(2 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam><b>FINAL EXAM</b> 02 DEC 2014 08:00-11:00</span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204251 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> SW MODELING & REQUIREMENTS </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>0800 - 0930</td><td>CSB207</td><td in title="วัชรี จำปามูล">watcharee  jumpamule</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204363&SECLEC=001&SECLAB=000">42</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> SW MODELING & REQUIREMENTS </td><td width='30'>002</td><td><gray>000</gray></td><td>MTh</td><td>0930 - 1100</td><td>CSB207</td><td in title="วัชรี จำปามูล">watcharee  jumpamule</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204363&SECLEC=002&SECLAB=000">40</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204381 - <b>NUMERICAL COMP & SOFTWARE</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> (204211 or 204214 or 204215 or 204216 or 204217 or 204219) and (206112 or 206203) </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> NUMERICAL COMP & SOFTWARE </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1300 - 1430</td><td>CSB201</td><td in title="วิไลภรณ์ ลือชารัศมี">vilaiporn  leurcharusmee</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204381&SECLEC=001&SECLAB=000">33</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204382 - <b>COMPUTER GRAPHICS</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> (204211 or 204214 or 204215 or 204216 or 204217 or 204219) and (206112 or 206203) </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> COMPUTER GRAPHICS </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1430 - 1600</td><td>CSB210</td><td in title="วาริน เชาวทัต">varin  chouvatut</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204382&SECLEC=001&SECLAB=000">24</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204390 - <b>COMPUTER JOB TRAINING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 0 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> [3rd year standing and consent of the department] </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษารหัส52 คณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;เฉพาะนักศึกษารหัส53 คณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> COMPUTER JOB TRAINING </td><td width='30'><gray>000</gray></td><td>001</td><td>TBA</td><td>0000 - 0000</td><td>CSB</td><td in title="วัชรี จำปามูล&#13;นพรัตน์ วนิชชานันท์&#13;รัฐสิทธิ์ สุขะหุติ&#13;เสมอแข สมหอม&#13;จีรยุทธ ไชยจารุวณิช&#13;ชุรี เตชะวุฒิ">watcharee  jumpamule<br><b>co-instructor</b><br>noparut  vanitchanant<br>rattasit  sukhahuta<br>samerkae  somhom<br>jeerayut  chaijaruwanich<br>churee  techawut<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204390&SECLEC=000&SECLAB=001">4</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204398 - <b>COMPUTER JOB TRAINING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 0 | 3 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> [compulsory course at least 30 credits] </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> COMPUTER JOB TRAINING </td><td width='30'><gray>000</gray></td><td>001</td><td>TBA</td><td>0000 - 0000</td><td>-</td><td in title="วัชรี จำปามูล&#13;นพรัตน์ วนิชชานันท์&#13;รัฐสิทธิ์ สุขะหุติ&#13;เสมอแข สมหอม&#13;จีรยุทธ ไชยจารุวณิช&#13;ชุรี เตชะวุฒิ">watcharee  jumpamule<br><b>co-instructor</b><br>noparut  vanitchanant<br>rattasit  sukhahuta<br>samerkae  somhom<br>jeerayut  chaijaruwanich<br>churee  techawut<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204398&SECLEC=000&SECLAB=001">47</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204399 - <b>INDEPENDENT STUDY I</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 0 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> [consent of the department] </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> INDEPENDENT STUDY I </td><td width='30'><gray>000</gray></td><td>001</td><td>TBA</td><td>0000 - 0000</td><td></td><td in title="ดุษฎี ประเสริฐธิติพงษ์&#13;เมทินี เขียวกันยะ&#13;รัศมีทิพย์ วิตา">dussadee  praseirttitipong<br><b>co-instructor</b><br>matinee  kiewkanya<br>ratsameetip  wita<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204399&SECLEC=000&SECLAB=001">4</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204422 - <b>DATA WAREHOUSING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204322 or 204421 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> DATA WAREHOUSING </td><td width='30'>001</td><td><gray>000</gray></td><td>Mo<br><red>Th</red></td><td>1230 - 1430<br><red>1230 - 1430</red></td><td>CSB209<br><red>CSB308</red></td><td in title="ดุษฎี ประเสริฐธิติพงษ์">dussadee  praseirttitipong</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204422&SECLEC=001&SECLAB=000">14</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204423 - <b>DATA MINING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> (204321 or 204322) and (208263 or 208264) </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> DATA MINING </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>0930 - 1100</td><td>CSB202</td><td in title="ณัฐวดี นันตรัตน์">nattawadee   nantarat</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204423&SECLEC=001&SECLAB=000">10</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204435 - <b>PARALLEL PROCESSING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204341 or 204433 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> PARALLEL PROCESSING </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>1430 - 1600</td><td>CSB209</td><td in title="เอกรัฐ บุญเชียง">ekkarat  boonchieng</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204435&SECLEC=001&SECLAB=000">19</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204442 - <b>COMPILER CONSTRUCTION</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204315 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> COMPILER CONSTRUCTION </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>1300 - 1430</td><td>CSB201</td><td in title="วิไลภรณ์ ลือชารัศมี">vilaiporn  leurcharusmee</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204442&SECLEC=001&SECLAB=000">10</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204451 - <b>ALGO DESIGN & ANALYSIS</b> <csection>(2 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> (204251 or 204351) and 206281 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> ALGO DESIGN & ANALYSIS </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>0930 - 1100</td><td>CSB201</td><td in title="เบญจมาศ ปัญญางาม">benjamas  panyangam</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204451&SECLEC=001&SECLAB=000">36</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> ALGO DESIGN & ANALYSIS </td><td width='30'>002</td><td><gray>000</gray></td><td>TuF</td><td>0930 - 1100</td><td>CSB209</td><td in title="จักริน ชวชาติ">jakarin  chawachat</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204451&SECLEC=002&SECLAB=000">43</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204453 - <b>PATTERN RECOGNITION</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> (204251 or 204351) and 208263 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> PATTERN RECOGNITION </td><td width='30'>001</td><td><gray>000</gray></td><td>Th<br><red>Mo</red></td><td>1430 - 1630<br><red>1430 - 1630</red></td><td>CSB209<br><red>CSB303</red></td><td in title="ชุมพล บุญคุ้มพรภัทร">chumphol  bunkhumpornpat</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204453&SECLEC=001&SECLAB=000">48</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204462 - <b>HUMAM-COMP INTERACTION</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204361 or 204363 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>O</td><td width='40'>  </td><td left> HUMAM-COMP INTERACTION </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>1100 - 1230</td><td>CSB209</td><td in title="ชุรี เตชะวุฒิ">churee  techawut</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204462&SECLEC=001&SECLAB=000">27</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204471 - <b>ARTIFICIAL INTELLIGENCE</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204451 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> ARTIFICIAL INTELLIGENCE </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>0930 - 1100</td><td>CSB201</td><td in title="เสมอแข สมหอม">samerkae  somhom</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204471&SECLEC=001&SECLAB=000">32</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204491 - <b>INDEPENDENT STUDY 1</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 0 | 1 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> [consent of department] </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <cond title="เฉพาะนักศึกษาคณะวิทยาศาสตร์ สาขาวิชาวิทยาการคอมพิวเตอร์                                                    ระดับปริญญาตรี ภาคปกติ&#13;" onclick="alert(this.title)">Condition</cond> </td><td left> INDEPENDENT STUDY 1 </td><td width='30'><gray>000</gray></td><td>001</td><td>TBA</td><td>0000 - 0000</td><td>TBA</td><td in title="ดุษฎี ประเสริฐธิติพงษ์&#13;เมทินี เขียวกันยะ&#13;รัศมีทิพย์ วิตา">dussadee  praseirttitipong<br><b>co-instructor</b><br>matinee  kiewkanya<br>ratsameetip  wita<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204491&SECLEC=000&SECLAB=001">78</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204499 - <b>INDEPENDENT STUDY II</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 0 | 2 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre><b>PREREQUISITE</b> 204399 </span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> INDEPENDENT STUDY II </td><td width='30'><gray>000</gray></td><td>001</td><td>TBA</td><td>0000 - 0000</td><td></td><td in title="ดุษฎี ประเสริฐธิติพงษ์&#13;เมทินี เขียวกันยะ&#13;รัศมีทิพย์ วิตา">dussadee  praseirttitipong<br><b>co-instructor</b><br>matinee  kiewkanya<br>ratsameetip  wita<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204499&SECLEC=000&SECLAB=001">5</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204700 - <b>DATA STRUC & PROG LANG</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 2 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> DATA STRUC & PROG LANG </td><td width='30'>801</td><td><gray>000</gray></td><td>SaSu</td><td>0900 - 1630</td><td>CSB 210</td><td in title="เมทินี เขียวกันยะ&#13;จักริน ชวชาติ">matinee  kiewkanya<br><b>co-instructor</b><br>jakarin  chawachat<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204700&SECLEC=801&SECLAB=000">15</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204711 - <b>COMPUTER ARCHITECTURE</b> <csection>(2 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> COMPUTER ARCHITECTURE </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>0930 - 1100</td><td>CSB204</td><td in title="วิจักษณ์ ศรีสัจจะเลิศวาจา">wijak  srisujjalertwaja</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204711&SECLEC=001&SECLAB=000">2</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> COMPUTER ARCHITECTURE </td><td width='30'>801</td><td><gray>000</gray></td><td>SaSu</td><td>0900 - 1630</td><td>CSB 210</td><td in title="วิจักษณ์ ศรีสัจจะเลิศวาจา">wijak  srisujjalertwaja</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204711&SECLEC=801&SECLAB=000">15</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204735 - <b>DESIGN & ANALYSIS OF ALGO</b> <csection>(2 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> DESIGN & ANALYSIS OF ALGO </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>0800 - 0930</td><td>CSB204</td><td in title="เสมอแข สมหอม">samerkae  somhom</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204735&SECLEC=001&SECLAB=000">2</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> DESIGN & ANALYSIS OF ALGO </td><td width='30'>801</td><td><gray>000</gray></td><td>SaSu</td><td>0900 - 1630</td><td>CSB 210</td><td in title="จักริน ชวชาติ&#13;วัฒนา จินดาหลวง">jakarin  chawachat<br><b>co-instructor</b><br>wattana  jindaluang<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204735&SECLEC=801&SECLAB=000">15</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204753 - <b>COMPUTATIONAL THEORY</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> COMPUTATIONAL THEORY </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>0930 - 1100</td><td>CSB204</td><td in title="จีรยุทธ ไชยจารุวณิช">jeerayut  chaijaruwanich</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204753&SECLEC=001&SECLAB=000">3</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204767 - <b>IMAGE PROCESSING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> IMAGE PROCESSING </td><td width='30'>801</td><td><gray>000</gray></td><td>SaSu</td><td>0900 - 1630</td><td>CSB 209</td><td in title="วาริน เชาวทัต">varin  chouvatut</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204767&SECLEC=801&SECLAB=000">4</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204771 - <b>INTERNET TECHNOLOGY</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> INTERNET TECHNOLOGY </td><td width='30'>801</td><td><gray>000</gray></td><td>SaSu</td><td>0900 - 1630</td><td>CSB 209</td><td in title="ศุภกิจ อาวิพันธุ์">suphakit  awiphan</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204771&SECLEC=801&SECLAB=000">6</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204774 - <b>DATA MINING</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> DATA MINING </td><td width='30'>801</td><td><gray>000</gray></td><td>SaSu</td><td>0900 - 1630</td><td>CSB 209</td><td in title="ชุมพล บุญคุ้มพรภัทร&#13;ณัฐวดี นันตรัตน์">chumphol  bunkhumpornpat<br><b>co-instructor</b><br>nattawadee   nantarat<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204774&SECLEC=801&SECLAB=000">4</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204789 - <b>SELECT TOP IN COMP SC</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata close>\r\n
+\t\t\t\t<td width='10'>c</td><td width='40'>  </td><td left> SELECT TOP IN COMP SC </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>1100 - 1230</td><td>CSB204</td><td in title="รัฐสิทธิ์ สุขะหุติ">rattasit  sukhahuta</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204789&SECLEC=001&SECLAB=000">0</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204791 - <b>M.S. SEMINAR IN COMP SC</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 1 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> M.S. SEMINAR IN COMP SC </td><td width='30'>801</td><td><gray>000</gray></td><td>SaSu</td><td>0900 - 1630</td><td>CSB 209</td><td in title="วัชรี จำปามูล&#13;ดุษฎี ประเสริฐธิติพงษ์&#13;รัศมีทิพย์ วิตา">watcharee  jumpamule<br><b>co-instructor</b><br>dussadee  praseirttitipong<br>ratsameetip  wita<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204791&SECLEC=801&SECLAB=000">4</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204792 - <b>RES METHODOL IN COMP SCI</b> <csection>(2 Sections)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> RES METHODOL IN COMP SCI </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>1300 - 1430</td><td>CSB204</td><td in title="รัฐสิทธิ์ สุขะหุติ">rattasit  sukhahuta</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204792&SECLEC=001&SECLAB=000">2</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> RES METHODOL IN COMP SCI </td><td width='30'>801</td><td><gray>000</gray></td><td>SaSu</td><td>0900 - 1630</td><td>CSB 210</td><td in title="วัชรี จำปามูล&#13;จีรยุทธ ไชยจารุวณิช">watcharee  jumpamule<br><b>co-instructor</b><br>jeerayut  chaijaruwanich<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204792&SECLEC=801&SECLAB=000">16</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204798 - <b>INDEPENDENT STUDY</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 0 | 6 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'> <red>ภาคพิเศษ</red> </td><td left> INDEPENDENT STUDY </td><td width='30'><gray>000</gray></td><td>801</td><td>SaSu</td><td>0900 - 1630</td><td>CSB 209</td><td in title="ดุษฎี ประเสริฐธิติพงษ์&#13;ศุภกิจ อาวิพันธุ์&#13;รัศมีทิพย์ วิตา">dussadee  praseirttitipong<br><b>co-instructor</b><br>suphakit  awiphan<br>ratsameetip  wita<br></td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204798&SECLEC=000&SECLAB=801">4</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204801 - <b>ADV DESIGN ANAL OF ALGO</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> ADV DESIGN ANAL OF ALGO </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1300 - 1430</td><td>CSB203</td><td in title="เสมอแข สมหอม">samerkae  somhom</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204801&SECLEC=001&SECLAB=000">3</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204812 - <b>COMP SYS ORG</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> COMP SYS ORG </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1100 - 1230</td><td>CSB203</td><td in title="วิจักษณ์ ศรีสัจจะเลิศวาจา">wijak  srisujjalertwaja</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204812&SECLEC=001&SECLAB=000">3</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204816 - <b>FORMAL LANG COMPTN COMPLX</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> FORMAL LANG COMPTN COMPLX </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>0930 - 1100</td><td>CSB203</td><td in title="จีรยุทธ ไชยจารุวณิช">jeerayut  chaijaruwanich</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204816&SECLEC=001&SECLAB=000">3</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204820 - <b>COMPTN DISCRETE MATHS</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>T</td><td width='40'>  </td><td left> COMPTN DISCRETE MATHS </td><td width='30'>001</td><td><gray>000</gray></td><td>TuF</td><td>1100 - 1230</td><td>CSB204</td><td in title="คณาจารย์   ">  staff</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204820&SECLEC=001&SECLAB=000">4</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204891 - <b>ADV RES METHODOL IN COMP SCI</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 3 | 0 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam> <b><a regular href="exam.php?type=FINAL&term=157" target="_blank">[FINAL REGULAR EXAM]</a></b></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> ADV RES METHODOL IN COMP SCI </td><td width='30'>001</td><td><gray>000</gray></td><td>MTh</td><td>1430 - 1600</td><td>CSB203</td><td in title="รัฐสิทธิ์ สุขะหุติ">rattasit  sukhahuta</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204891&SECLEC=001&SECLAB=000">3</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div><div course>\r\n
+\t\t\t<details>\r\n
+\t\t\t<summary>\r\n
+\t\t\t<span coursetitle>• 204898 - <b>THESIS</b> <csection>(1 Section)</csection></span>\r\n
+\t\t\t<span coursecredit><b>CREDIT</b> 0 | 48 </span>\r\n
+\t\t\t</summary>\r\n
+\t\t\t<span courseexam></span>\r\n
+\t\t\t<span coursepre></span>\r\n
+\t\t\t<table sectionlist border="0" cellspacing="1" cellpadding="2"><tr coursedata >\r\n
+\t\t\t\t<td width='10'>N</td><td width='40'>  </td><td left> THESIS </td><td width='30'><gray>000</gray></td><td>001</td><td>TBA</td><td>0000 - 0000</td><td></td><td in title="ชุรี เตชะวุฒิ">churee  techawut</td>\r\n
+\t\t\t\t<td>-</td><td><a target="_blank" total href="stdtotal.php?var=maxregist&COURSENO=204898&SECLEC=000&SECLAB=001">2</a></td>\r\n
+\t\t\t\t<td>-</td>\r\n
+\t\t\t</tr></table></details></div>\t\t\t</div>\r\n
+\t\t\t</div>\r\n
+</body>\r\n
+<br><br>\r\n
+<div align="center" class="msan">\r\n
+<div style="color:#666;width:500px;padding:10px;background:#eee;border-radius:10px;"><b>Course Status</b><br>adding seats course (a), new open course (n), closed course (c), reducing seats course (s), definitely not adding seats (f), changed detail course (t), adding seats & changed detail course (at), reducing seats & changed detail course (st), definitely not adding seats & changed detail course (ft)</div>\r\n
+<br><font  color="#999999"><b>Registration Office - Chiang Mai University</b></font></div>\r\n
+<br>\r\n
+</html>\r\n

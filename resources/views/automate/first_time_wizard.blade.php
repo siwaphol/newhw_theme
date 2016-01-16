@@ -75,6 +75,7 @@
                         <th>T.Teacher Name</th>
                         <th>Status</th>
                         <th>Detail</th>
+                        <th>Import Result</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -86,6 +87,7 @@
                         <th>T.Teacher Name</th>
                         <th>Status</th>
                         <th>Detail</th>
+                        <th>Import Result</th>
                     </tr>
                     </tfoot>
                 </table>
@@ -131,6 +133,7 @@
     <script type="text/javascript">
         var getAllCourseSectionURL = '{{url('api/v1/auto_ajax1')}}';
         var storeEachCourseSection = '{{url('api/v1/auto_ajax2')}}';
+        var spinGifPath = '{{asset('images/spinner.gif')}}';
     </script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/pages/wizard_steps.js')}}"></script>
 

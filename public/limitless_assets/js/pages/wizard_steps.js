@@ -8,18 +8,17 @@
 *  Latest update: Aug 1, 2015
 *
 * ---------------------------------------------------------------------------- */
+var selectedSemester = null;
+var selectedYear = null;
+var tableLoaded = false;
+var oldSemesterYear = true;
+var isCourseSectionUpdated = false;
+var secondStepFirstRun = false;
+var onLoadingState = false;
+var courseSectionTable = null;
+var $courseSection = $('#course-section-list');
 
 $(function() {
-
-    var selectedSemester = null;
-    var selectedYear = null;
-    var tableLoaded = false;
-    var oldSemesterYear = true;
-    var isCourseSectionUpdated = false;
-    var secondStepFirstRun = false;
-    var onLoadingState = false;
-
-    var courseSectionTable = null;
 
     function customSleep(miliseconds) {
            var currentTime = new Date().getTime();
@@ -94,6 +93,77 @@ $(function() {
         }
         return lYear;
     }
+    // Course Section Table Initialization
+    function courseSectionTableInit (semester, year) {
+        courseSectionTable = $('#course-section-list').DataTable({
+            "bDestroy": true,
+            "processing": true,
+            "scrollX": true,
+            "ajax": {
+                url: getAllCourseSectionURL,
+                data: {"semester": selectedSemester, "year": selectedYear}
+                ,error: function(data){
+                    swal({
+                        title: "เกิดข้อผิดพลาด",
+                        text: "ข้อความผิดพลาดเพิ่มเติม",
+                        confirmButtonColor: "#EF5350",
+                        type: "error"
+                    });
+                    console.log(data);
+                    tableLoaded = false;
+                }
+            },
+            "columns": [
+                { "data": "id"},
+                { "data": "name"},
+                { "data": "section"},
+                { "data": "teacher"
+                    ,"render": function ( data, type, full, meta) {
+                    return data.length==0?'<p>Not found</p>':(data.firstname_en+' '+data.lastname_en);
+                }},
+                { "data": "teacher"
+                    ,"render": function ( data, type, full, meta) {
+                    return data.length==0?'<p>Not found</p>':(data.firstname_th+' '+data.lastname_th);
+                }},
+                { "data": "teacher"
+                    ,"render": function ( data, type, full, meta) {
+                    // TODO-nong ใช้ตัวแปร full เพิ่ม id ให้กับแต่ละ row ของ column นี้เพื่อให้มี spinner เวลาส่งข้อมูลขึ้นแล้วเซฟลงดาต้าเบส ถ้าสำเร็จมี success span
+                    return data.length==0?'<span class="label label-danger">Not Import</span>':'';
+                }},
+                { "data": "teacher"
+                    ,"render": function ( data, type, full, meta) {
+                    // TODO-nong ถ้าสร้างไม่สำเร็จให้ขึ้นข้อความด้วย
+                    return data.length==0?'No teacher found or only "Staff" found':'';
+                }},
+                {
+                    "render": function (data, type, full, meta) {
+                        return full.teacher==0?'Not import':'';
+                    }
+                }
+            ],
+            "rowCallback": function (row, data, index) {
+                if(data.skip){
+                    $('td', row).css('background-color', 'rgba(255, 0, 0, 0.50)');
+                }else{
+                    $('td', row).css('background-color', 'transparent');
+                }
+
+                if(data.success==0){
+                    $(row).find('td').eq(5).html('<span class="label label-success">Success</span>');
+                }else if(data.success==1){
+                    $(row).find('td').eq(5).html('<span class="label label-warning">Duplicate</span>');
+                }else if(data.success==2){
+                    $(row).find('td').eq(5).html('<span class="label label-danger">Import Fail</span>');
+                }else if(data.loading==true){
+                    $(row).find('td').eq(5).html('<img src="'+spinGifPath+'">');
+                }
+            }
+        })
+        .on( 'init.dt', function () {
+            console.log( 'Table initialisation complete: '+new Date().getTime() );
+            tableLoaded = true;
+        } );
+    }
     // Wizard examples
     // ------------------------------
 
@@ -129,57 +199,7 @@ $(function() {
                 secondStepFirstRun = true;
 
                 // show course and section list from autoajax1 before insert or update
-                courseSectionTable = $('#course-section-list').DataTable({
-                    "bDestroy": true,
-                    "processing": true,
-                    "scrollX": true,
-                    "ajax": {
-                        url: getAllCourseSectionURL,
-                        data: {"semester": selectedSemester, "year": selectedYear}
-                        ,error: function(data){
-                            swal({
-                                title: "เกิดข้อผิดพลาด",
-                                text: "ข้อความผิดพลาดเพิ่มเติม",
-                                confirmButtonColor: "#EF5350",
-                                type: "error"
-                            });
-                            console.log(data);
-                            tableLoaded = false;
-                        }
-                    },
-                    "columns": [
-                        { "data": "id"},
-                        { "data": "name"},
-                        { "data": "section"},
-                        { "data": "teacher"
-                            ,"render": function ( data, type, full, meta) {
-                            return data.length==0?'<p>Not found</p>':(data.firstname_en+' '+data.lastname_en);
-                        }},
-                        { "data": "teacher"
-                            ,"render": function ( data, type, full, meta) {
-                            return data.length==0?'<p>Not found</p>':(data.firstname_th+' '+data.lastname_th);
-                        }},
-                        { "data": "teacher"
-                            ,"render": function ( data, type, full, meta) {
-                            // TODO-nong ใช้ตัวแปร full เพิ่ม id ให้กับแต่ละ row ของ column นี้เพื่อให้มี spinner เวลาส่งข้อมูลขึ้นแล้วเซฟลงดาต้าเบส ถ้าสำเร็จมี success span
-                            return data.length==0?'<span class="label label-danger">Fail</span>':'';
-                        }},
-                        { "data": "teacher"
-                            ,"render": function ( data, type, full, meta) {
-                            // TODO-nong ถ้าสร้างไม่สำเร็จให้ขึ้นข้อความด้วย
-                            return data.length==0?'No teacher found or only "Staff" found':'';
-                        }}
-                    ],
-                    "rowCallback": function (row, data, index) {
-                        if(data.skip){
-                            $('td', row).css('background-color', 'rgba(255, 0, 0, 0.50)');
-                        }
-                    }
-                })
-                .on( 'init.dt', function () {
-                    console.log( 'Table initialisation complete: '+new Date().getTime() );
-                    tableLoaded = true;
-                } );
+                courseSectionTableInit(selectedSemester, selectedYear);
             }
             // TODO-nong เพื่อป้องกันเมื่อบันทึกข้อมูลลงดาต้าเบส แล้ว user กลับมาเปลี่ยน semester หรือ year
             if(newIndex == 0 && isCourseSectionUpdated){
@@ -211,13 +231,22 @@ $(function() {
                             type: 'post',
                             success: function (data) {
                                 counter++;
-                                console.log(data);
-                            },
-                            error: function (data) {
+                                console.log('from success ajax: ',data);
+                                courseSectionTable.row(element.virtual_id - 1).data().success = parseInt(data.overview.success[0]);
+                                courseSectionTable.draw(false);
+                            }
+                            ,beforeSend: function () {
+                                console.log('beforeSend virtual id: ', element.virtual_id);
+                                courseSectionTable.row(element.virtual_id - 1).data().loading = true;
+                                courseSectionTable.draw(false);
+                            }
+                            ,error: function (data) {
                                 counter++;
                                 console.log(' Error at ',currentIdAndSection);
-                            },
-                            complete: function () {
+                                courseSectionTable.row(element.virtual_id - 1).data().success = 2;
+                                courseSectionTable.draw(false);
+                            }
+                            ,complete: function () {
                                 allRequests--;
                                 if(allRequests<1){
                                     console.log('last course section');
