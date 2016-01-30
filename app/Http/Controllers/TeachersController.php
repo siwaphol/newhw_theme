@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Response;
 use View;
 use DB;
+use App\Course_Section;
 
 
 class TeachersController extends Controller {
@@ -25,7 +26,8 @@ class TeachersController extends Controller {
 	 */
 	public function index()
 	{
-		$teachers = DB::select('select * from users where role_id=0100');
+		// $teachers = DB::select('select * from users where role_id=0100');
+		$teachers = User::teacher()->get();
 		return view('teachers.index', compact('teachers'));
 	}
 
@@ -72,8 +74,15 @@ class TeachersController extends Controller {
 	 */
 	public function show($id)
 	{
-        $teacher =DB::select('select * from users where id=?',array($id));
-		return view('teachers.show', compact('teacher'));
+        // $teacher =DB::select('select * from users where id=?',array($id));
+        $teacher = User::teacher()->find($id);
+
+        $courseSec = Course_Section::semesterAndYear(\Session::get('semester'),\Session::get('year'))
+        	->where('teacher_id', '=', $id)->get();
+        // dd($teacher);
+        $page_name = "Teacher";
+        $sub_name = "Information";
+		return view('teachers.show', compact('teacher', 'courseSec', 'page_name', 'sub_name'));
 	}
 
 	/**

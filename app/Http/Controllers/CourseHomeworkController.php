@@ -36,6 +36,21 @@ class CourseHomeworkController extends Controller {
 		//
 	}
 
+    public function create2($course_id)
+    {
+        $page_name = "Create Homework";
+        $sub_name = "" . $course_id;
+
+        $temp = HomeworkType::all();
+        foreach ($temp as $hwType) {
+            $file_types[$hwType['id']] = $hwType['extension'];
+        }
+
+        // dd($file_types);
+
+        return view('homework_assignment.create', compact('page_name', 'sub_name', 'file_types'));
+    }
+
 	/**
 	 * Show the form for creating a new resource.
 	 *

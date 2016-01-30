@@ -105,7 +105,7 @@ $(function() {
                 ,error: function(data){
                     swal({
                         title: "เกิดข้อผิดพลาด",
-                        text: "ข้อความผิดพลาดเพิ่มเติม",
+                        text: "ไม่สามารถดึงข้อมูล course และ section จากเว็บสำนักทะเบียน",
                         confirmButtonColor: "#EF5350",
                         type: "error"
                     });
@@ -134,12 +134,7 @@ $(function() {
                     ,"render": function ( data, type, full, meta) {
                     // TODO-nong ถ้าสร้างไม่สำเร็จให้ขึ้นข้อความด้วย
                     return data.length==0?'No teacher found or only "Staff" found':'';
-                }},
-                {
-                    "render": function (data, type, full, meta) {
-                        return full.teacher==0?'Not import':'';
-                    }
-                }
+                }}
             ],
             "rowCallback": function (row, data, index) {
                 if(data.skip){
@@ -276,6 +271,52 @@ $(function() {
                 return false;
             }else{
                 return true;
+            }
+        },
+       onStepChanged: function (event, currentIndex, priorIndex) {
+
+            if (currentIndex === 2 && priorIndex === 3) {
+                //call get student data
+                var notSkipCourseSection = $.grep(courseSectionTable.data(), function (element, index) {
+                    //TODO-nong dont forget to filter for unique course and section
+                    return element.skip===false;
+                });
+                var counter = 0;            
+                notSkipCourseSection.forEach(function (element) {
+                    element.semester = selectedSemester;
+                    element.year = selectedYear;
+                    var elementAsJsonString = JSON.stringify(element);
+
+                    ajaxManager.addReq({
+                       url: 'getStudentExcelFilesForeachCourseSection',
+                        data: elementAsJsonString,
+                        // dataType: 'json',
+                        contentType: 'application/json',
+                        type: 'post',
+                        success: function (data) {
+                            counter++;
+
+                        }
+                        ,beforeSend: function () {
+
+                        }
+                        ,error: function (data) {
+                            counter++;
+
+                        }
+                        ,complete: function () {
+                            allRequests--;
+                            if(allRequests<1){
+                                console.log('last course section\'s student list');
+                                // stop ajaxManager after push all requests to server
+                                ajaxManager.stop();
+                                swal('Import all available students complete');
+                            }
+                        }
+                       });
+                });
+            }else{ // พบว่ามีปัญหาเกิดขึ้นกับกระบวนการทำงาน
+                form.steps("previous");
             }
         },
         onFinished: function (event, currentIndex) {

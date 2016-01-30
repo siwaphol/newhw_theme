@@ -75,7 +75,6 @@
                         <th>T.Teacher Name</th>
                         <th>Status</th>
                         <th>Detail</th>
-                        <th>Import Result</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -87,7 +86,6 @@
                         <th>T.Teacher Name</th>
                         <th>Status</th>
                         <th>Detail</th>
-                        <th>Import Result</th>
                     </tr>
                     </tfoot>
                 </table>

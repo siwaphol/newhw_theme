@@ -235,6 +235,20 @@ class StudentsController extends Controller {
         $sec = $_GET['ddlSection'];
         return view('students.selectexcel')->with('course',array('co'=>$course,'sec'=>$sec));
     }
+    public function getStudentsXLSX($semester, $year)
+    {
+        $year_2char = substr($year,-2);
+        $all_course_sections = Course_Section::semesterAndYear($semester,$year)
+        ->distinct()
+        ->groupBy('course_id')
+        ->groupBy('section')
+        ->get();
+        $basePath= storage_path('temp/');
+
+        foreach($all_course_sections as $aSection){
+            
+        }
+    }
     //TODO-nong this one is for test to download all excel file for each course section to server, Never use this in production
     public function downloadAllExcelForCourseSection($semester, $year)
     {

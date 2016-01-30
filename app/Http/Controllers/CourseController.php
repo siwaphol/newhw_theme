@@ -44,10 +44,12 @@ use App\Http\Requests\CourseRequest;
      */
 
 
-    public function course(){
+    public function index(){
 
         $model=Course::all();
-        return view('course',compact('model'));
+        $page_name = 'Course';
+        $sub_name = 'Overview';
+        return view('course',compact('model','page_name','sub_name'));
     }
     public function create(){
 

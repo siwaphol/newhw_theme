@@ -34,6 +34,7 @@ Route::get('testexcel','ExcelFileController@index');
 //homework management section
 Route::get('coursehomeworkdata/{course_id}', 'CourseHomeworkController@getHomeworkCreateData');
 Route::get('homework/create/{course_id}','CourseHomeworkController@homeworkCreate');
+Route::get('homework/create2/{course_id}','CourseHomeworkController@create2');
 Route::post('homework/create','CourseHomeworkController@homeworkPostCreate');
 Route::get('homework/result','CourseHomeworkController@result' );
 
@@ -60,7 +61,7 @@ Route::controllers([
 
 Route::get('assign', 'HomeController@assign');
 Route::get('course_section/auto', 'Course_SectionController@auto');
-Route::get('course', 'CourseController@course');
+Route::get('course', 'CourseController@index');
 Route::get('course/create', 'CourseController@create');
 Route::post('course/create/save', 'CourseController@addcourse');
 Route::get('edit/{id}', 'CourseController@edit');
@@ -168,7 +169,9 @@ Route::group(array('prefix' => 'api/v1'),function()
     Route::get('auto_ajax1', 'Course_SectionController@auto_ajax1');
     Route::post('auto_ajax2', 'Course_SectionController@auto_ajax2');
 
-    Route::get('download_xlsx/{semester}/{year}','StudentsController@downloadAllExcelForCourseSection');
+    Route::get('get_students_xlsx/{semester}/{year}', 'StudentsController@getStudentsXLSX');
+
+    // Route::get('download_xlsx/{semester}/{year}','StudentsController@downloadAllExcelForCourseSection');
 
 });
 

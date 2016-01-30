@@ -13,14 +13,16 @@
                             <table class="table" id="data_table_for_teacher" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Name(En.)</th>
+                                    <th>Name(Th.)</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Name(En.)</th>
+                                    <th>Name(Th.)</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
@@ -30,6 +32,9 @@
                                     <tr>
                                         <td>
                                             <a type="button" class="btn btn-link" href="{{ url('/teachers/show', $item->id) }}">{{ $item->firstname_en." ".$item->lastname_en }}</a>
+                                        </td>
+                                        <td>
+                                            <a type="button" class="btn btn-link" href="{{ url('/teachers/show', $item->id) }}">{{ $item->firstname_th." ".$item->lastname_th }}</a>
                                         </td>
                                         <td>
                                             <a type="button" class="btn btn-link" href="{{ url('/teachers/'.$item->id.'/edit') }}">Edit</a>

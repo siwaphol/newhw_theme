@@ -11,7 +11,7 @@
 		<meta name="description" content="Homework management Computer Science, CMU">
 	@endif
 
-	<title>Laravel Datatables {{ isset($title) ? " | $title" : "" }}</title>
+	<title>{{ isset($title) ? " | $title" : "CMUMIS" }}</title>
 
 	@include('partials.css_import')
 
