@@ -13,6 +13,8 @@
 //this route actually accept first incoming request
 Route::get('/', 'WelcomeController@index');
 
+Route::get('teststylus', 'WelcomeController@testStylus');
+
 Route::get('home', 'HomeController@firstpage');
 Route::get('info', 'HomeController@info');
 Route::post('semester', 'HomeController@semester');
@@ -172,6 +174,7 @@ Route::group(array('prefix' => 'api/v1'),function()
     Route::get('get_students_xlsx/{semester}/{year}', 'StudentsController@getStudentsXLSX');
 
     // Route::get('download_xlsx/{semester}/{year}','StudentsController@downloadAllExcelForCourseSection');
-
+    Route::get('user', 'UserController@index');
+    Route::post('admin/{id}', 'UserController@update');
 });
 

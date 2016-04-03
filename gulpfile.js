@@ -1,5 +1,6 @@
 var elixir = require('laravel-elixir');
 
+require('laravel-elixir-stylus');
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -12,5 +13,5 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+    mix.stylus('app.styl');
 });

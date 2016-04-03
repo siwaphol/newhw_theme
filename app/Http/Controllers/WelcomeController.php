@@ -33,4 +33,9 @@ class WelcomeController extends Controller {
 		return view('auth/login');
 	}
 
+	public function testStylus()
+	{
+		return view('teststylus');
+	}
+
 }

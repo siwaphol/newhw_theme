@@ -10,6 +10,11 @@ use yajra\Datatables\Datatables;
 
 class User extends Model implements AuthenticatableContract {
 
+    const ADMIN_ROLE = 1;
+    const TEACHER_ROLE = 2;
+    const TA_ROLE = 3;
+    const STUDENT_ROLE = 4;
+
 	use Authenticatable;
 
 	/**
@@ -190,8 +195,39 @@ class User extends Model implements AuthenticatableContract {
             $course_list = DB::select('SELECT DISTINCT course_id FROM course_section WHERE teacher_id = ? and semester=? and year=?',array($this->attributes['id'],Session::get('semester'),Session::get('year')));
             return $course_list;
         }
+
+        return null;
     }
 
+    public function getRoleArray()
+    {
+        $returnArray = [];
 
+        for ($i=0;$i<strlen($this->attributes['role_id']);$i++){
+            if($this->attributes['role_id'][$i]==='1'){
+                $returnArray[] = ($i+1);
+            }
+        }
 
+        return $returnArray;
+    }
+    /**
+     * @param $role array
+     */
+    public function changeRole($role){
+        $this->attributes['role_id'] = '0000';
+
+        if(in_array(User::ADMIN_ROLE, $role)){
+            $this->attributes['role_id'][0] = '1';
+        }
+        if(in_array(User::TEACHER_ROLE, $role)){
+            $this->attributes['role_id'][1] = '1';
+        }
+        if(in_array(User::TA_ROLE, $role)){
+            $this->attributes['role_id'][2] = '1';
+        }
+        if(in_array(User::STUDENT_ROLE, $role)){
+            $this->attributes['role_id'][3] = '1';
+        }
+    }
 }

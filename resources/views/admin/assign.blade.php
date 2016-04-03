@@ -76,33 +76,6 @@
                       </div>
 
                     </div>
-
-                        {{--<hr/>--}}
-
-                        {{--{!! Form::open(['url' => 'admin/assign/save']) !!}--}}
-                        {{----}}
-                       {{--<div class="form-group">--}}
-                           {{--{!! Form::label('adminid', 'User: ') !!}--}}
-
-                            {{--<select id="adminid" name="adminid" onChange = "ListSection(this.value)" class="form-control">--}}
-                               {{--<option selected value="">Select User</option>--}}
-                               {{--@foreach($admin as $item)--}}
-                              {{--<option value={{$item->id}}>{{$item->firstname_en.' '.$item->lastname_en}}</option>--}}
-                              {{--@endforeach--}}
-                            {{--</select>--}}
-                        {{--</div>--}}
-                        {{--<div class="form-group">--}}
-                            {{--{!! Form::submit('Add Admin', ['class' => 'btn btn-primary form-control']) !!}--}}
-                        {{--</div>--}}
-                        {{--{!! Form::close() !!}--}}
-
-                        {{--@if ($errors->any())--}}
-                            {{--<ul class="alert alert-danger">--}}
-                                {{--@foreach ($errors->all() as $error)--}}
-                                    {{--<li>{{ $error }}</li>--}}
-                                {{--@endforeach--}}
-                            {{--</ul>--}}
-                        {{--@endif--}}
                     </div>
                 </div>
             </div>
