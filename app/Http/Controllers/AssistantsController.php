@@ -24,7 +24,6 @@ class AssistantsController extends Controller {
 	 */
 	public function index()
 	{
-
 		return view('assistants.index');
 	}
 
@@ -75,13 +74,7 @@ class AssistantsController extends Controller {
             $insert=DB::insert('insert into users (id,role_id) values(?,0010)',array($ta_id));
         }
 
-
-
-
-        //$result=DB::insert('insert into course_ta (course_id,section,student_id)values(?,?,?)',array($course,$sec,$ta_id));
-		//return redirect('assistants');
         return redirect()->action('HomeController@preview',array('course'=>$course,'sec'=>$sec));
-        //return view('home.preview')->with('course',array('co'=>$course,'sec'=>$sec));
 	}
 
 	/**

@@ -79,7 +79,6 @@ Route::get('course_section/selectcreate/', 'Course_SectionController@selectcreat
 Route::post('course_section/createteacher', 'Course_SectionController@createteacher');
 Route::post('course_section/createteacher/save', 'Course_SectionController@saveteacher');
 
-
 Route::post('course_section/check/', 'Course_SectionController@check');
 
 Route::get('test/lis','HomeController@lis');
@@ -96,7 +95,7 @@ Route::post('teachers/update','TeachersController@update');
 Route::post('teachers/create/save','TeachersController@store');
 
 //admin
-//Route::get('admin','AdminController@index');
+Route::get('admin','AdminController@managementPage');
 //Route::delete('admin/delete/{id}','AdminController@destroy');
 //Route::get('admin/show/{id}','AdminController@show');
 //Route::get('admin/create','AdminController@create');
@@ -105,8 +104,8 @@ Route::post('teachers/create/save','TeachersController@store');
 //Route::get('admin/{id}/edit','AdminController@edit');
 //Route::post('admin/create/save','AdminController@store');
 //Route::post('admin/update/','AdminController@update');
-//ta
 
+//ta
 Route::get('ta','TasController@index');
 Route::delete('ta/delete/{id}','TasController@destroy');
 Route::get('ta/show/{id}','TasController@show');

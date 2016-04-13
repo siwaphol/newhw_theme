@@ -5,15 +5,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-
                     <div class="panel-body">
-                        {{--@if (\Auth::user()->isAdmin())--}}
-                        {{--{!! Html::link('course_section/auto', 'Import course section from registration office',array('onclick'=>"return confirm('Are you sure you want to add all course section from registration?')")) !!} </br>--}}
-                        {{--{!! Html::link('students/autoimport', 'Import student information from registration office',array('onclick'=>"return confirm('Are you sure you want to update all students?')")) !!}</br>--}}
-                        {{--{!! Html::link('course_section/create', 'Add a section') !!} </br>--}}
-                        {{--{!! Html::link('course_section/selectcreate', 'Add mutiple section') !!}--}}
-                        {{--@endif--}}
-
                         <div class="table-responsive">
                             <table class="table" id="example" cellspacing="0" width="100%">
                                 <thead>
