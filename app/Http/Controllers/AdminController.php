@@ -23,18 +23,19 @@ class AdminController extends Controller
         $sub_name = 'Management';
 
         $validator = \Validator::make($request->all(),[
-            'search_filter' => 'required',
+            'search_user_filter' => 'required',
+            'search_criteria_filter' => 'required',
             'search_value' => 'required'
         ]);
 
         if($validator->fails()){
-            return \Redirect::to(route('admin'))
+            return redirect(url('admin'))
                 ->withErrors($validator);
         }
 
-        $users = User::all();
+        $resultSearchUser = User::all();
 
-        return view('admin.management', compact('page_name', 'sub_name', 'users'));
+        return view('admin.management', compact('page_name', 'sub_name', 'resultSearchUser'));
     }
     /**
      * Display a listing of the resource.

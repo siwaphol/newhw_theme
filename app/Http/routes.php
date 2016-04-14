@@ -96,6 +96,7 @@ Route::post('teachers/create/save','TeachersController@store');
 
 //admin
 Route::get('admin','AdminController@managementPage');
+Route::post('admin','AdminController@managementPageWithSearchResult');
 //Route::delete('admin/delete/{id}','AdminController@destroy');
 //Route::get('admin/show/{id}','AdminController@show');
 //Route::get('admin/create','AdminController@create');
