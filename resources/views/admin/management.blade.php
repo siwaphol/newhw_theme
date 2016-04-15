@@ -23,6 +23,12 @@
                     </ul>
                 </div>
             @endif
+
+            @if (isset($successMessage)&& !empty($successMessage))
+                <div class="alert alert-success">
+                    <strong>{{$successMessage}}</strong><br>
+                </div>
+            @endif
         </div>
 
         <div class="panel-body">
@@ -46,43 +52,19 @@
                         <select class="select" name="search_user_filter">
                             <optgroup label="User Type">
                                 <option value="0">All Users</option>
-                                <option value="1">Admin</option>
-                                <option value="2">Teacher</option>
-                                <option value="3">TA</option>
-                                <option value="4">Student</option>
+                                <option value="{{\App\User::TEACHER_ROLE}}">Teacher</option>
+                                <option value="{{\App\User::TA_ROLE}}">TA</option>
+                                <option value="{{\App\User::STUDENT_ROLE}}">Student</option>
                             </optgroup>
                         </select>
-<!--                         <ul class="list-inline list-inline-condensed no-margin-bottom">
-                            <li class="dropdown">
-                                <a href="#" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="icon-stack2 position-left"></i> All Users <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li><a href="#"><i class="icon-reading"></i> Teacher</a></li>
-                                    <li><a href="#"><i class="icon-gear"></i> TA</a></li>
-                                    <li><a href="#"><i class="icon-graduation"></i> Student</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown">
-                                <a href="#" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="icon-stack2 position-left"></i> English Name <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li><a href="#"><i class="icon-question7"></i> Thai Name</a></li>
-                                    <li><a href="#"><i class="icon-accessibility"></i> User Code (student code, teacher id)</a></li>
-                                </ul>
-                            </li>
-                        </ul> -->
                     </div>
                     <div class="col-sm-2">
                         <select class="select" name="search_criteria_filter">
                             <optgroup label="Criteria">
-                                <option value="0">English Name</option>
-                                <option value="1">Thai Name</option>
-                                <option value="2">User Code (student code, teacher id)</option>
+                                <option value="{{\App\User::SEARCH_CRITERIA_EMAIL}}">Email</option>
+                                <option value="{{\App\User::SEARCH_CRITERIA_ENGLISH_NAME}}">English Name</option>
+                                <option value="{{\App\User::SEARCH_CRITERIA_THAI_NAME}}">Thai Name</option>
+                                <option value="{{\App\User::SEARCH_CRITERIA_USERNAME}}">Username</option>
                             </optgroup>
                         </select>
                     </div>

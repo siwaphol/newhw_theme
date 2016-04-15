@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
+
     public function managementPage()
     {
         $page_name = 'Admin';
@@ -24,8 +25,7 @@ class AdminController extends Controller
 
         $validator = \Validator::make($request->all(),[
             'search_user_filter' => 'required',
-            'search_criteria_filter' => 'required',
-            'search_value' => 'required'
+            'search_criteria_filter' => 'required'
         ]);
 
         if($validator->fails()){
@@ -33,9 +33,66 @@ class AdminController extends Controller
                 ->withErrors($validator);
         }
 
-        $resultSearchUser = User::all();
+        $search_user_filter = (int)$request->input('search_user_filter');
+        switch ($search_user_filter){
+            case User::TEACHER_ROLE:
+                $resultSearchUser = User::teacher()->currentSemester();
+                break;
+            case User::TA_ROLE:
+                $resultSearchUser = User::ta()->currentSemester();
+                break;
+            case User::STUDENT_ROLE:
+                $resultSearchUser = User::student()->currentSemester();
+                break;
+            default:
+                $resultSearchUser = User::excludeAdmin()->currentSemester();
+        }
+
+        $search_criteria_filter = (int)$request->input('search_criteria_filter');
+        $search_value = "%". $request->input('search_value') . "%";
+        switch ($search_criteria_filter){
+            case User::SEARCH_CRITERIA_EMAIL:
+                $resultSearchUser->where('email', 'LIKE', $search_value);
+                break;
+            case User::SEARCH_CRITERIA_ENGLISH_NAME:
+                $resultSearchUser->where('firstname_en', 'LIKE', $search_value)
+                    ->orWhere('lastname_en', 'LIKE', $search_value);
+                break;
+            case User::SEARCH_CRITERIA_THAI_NAME:
+                $resultSearchUser->where('firstname_th', 'LIKE', $search_value)
+                    ->orWhere('lastname_th', 'LIKE', $search_value);
+                break;
+            case User::SEARCH_CRITERIA_USERNAME:
+                $resultSearchUser->where('username', 'LIKE', $search_value);
+                break;
+        }
+
+        $resultSearchUser = $resultSearchUser->get();
 
         return view('admin.management', compact('page_name', 'sub_name', 'resultSearchUser'));
+    }
+
+    public function addAdmin(Request $request)
+    {
+        $page_name = 'Admin';
+        $sub_name = 'Management';
+
+        $validator = \Validator::make($request->all(),[
+            'user_id' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect(url('admin'))
+                ->withErrors($validator);
+        }
+
+        $user = User::currentSemester()->find((int)$request->input('user_id'));
+        if(!$user->isAdmin()){
+            $user->changeRole(array_merge($user->getRoleArray(), [User::ADMIN_ROLE]));
+        }
+        $successMessage = "successfully create assign new admin";
+
+        return view('admin.management', compact('page_name', 'sub_name', 'successMessage'));
     }
     /**
      * Display a listing of the resource.

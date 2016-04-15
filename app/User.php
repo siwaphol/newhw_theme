@@ -15,6 +15,11 @@ class User extends Model implements AuthenticatableContract {
     const TA_ROLE = 3;
     const STUDENT_ROLE = 4;
 
+    const SEARCH_CRITERIA_EMAIL = 0;
+    const SEARCH_CRITERIA_ENGLISH_NAME = 1;
+    const SEARCH_CRITERIA_THAI_NAME = 2;
+    const SEARCH_CRITERIA_USERNAME = 3;
+
 	use Authenticatable;
 
 	/**
@@ -119,6 +124,11 @@ class User extends Model implements AuthenticatableContract {
     {
         return $query->where('role_id', 'like', '1___');
     }
+
+    public function scopeExcludeAdmin($query)
+    {
+        return $query->where('role_id', 'like', '0___');
+    }
     public function scopeTeacher($query)
     {
         return $query->where('role_id', 'like', '_1__');
@@ -135,6 +145,12 @@ class User extends Model implements AuthenticatableContract {
     public function scopeLastEmployee($query)
     {
         return $query->where('id', '<' , '000010000')->orderBy('id','desc')->first();
+    }
+
+    public function scopeCurrentSemester($query)
+    {
+        return $query->where('semester', '=', Session::get('semester'))
+            ->where('year', '=', Session::get('year'));
     }
     /**
      * Accessor Function
