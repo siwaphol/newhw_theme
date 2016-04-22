@@ -48,7 +48,9 @@ Route::get('homework/show/{id}','Homework1Controller@show');
 
 
 //teacher management zone
-Route::get('teachers','TeachersController@index');
+Route::get('teachers',['as'=>'teachers',
+    'uses'=>'TeachersController@index']);
+//Route::get('teachers','TeachersController@index');
 
 Route::get('homework/downloadhomework','Homework1Controller@exportzip');
 
@@ -95,9 +97,12 @@ Route::post('teachers/update','TeachersController@update');
 Route::post('teachers/create/save','TeachersController@store');
 
 //admin
-Route::get('admin','AdminController@managementPage');
+Route::get('admin',
+    ['as'=>'admin',
+    'uses'=>'AdminController@managementPage']);
 Route::post('admin','AdminController@managementPageWithSearchResult');
-Route::post('admin/create', 'AdminController@addAdmin');
+Route::post('admin/add', 'AdminController@addAdmin');
+Route::post('admin/delete', 'AdminController@deleteAdmin');
 //Route::delete('admin/delete/{id}','AdminController@destroy');
 //Route::get('admin/show/{id}','AdminController@show');
 //Route::get('admin/create','AdminController@create');

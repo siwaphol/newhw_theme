@@ -19,6 +19,7 @@ class User extends Model implements AuthenticatableContract {
     const SEARCH_CRITERIA_ENGLISH_NAME = 1;
     const SEARCH_CRITERIA_THAI_NAME = 2;
     const SEARCH_CRITERIA_USERNAME = 3;
+    const SEARCH_CRITERIA_ID = 4;
 
 	use Authenticatable;
 

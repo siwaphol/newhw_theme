@@ -61,6 +61,7 @@
                     <div class="col-sm-2">
                         <select class="select" name="search_criteria_filter">
                             <optgroup label="Criteria">
+                                <option value="{{\App\User::SEARCH_CRITERIA_ID}}">ID</option>
                                 <option value="{{\App\User::SEARCH_CRITERIA_EMAIL}}">Email</option>
                                 <option value="{{\App\User::SEARCH_CRITERIA_ENGLISH_NAME}}">English Name</option>
                                 <option value="{{\App\User::SEARCH_CRITERIA_THAI_NAME}}">Thai Name</option>
@@ -74,33 +75,32 @@
     </div>
 
     <div class="content-group">
+        @if(isset($admins) && !is_null($admins))
         {{--Admin List--}}
         <div class="text-size-small text-uppercase text-semibold text-muted mb-10">Admin List</div>
         <div class="panel panel-body">
             <ul class="media-list">
+                @foreach($admins as $admin)
                 <li class="media">
                     <div class="media-body">
-                        <div class="media-heading text-semibold">James Alexander</div>
-                        <span class="text-muted">Development</span>
+                        <div class="media-heading text-semibold">{{$admin->firstname_en?:''}} {{$admin->lastname_en?:''}}</div>
+                        <span class="text-muted">Maybe display all roles?</span>
                     </div>
                     <div class="media-right media-middle">
                         <ul class="icons-list text-nowrap">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="icon-menu9"></i></a>
-
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="#"><i class="icon-comment-discussion pull-right"></i> Start chat</a></li>
-                                    <li><a href="#"><i class="icon-phone2 pull-right"></i> Make a call</a></li>
-                                    <li><a href="#"><i class="icon-mail5 pull-right"></i> Send mail</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
+                                    <li><a href="#" data-user-id="{{$admin->id}}" class="delete-btn"><i class="icon-comment-discussion pull-right"></i> Delete From Role</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
                 </li>
+                @endforeach
             </ul>
         </div>
+        @endif
         {{--End Admin List--}}
 
         {{--Search Results--}}
@@ -121,7 +121,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="icon-menu9"></i></a>
 
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="#"><i class="icon-comment-discussion pull-right"></i> Add</a></li>
+                                    <li><a href="#" data-user-id="{{$user->id}}" class="add-btn"><i class="icon-comment-discussion pull-right"></i> Add</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -139,9 +139,50 @@
 @section('script')
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/selects/select2.min.js')}}"></script>
     <script>
+        var addAdminURL = "{{url('admin/add')}}";
+        var deleteAdminURL = "{{url('admin/delete')}}";
+        function submitHiddenForm(url, value) {
+            var form = $('<form action="' + url + '" method="post">' +
+                    '<input type="text" name="user_id" value="' + value + '" />' +
+                    '</form>');
+            $('body').append(form);
+            form.submit();
+        }
         $(function() {
             $('.select').select2({
                 minimumResultsForSearch: Infinity
+            });
+
+            $(".delete-btn").on("click", function (e) {
+                e.preventDefault();
+                var userId = $(this).attr('data-user-id');
+                {{--$.post( "{{url('admin/delete')}}"--}}
+                        {{--,{user_id:userId}--}}
+                        {{--, function(data) {--}}
+                    {{--console.log(data);--}}
+                {{--})--}}
+                {{--.fail(function(data) {--}}
+                    {{--console.log(data);--}}
+                {{--});--}}
+                submitHiddenForm(deleteAdminURL,userId);
+
+                console.log('delete-admin clicked ',$(this).attr('data-user-id'));
+            });
+
+            $(".add-btn").on("click", function (e) {
+                e.preventDefault();
+                var userId = $(this).attr('data-user-id');
+                {{--$.post( "{{url('admin/add')}}"--}}
+                        {{--, {user_id:userId}--}}
+                        {{--, function(data) {--}}
+                    {{--console.log(data);--}}
+                {{--})--}}
+                {{--.fail(function(data) {--}}
+                    {{--console.log(data);--}}
+                {{--});--}}
+                submitHiddenForm(addAdminURL, userId);
+
+                console.log('add-admin clicked ',$(this).attr('data-user-id'));
             });
         })
     </script>
