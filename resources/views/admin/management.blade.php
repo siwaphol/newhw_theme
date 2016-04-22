@@ -138,6 +138,7 @@
 
 @section('script')
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/selects/select2.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/notifications/sweet_alert.min.js')}}"></script>
     <script>
         var addAdminURL = "{{url('admin/add')}}";
         var deleteAdminURL = "{{url('admin/delete')}}";
@@ -164,7 +165,21 @@
                 {{--.fail(function(data) {--}}
                     {{--console.log(data);--}}
                 {{--});--}}
-                submitHiddenForm(deleteAdminURL,userId);
+                swal({
+                    title: "Delete user id " + userId + " from admin role",
+                    text: "Are you sure to delete user from admin role?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                },function (isConfirm) {
+                    if(isConfirm){
+                        submitHiddenForm(deleteAdminURL,userId);
+                    }
+                });
 
                 console.log('delete-admin clicked ',$(this).attr('data-user-id'));
             });
