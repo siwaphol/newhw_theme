@@ -61,4 +61,9 @@ class Course_Section extends Model {
     public function teachers(){
         return $this->belongsToMany('App\User', 'course_section', 'teacher_id','id')->withTimestamps();
     }
+    public function scopeCurrentSemester($query)
+    {
+        return $query->where('semester', '=', Session::get('semester'))
+            ->where('year', '=', Session::get('year'));
+    }
 }

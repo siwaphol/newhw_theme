@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
-
     public function managementPage()
     {
         $page_name = 'Admin';

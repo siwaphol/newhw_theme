@@ -154,13 +154,44 @@ class Course_SectionController extends Controller
 
     }
     public function selectcreate(){
+        $courses = Course::lists('name','id');
 
-        return view('course_section.selectcreate');
+        $out = array();
+        foreach ($courses as $key => $value){
+            $out[$key] = $key . ' ' . $value;
+        }
+        $courses = $out;
+
+        return view('course_section.selectcreate', compact('courses'));
     }
-    public function createteacher(){
-        $courseid=$_POST['courseid'];
-        $section=$_POST['sectionid'];
-        return view('course_section.createteacher')->with('course',array('co'=>$courseid,'sec'=>$section));
+    public function createteacher(Request $request){
+        $courseid=$request->input('courseid');
+        $section=(int)$request->input('sectionid');
+
+        $currentCourseAllSection = \App\Course_Section::currentSemester()->lists('section');
+        $currentCourseAllSection = $currentCourseAllSection->toArray();
+        $startSection = 1;
+        $sections = array();
+        for ($i=1; $i<=$section; $i++){
+            $newSectionStr = str_pad($startSection, 3, '0', STR_PAD_LEFT);
+            while(in_array($newSectionStr, $currentCourseAllSection)){
+                $startSection++;
+                $newSectionStr = str_pad($startSection, 3, '0', STR_PAD_LEFT);
+            }
+            $sections[] = $newSectionStr;
+            $currentCourseAllSection[] = $newSectionStr;
+        }
+
+        $teachers = User::teacher()->currentSemester()->get();
+        $out = array();
+        foreach ($teachers as $teacher){
+            $out[$teacher->id] = $teacher->firstname_en . ' ' . $teacher->lastname_en;
+        }
+        $teachers = $out;
+
+        $course = Course::find($courseid);
+
+        return view('course_section.createteacher', compact('sections', 'teachers', 'course'));
     }
     public function saveteacher(){
 
@@ -204,6 +235,7 @@ class Course_SectionController extends Controller
         $result = @file_get_contents($fn,false,$context);
         return $result;
     }
+
     /**
      * @input text from web page (not html value)
      * @return collection of all course

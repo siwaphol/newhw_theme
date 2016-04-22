@@ -8,6 +8,13 @@
                     <div class="panel-heading" align="center">Add Lecturer</div>
 
                     <div class="panel-body">
+                        @if ($errors->any())
+                            <ul class="alert alert-danger">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
                         <hr/>
 
                         {!! Form::open(['url' => 'teachers/create/save']) !!}
@@ -48,13 +55,6 @@
                         </div>
                         {!! Form::close() !!}
 
-                        @if ($errors->any())
-                            <ul class="alert alert-danger">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
                     </div>
                 </div>
             </div>
