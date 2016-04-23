@@ -15,6 +15,14 @@
                             </ul>
                         @endif
 
+                        @if(Session::has('successMessage'))
+                            <ul class="alert alert-success">
+                                @foreach(Session::get('successMessage') as $aSuccess)
+                                    <li>{{$aSuccess}}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+
                         {!! Form::open(['url'=>'course_section/createteacher/']) !!}
                         <div class="form-group">
                             {!! Form::label('courseid','Course')!!}

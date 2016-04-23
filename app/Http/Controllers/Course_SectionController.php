@@ -217,6 +217,7 @@ class Course_SectionController extends Controller
 
 //        dd($validator->fails());
         $errors = array();
+        $success = array();
         $hasError = false;
         for($i = 0; $i < count($sections); $i++){
             $courseSectionExist = \App\Course_Section::currentSemester()
@@ -225,44 +226,33 @@ class Course_SectionController extends Controller
                 ->where('teacher_id', '=', $teacherIds[$i])
                 ->first();
 
+            $teacher = User::find($teacherIds[$i]);
             if(!is_null($courseSectionExist)){
                 $errors[] = 'course ' . $courseId . ' section ' . $sections[$i]
-                    . ' teacher id: ' . $teacherIds[$i] . ' is already exist.';
+                    . ' teacher id: ' . $teacherIds[$i] . '(' .$teacher->firstname_en . ' ' . $teacher->lastname_en . ') is already exist.';
                 $hasError = true;
+                continue;
             }
+
+            $newCourseSection = new \App\Course_Section();
+            $newCourseSection->course_id = $courseId;
+            $newCourseSection->section = $sections[$i];
+            $newCourseSection->teacher_id = $teacherIds[$i];
+            $newCourseSection->semester = Session::get('semester');
+            $newCourseSection->year = Session::get('year');
+            $newCourseSection->save();
+
+            $success[] = 'course ' . $courseId . ' section ' . $sections[$i]
+                . ' teacher id: ' . $teacherIds[$i] . '(' .$teacher->firstname_en . ' ' . $teacher->lastname_en . ') is successfully created.';
         }
+
         if($hasError){
-//            return redirect('course_section/selectcreate')
-            return \Redirect::back();
-//                ->withErrors($errors);
+            return redirect('course_section/selectcreate')
+                ->with(['successMessage'=>$success])
+                ->withErrors($errors);
         }
 
-        dd('no errors');
-        $courseid=$_POST['courseid'];
-        $sectionid=$_POST['sectionid'];
-        $teacherid=$_POST['teacherid'];
-        $count=count($sectionid);
-
-        for($i=0;$i<$count;$i++) {
-
-            $check = DB::select('select tea.firstname_th as firstname,tea.lastname_th as lastname from course_section cs
-                          left JOIN users tea on cs.teacher_id=tea.id
-                          where cs.course_id=? and cs.section=? and cs.teacher_id=?
-                          and cs.semester=? and cs.year=?', array($courseid, $sectionid[$i], $teacherid[$i], Session::get('semester'), Session::get('year')));
-
-            if (count($check) == 0) {
-            $cs = new CS();
-            $cs->course_id = $courseid;
-            $cs->section = $sectionid[$i];
-            $cs->teacher_id = $teacherid[$i];
-            $cs->semester = Session::get('semester');
-            $cs->year = Session::get('year');
-            $cs->save();
-            }
-
-        }
-
-        return redirect('course_section');
+        return redirect('course_section/selectcreate')->with(['successMessage'=>$success]);
     }
 
     public function file_get_contents_utf8($fn) {
