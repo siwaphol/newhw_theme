@@ -193,13 +193,55 @@ class Course_SectionController extends Controller
 
         return view('course_section.createteacher', compact('sections', 'teachers', 'course'));
     }
-    public function saveteacher(){
+    public function saveteacher(Request $request){
 
+        //courseid
+        //sectionid
+        //teacherid
+//        dd($request->all());
+
+        $validator = \Validator::make($request->all(),[
+            'courseid' => 'required',
+            'sectionid' => 'required|array|section3',
+            'teacherid' => 'required|array'
+        ]);
+        
+        if($validator->fails()){
+            return redirect('course_section/selectcreate')
+                ->withErrors($validator);
+        }
+
+        $courseId = $request->input('courseid');
+        $sections = $request->input('sectionid');
+        $teacherIds = $request->input('teacherid');
+
+//        dd($validator->fails());
+        $errors = array();
+        $hasError = false;
+        for($i = 0; $i < count($sections); $i++){
+            $courseSectionExist = \App\Course_Section::currentSemester()
+                ->where('course_id', '=', $courseId)
+                ->where('section', '=', $sections[$i])
+                ->where('teacher_id', '=', $teacherIds[$i])
+                ->first();
+
+            if(!is_null($courseSectionExist)){
+                $errors[] = 'course ' . $courseId . ' section ' . $sections[$i]
+                    . ' teacher id: ' . $teacherIds[$i] . ' is already exist.';
+                $hasError = true;
+            }
+        }
+        if($hasError){
+//            return redirect('course_section/selectcreate')
+            return \Redirect::back();
+//                ->withErrors($errors);
+        }
+
+        dd('no errors');
         $courseid=$_POST['courseid'];
         $sectionid=$_POST['sectionid'];
         $teacherid=$_POST['teacherid'];
         $count=count($sectionid);
-
 
         for($i=0;$i<$count;$i++) {
 
