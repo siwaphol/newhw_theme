@@ -92,8 +92,26 @@ class Course_SectionController extends Controller
     }
 
     public  function create(){
+        $teachers = User::teacher()->currentSemester()->get(['id', 'firstname_en', 'lastname_en']);
+        $out = array();
+        foreach ($teachers as $teacher){
+            $out[$teacher->id] = $teacher->firstname_en . ' ' . $teacher->lastname_en;
+        }
+        $teachers = $out;
 
-        return view('course_section.create');
+        $courses = Course::lists('name','id');
+        $out = array();
+        foreach ($courses as $key => $value){
+            $out[$key] = $key . ' ' . $value;
+        }
+        $courses = $out;
+
+        $sections = array();
+        for($i=1; $i<=20 ; $i++){
+            $sections[] = str_pad($i,3,'0',STR_PAD_LEFT);
+        }
+
+        return view('course_section.create', compact('teachers','courses', 'sections'));
     }
 
     /**
