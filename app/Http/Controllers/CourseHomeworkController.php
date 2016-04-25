@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Course_Section;
 use App\Homework;
 use App\HomeworkFolder;
 use App\HomeworkStudent;
@@ -345,6 +346,14 @@ class CourseHomeworkController extends Controller {
         } else {
             return Response::make('Internal server error' , 500);
         }
+    }
+
+    public function createAssignment($course_id)
+    {
+        $course = Course::find($course_id);
+        $sections = Course_Section::currentSemester()->where('course_id', '=', $course_id)->get();
+
+        return view('homework.assignment.create', compact('course', 'sections'));
     }
 
     public function homeworkCreate($course_id){

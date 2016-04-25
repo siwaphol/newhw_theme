@@ -34,17 +34,6 @@
                                     <input type="text" class="form-control hidden" id="extension" name="extension">
                                 </div>
                             </div>
-                            {{--test--}}
-                            {{--<div class="form-group newfiletype" style="display:none;">--}}
-                                {{--<label class="control-label col-sm-2" for="newextension">Extension<i--}}
-                                            {{--style="color: red;">*</i></label>--}}
-
-                                {{--<div class="col-sm-8">--}}
-                                    {{--<input type="text" class="form-control" name="newextension" id="newextension"--}}
-                                           {{--maxlength="20" placeholder="Ex. c, cpp (use comma for multiple extension)">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--end test--}}
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="filedetail">Detail</label>
 

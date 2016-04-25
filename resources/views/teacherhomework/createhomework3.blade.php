@@ -23,6 +23,7 @@
                 <button type="button" class="btn btn-default" id="file_add_btn">
                     <span class="extraicon-file-add"></span>
                 </button>
+                <a href="{{url('assignment/create')}}/{{$course_id}}">Create New Assignment(new)</a>
             </div>
         </div>
 
