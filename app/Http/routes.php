@@ -30,7 +30,6 @@ Route::post('index/uploadFiles', 'CourseHomeworkController@uploadFiles');
 //physical homework (In progress)
 Route::get('testexcel','ExcelFileController@index');
 
-//Route::get('index/previewupload', 'HomeController@preview1');
 //Route::get('course/{course_id}', 'CourseHomeworkController@show');
 
 //homework management section

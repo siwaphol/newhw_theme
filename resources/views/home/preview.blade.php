@@ -102,87 +102,6 @@
                             </div>
                         @endif
 
-                        {{--@if(Auth::user()->isAdmin() || Auth::user()->isTeacher()||Auth::user()->isStudentandTa()||Auth::user()->isTa())--}}
-                            {{--<h4 align="center">Students enrollment </h4>--}}
-                            {{--<div class="table-responsive">--}}
-                                {{--<table class="table" id="example1" cellspacing="0" width="100%">--}}
-                                    {{--<thead>--}}
-                                    {{--<tr>--}}
-                                        {{--<th>Student ID</th>--}}
-                                        {{--<th>Name</th>--}}
-                                        {{--<th>Status</th>--}}
-                                    {{--</tr>--}}
-                                    {{--</thead>--}}
-
-                                    {{--<tbody>--}}
-                                    {{--@foreach($homework as $aHomework)--}}
-                                        {{--<tr>--}}
-                                            {{--<td>{!! link_to_action('StudentsController@show',$item->studentid,array('id'=>$item->studentid,'course'=>$course['co'],'sec'=>$course['sec']))!!}</td>--}}
-                                            {{--<td>{!! link_to_action('StudentsController@show',$item->firstname." ".$item->lastname,array('id'=>$item->studentid,'course'=>$course['co'],'sec'=>$course['sec']))!!}</td>--}}
-                                            {{--<td>{{ $item->status}}</td>--}}
-                                        {{--</tr>--}}
-                                    {{--@endforeach--}}
-                                    {{--</tbody>--}}
-
-                                    {{--<tfoot>--}}
-                                    {{--<tr>--}}
-                                        {{--<th>Student ID</th>--}}
-                                        {{--<th>Name</th>--}}
-                                        {{--<th>Status</th>--}}
-                                    {{--</tr>--}}
-                                    {{--</tfoot>--}}
-                                {{--</table>--}}
-                            {{--</div>--}}
-                        {{--@endif--}}
-
-                        {{--@if(Auth::user()->isStudent())--}}
-                            {{--<h4 align="center">Homework list </h4>--}}
-                            {{--<div class="table-responsive">--}}
-                                {{--<table class="table" id="example1" cellspacing="0" width="100%">--}}
-                                    {{--<thead>--}}
-                                    {{--<tr>--}}
-                                        {{--@if($homework->count())--}}
-                                            {{--@foreach($homework as $aHomework)--}}
-                                                {{--<?php--}}
-{{--//                                                $pattern = '/(_?\{)(.*)(\}_?)/i';--}}
-{{--//                                                $replacement = '';--}}
-{{--//                                                $name = preg_replace($pattern, $replacement, $aHomework->name);--}}
-                                                {{--?>--}}
-
-                                                {{--<th>--}}
-                                                    {{--<p align="center">{{$aHomework->name}}<br/>--}}
-                                                        {{--<span class="label label-warning">{{$aHomework->s_due_date}}</span><br/>--}}
-                                                        {{--<span class="label label-danger">{{$aHomework->s_accept_date}}</span>--}}
-                                                    {{--</p>--}}
-                                                {{--</th>--}}
-                                            {{--@endforeach--}}
-                                        {{--@endif--}}
-                                    {{--</tr>--}}
-                                    {{--</thead>--}}
-
-                                    {{--<tbody>--}}
-
-                                    {{--</tbody>--}}
-
-                                    {{--<tfoot>--}}
-                                    {{--<tr>--}}
-                                        {{--@if($homework->count())--}}
-                                            {{--@foreach($homework as $aHomework)--}}
-                                                {{--<th>--}}
-                                                    {{--<button type="button"--}}
-                                                            {{--data-homework-id="{{$aHomework->id}}"--}}
-                                                            {{--data-accept-filename="{{str_replace('{id}',\Auth::user()->id,$aHomework->name)}}"--}}
-                                                            {{--data-accept-filetype="{{$aHomework->extension}}"--}}
-                                                            {{--class="btn btn-default student-button"><i class="fa fa-upload"></i></button>--}}
-                                                {{--</th>--}}
-                                            {{--@endforeach--}}
-                                        {{--@endif--}}
-                                    {{--</tr>--}}
-                                    {{--</tfoot>--}}
-                                {{--</table>--}}
-                            {{--</div>--}}
-                        {{--@endif--}}
-
                         <h4 align="center">Students enrollment </h4>
                         <div class="table-responsive">
                             <table class="table" id="example1" cellspacing="0" width="100%">
@@ -223,11 +142,13 @@
                                         @foreach($homework as $aHomework)
                                             @if(Auth::user()->isStudent())
                                                 <th>
-                                                    <button type="button"
-                                                            data-homework-id="{{$aHomework->id}}"
-                                                            data-accept-filename="{{str_replace('{id}',\Auth::user()->id,$aHomework->name)}}"
-                                                            data-accept-filetype="{{$aHomework->extension}}"
-                                                            class="btn btn-default student-button"><i class="fa fa-upload"></i></button>
+                                                    <p align="center">
+                                                        <button type="button"
+                                                                data-homework-id="{{$aHomework->id}}"
+                                                                data-accept-filename="{{str_replace('{id}',\Auth::user()->id,$aHomework->name)}}"
+                                                                data-accept-filetype="{{$aHomework->extension}}"
+                                                                class="btn btn-default student-button"><i class="fa fa-upload"></i></button>
+                                                    </p>
                                                 </th>
                                             @endif
                                             @if(Auth::user()->isTeacher()||Auth::user()->isAdmin()||Auth::user()->isStudentandTa()||Auth::user()->isTa())
@@ -250,10 +171,8 @@
                                             <td>{{ $student->pivot->status}}</td>
                                             @foreach($homework as $aHomework)
                                                 {{-- หาใน $student->submitted_homework ว่า pivot->status เป็นเท่าไหร่--}}
-                                                @if(!empty($student->submittedHomework()->find($aHomework->id)))
-                                                    <?php $hwStatus = $student->submittedHomework()->find($aHomework->id)->pivot->status;
-                                                    var_dump($hwStatus);
-                                                    ?>
+                                                @if(!is_null($student) && !empty($student->submittedHomework->find($aHomework->id)))
+                                                    <?php $hwStatus = $student->submittedHomework->find($aHomework->id)->pivot->status; ?>
                                                     <td>
                                                         <p align="center">
                                                             @if($hwStatus==='1')
@@ -272,12 +191,13 @@
                                             @endforeach
                                         </tr>
                                     @endforeach
+                                {{--Student Role--}}
                                 @else
                                     <tr>
                                         @foreach($homework as $aHomework)
                                             {{-- หาใน $student->submitted_homework ว่า pivot->status เป็นเท่าไหร่--}}
-                                            @if(!empty($sent->submittedHomework()->find($aHomework->id)))
-                                                <?php $hwStatus = $sent->submittedHomework()->find($aHomework->id)->pivot->status; ?>
+                                            @if(!is_null($sent) && !empty($sent->submittedHomework->find($aHomework->id)))
+                                                <?php $hwStatus = $sent->submittedHomework->find($aHomework->id)->pivot->status; ?>
                                                 <td>
                                                     <p align="center">
                                                         @if($hwStatus==='1')
@@ -296,52 +216,6 @@
                                     </tr>
                                 @endif
 
-                                {{--@if($homework->count())--}}
-                                    {{--@foreach($homework as $aHomework)--}}
-                                        {{--<tr>--}}
-
-                                        {{--</tr>--}}
-                                    {{--@endforeach--}}
-                                {{--@endif--}}
-                                {{--@foreach($homework->students as $aStudent)--}}
-
-                                    {{--<tr>--}}
-                                        {{--@if(Auth::user()->isAdmin()||Auth::user()->isTeacher()||Auth::user()->isTa()||Auth::user()->isStudentandTa())--}}
-                                            {{--<td>{!! link_to_action('StudentsController@show',$aStudent->id,array('id'=>$aStudent->id,'course'=>$course_no,'sec'=>$section))!!}</td>--}}
-                                            {{--<td>{!! link_to_action('StudentsController@show',$aStudent->firstname_en." ".$aStudent->lastname_en,array('id'=>$aStudent->id,'course'=>$course_no,'sec'=>$section))!!}</td>--}}
-                                            {{--<td>{{ $item->status}}</td>--}}
-                                        {{--@endif--}}
-
-                                        {{--@if($homework->count())--}}
-                                            {{--@foreach($homework as $key2)--}}
-
-                                                {{--<?php--}}
-                                                {{--$sql = DB::select('select * from homework_student where homework_id = ? and student_id=?--}}
-                                                                   {{--and course_id=? and section=?', array($key2->id, $item->studentid, $course['co'], $course['sec']));--}}
-                                                {{--$hw = count($sql);--}}
-
-                                                {{--if ($hw > 0) {--}}
-                                                    {{--if ($sql[0]->status == 1) {--}}
-                                                        {{--echo "<td ><p align='center'>OK</p></td>";--}}
-                                                    {{--} elseif ($sql[0]->status == 2) {--}}
-                                                        {{--echo "<td><p align='center'>LATE</p></td>";--}}
-                                                    {{--} elseif ($sql[0]->status == 3) {--}}
-                                                        {{--echo "<td><p align='center'>!!!</p></td>";--}}
-                                                    {{--} else {--}}
-
-                                                        {{--echo "<td ><p align='center'>-</p></td>";--}}
-                                                    {{--}--}}
-
-                                                {{--} else {--}}
-                                                    {{--echo "<td><p align='center'>-</p></td>";--}}
-                                                {{--}--}}
-                                                {{--?>--}}
-
-                                            {{--@endforeach--}}
-                                        {{--@endif--}}
-                                    {{--</tr>--}}
-
-                                {{--@endforeach--}}
                                 </tbody>
                             </table>
                         </div>

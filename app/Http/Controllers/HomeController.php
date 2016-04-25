@@ -172,6 +172,8 @@ class HomeController extends Controller
                         ->wherePivot('semester','=',$currentSemester)
                         ->wherePivot('year','=',$currentYear);
             }])->where('id','=',$course_no)->first();
+
+            $sent = $sent->students->first();
 //            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
 //                            from course_student cs
 //                            left join users stu on cs.student_id=stu.id
@@ -181,7 +183,6 @@ class HomeController extends Controller
 //        dd($sent->toJson());
 
         $removeHeader = true;
-
 //        return view('home.preview', compact('teachers', 'ta', 'student', 'homework', 'sent', 'removeHeader','teachersAndTA','course_no','section'))->with('course', array('co' => $course_no, 'sec' => $section));
         return view('home.preview', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
     }

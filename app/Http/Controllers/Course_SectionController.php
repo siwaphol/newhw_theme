@@ -160,16 +160,13 @@ class Course_SectionController extends Controller
         $sec = $_POST['sec'];
 
         $result=DB::select('select * from course_section where course_id=? and section=? ',array($course,$sec));
-       dd($result);
         $count=count($result);
         if($count>0){
             return 0;
 
-        }else{
-            return 1;
         }
 
-
+        return 1;
     }
     public function selectcreate(){
         $courses = Course::lists('name','id');

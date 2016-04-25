@@ -1,8 +1,7 @@
 @extends('app')
 @section('css')
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.css"/>
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    {{--<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.css">--}}
+    <link href="{{asset('limitless_assets/css/icons/fontawesome/styles.min.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('/css/bootstrap-datetimepicker/bootstrap-datetimepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/bootstrap-multiselect/bootstrap-multiselect.css') }}"/>
     <link rel="stylesheet" href="{{ asset('/css/material-design-iconic-font.min.css') }}"/>
@@ -82,7 +81,8 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    {{--<script type="text/javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>--}}
+    <script type="text/javascript" src="{{ asset('limitless_assets/js\plugins/tables/datatables/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/moment-with-locales.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/bootstrap/transition.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/bootstrap/collapse.js') }}"></script>
