@@ -351,9 +351,14 @@ class CourseHomeworkController extends Controller {
     public function createAssignment($course_id)
     {
         $course = Course::find($course_id);
-        $sections = Course_Section::currentSemester()->where('course_id', '=', $course_id)->get();
+        $sections = Course_Section::currentSemester()->where('course_id', '=', $course_id)->orderBy('section')->get();
 
-        return view('homework.assignment.create', compact('course', 'sections'));
+        $distinctSection = array();
+        foreach ($sections as $aSection){
+            $distinctSection[$aSection->section] = $aSection->section;
+        }
+
+        return view('homework.assignment.create', compact('course', 'sections','distinctSection'));
     }
 
     public function homeworkCreate($course_id){
