@@ -58,7 +58,11 @@ class Homework extends Model {
             ->where('semester','=',$semester)
             ->where('year','=',$year);
     }
-
+    public function scopeCurrentSemester($query)
+    {
+        return $query->where('semester', '=', \Session::get('semester'))
+            ->where('year', '=', \Session::get('year'));
+    }
     /**
      * Custom funciton
      */

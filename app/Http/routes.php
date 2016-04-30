@@ -39,6 +39,7 @@ Route::get('homework/create2/{course_id}','CourseHomeworkController@create2');
 Route::post('homework/create','CourseHomeworkController@homeworkPostCreate');
 Route::get('homework/result','CourseHomeworkController@result' );
 Route::get('assignment/create/{course_id}', 'CourseHomeworkController@createAssignment');
+Route::post('assignment', 'CourseHomeworkController@store');
 
 //homework
 Route::post('index/homework/editstatus','Homework1Controller@editstatus');

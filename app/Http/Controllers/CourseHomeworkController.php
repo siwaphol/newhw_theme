@@ -185,15 +185,6 @@ class CourseHomeworkController extends Controller {
 
         return $result;
     }
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
 
 	/**
 	 * Display the specified resource.
@@ -351,6 +342,9 @@ class CourseHomeworkController extends Controller {
     public function createAssignment($course_id)
     {
         $course = Course::find($course_id);
+        $page_name = $course->id . " " . $course->name;
+        $title = 'New Assignment ' . $course->id;
+        $sub_name = "New Assignment";
         $sections = Course_Section::currentSemester()->where('course_id', '=', $course_id)->orderBy('section')->get();
 
         $distinctSection = array();
@@ -358,7 +352,68 @@ class CourseHomeworkController extends Controller {
             $distinctSection[$aSection->section] = $aSection->section;
         }
 
-        return view('homework.assignment.create', compact('course', 'sections','distinctSection'));
+        //TODO-nong ถ้า section ไหนเคยสร้างการบ้านแล้วไม่ต้อง hidden กับ disable
+        return view('homework.assignment.create', compact('title','page_name','sub_name','course', 'sections','distinctSection'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+//        dd($request->input());
+        $validator = \Validator::make($request->all(),[
+            'course_id' => 'required',
+            'name' => 'required',
+            'type' => 'required',
+            'section' => 'required|array',
+            'due_date' => 'required|array',
+            'due_time' => 'required|array',
+            'accept_date' => 'required|array',
+            'accept_time' => 'required|array',
+        ]);
+
+        if($validator->fails()){
+            return redirect(url('assignment/create/'.$request->input('course_id')))
+                ->withErrors($validator);
+        }
+
+//        dd($request->input());
+//        dd(auth()->user()->id);
+        //TODO-nong check if due/accept date time
+
+        $input = $request->all();
+        for($i = 0 ; $i < count($input['section']); $i++){
+            $newHW = Homework::currentSemester()
+            ->where('course_id', $input['course_id'])
+            ->where('section', $input['section'][$i])
+            ->first();
+
+            if(is_null($newHW)){
+                $newHW = new Homework();
+                $newHW->course_id = $input['course_id'];
+                $newHW->section = $input['section'][$i];
+            }
+
+            $newHW->name = $input['name'];
+            $newHW->type_id = 1; // test
+            $newHW->detail = $input['details'];
+            $newHW->assign_date = Carbon::now();
+            $newHW->due_date = Carbon::createFromFormat('Y-m-d H:i',
+                $input['due_date'][$i] . ' ' . $input['due_time'][$i]);
+            $newHW->accept_date = Carbon::createFromFormat('Y-m-d H:i',
+                $input['accept_date'][$i] . ' ' . $input['accept_time'][$i]);
+            $newHW->created_by = auth()->user()->id;
+            $newHW->semester = Session::get('semester');
+            $newHW->year = Session::get('year');
+            $newHW->save();
+        }
+
+        dd('save complete', $newHW);
+//        dd('complete: ',$request->input());
     }
 
     public function homeworkCreate($course_id){
