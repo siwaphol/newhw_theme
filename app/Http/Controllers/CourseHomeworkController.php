@@ -356,6 +356,29 @@ class CourseHomeworkController extends Controller {
         return view('homework.assignment.create', compact('title','page_name','sub_name','course', 'sections','distinctSection'));
     }
 
+    public function isCorrectTimeFormat($time_string)
+    {
+        $timeArr = explode(":", $time_string);
+        if(count($timeArr)!==2){
+            return false;
+        }
+
+        return is_numeric($timeArr[0]) && is_numeric($timeArr[1]) &&
+            (int)$timeArr[0]>=0 && (int)$timeArr[0]<=23 &&//hour
+            (int)$timeArr[1]>=0 && (int)$timeArr[1]<=59;
+    }
+
+    protected function isCorrectDateFormat($value, $format)
+    {
+        if (! is_string($value) && ! is_numeric($value)) {
+            return false;
+        }
+
+//        dd('value: ',$value,'format: ',$format);
+        $parsed = date_parse_from_format($format, $value);
+
+        return $parsed['error_count'] === 0 && $parsed['warning_count'] === 0;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -381,15 +404,42 @@ class CourseHomeworkController extends Controller {
             $sectionCount = count($request->input('section'));
             $indexArr = ['due_date','due_time', 'accept_date', 'accept_time'];
             $indexCount = array();
+            $countOK = true;
             for ($i=0; $i<count($indexArr); $i++){
                 $indexCount[$i] = count($request->input($indexArr[$i]));
                 if($indexCount[$i]!==$sectionCount){
                     $validator->errors()->add($indexArr[$i]
                         , $indexArr[$i] . ' count is ' . $indexCount[$i] . ' but section count is ' . $sectionCount);
+                    $countOK = false;
                 }
             }
+
+            // Check time and date format
+            if($countOK){
+                for($i=0;$i<$sectionCount;$i++){
+                    if(!$this->isCorrectTimeFormat($request->input('due_time')[$i])){
+                        $validator->errors()->add('due_time'.$request->input('section')[$i]
+                            , 'Incorrect section '.$request->input('section')[$i].' due time');
+                    }
+
+                    if(!$this->isCorrectDateFormat($request->input('due_date')[$i], 'Y-m-d')){
+                        $validator->errors()->add('due_date'.$request->input('section')[$i]
+                            , 'Incorrect section '.$request->input('section')[$i].' due date');
+                    }
+
+                    if(!$this->isCorrectTimeFormat($request->input('accept_time')[$i])){
+                        $validator->errors()->add('accept_time'.$request->input('section')[$i]
+                            , 'Incorrect section '.$request->input('section')[$i].' accept time');
+                    }
+
+                    if(!$this->isCorrectDateFormat($request->input('accept_date')[$i], 'Y-m-d')){
+                        $validator->errors()->add('accept_date'.$request->input('section')[$i]
+                            , 'Incorrect section '.$request->input('section')[$i].' accept date');
+                    }
+                }
+            }
+
         });
-        //TODO-nong check if due/accept date time
 
         if($validator->fails()){
             return redirect(url('assignment/create/'.$request->input('course_id')))

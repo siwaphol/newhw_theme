@@ -62,43 +62,47 @@
             </div>
         </div>
 
-        @foreach($distinctSection as $section)
-            <div class="panel panel-body border-top-primary hidden" id="section-{{$section}}-panel">
+        @foreach($distinctSection as $c_section)
+            <div class="panel panel-body border-top-primary hidden" id="section-{{$c_section}}-panel">
                 {{--Assign Date & Time ควรจะถูกกำหนดหลังจากที่ข้อมูลถูกต้อง และบันทึกลงฐานข้อมูลสำเร็จ--}}
                 {{--<div class="form-group">--}}
-                    {{--<label for="" class="control-label col-lg-2">Section {{$section->section}} Assign Date</label>--}}
+                    {{--<label for="" class="control-label col-lg-2">Section {{$c_section->section}} Assign Date</label>--}}
                     {{--<div class="col-lg-4">--}}
                         {{--{!! Form::input( 'date','assign_date[]',null,['class'=>'form-control']) !!}--}}
                     {{--</div>--}}
                 {{--</div>--}}
                 {{--<div class="form-group">--}}
-                    {{--<label for="" class="control-label col-lg-2">Section {{$section->section}} Assign Time</label>--}}
+                    {{--<label for="" class="control-label col-lg-2">Section {{$c_section->section}} Assign Time</label>--}}
                     {{--<div class="col-lg-4">--}}
                         {{--{!! Form::input( 'time','assign_time[]',null,['class'=>'form-control']) !!}--}}
                     {{--</div>--}}
                 {{--</div>--}}
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-2">Section {{$section}} Due Date</label>
+                    <label for="" class="control-label col-lg-2">Section {{$c_section}} Due Date</label>
                     <div class="col-lg-4">
-                        {!! Form::input( 'date','due_date[]',null,['class'=>'form-control', 'disabled']) !!}
+                        <input type="date" name="due_date[]" class="form-control" disabled>
+                        {{--{!! Form::input( 'date','due_date[]',null,['class'=>'form-control', 'disabled']) !!}--}}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-2">Section {{$section}} Due Time</label>
+                    <label for="" class="control-label col-lg-2">Section {{$c_section}} Due Time</label>
                     <div class="col-lg-4">
-                        {!! Form::input( 'time','due_time[]','00:00',['class'=>'form-control', 'disabled']) !!}
+                        <input type="time" name="due_time[]" value="00:00" class="form-control" disabled>
+                        {{--{!! Form::input( 'time','due_time[]','00:00',['class'=>'form-control', 'disabled']) !!}--}}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-2">Section {{$section}} Accept Date</label>
+                    <label for="" class="control-label col-lg-2">Section {{$c_section}} Accept Date</label>
                     <div class="col-lg-4">
-                        {!! Form::input( 'date','accept_date[]',null,['class'=>'form-control', 'disabled']) !!}
+                        <input type="date" name="accept_date[]" class="form-control" disabled>
+                        {{--{!! Form::input( 'date','accept_date[]',null,['class'=>'form-control', 'disabled']) !!}--}}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-2">Section {{$section}} Accept Time</label>
+                    <label for="" class="control-label col-lg-2">Section {{$c_section}} Accept Time</label>
                     <div class="col-lg-4">
-                        {!! Form::input( 'time','accept_time[]','23:59',['class'=>'form-control', 'disabled']) !!}
+                        <input type="time" name="accept_time[]" value="23:59" class="form-control" disabled>
+                        {{--{!! Form::input( 'time','accept_time[]','23:59',['class'=>'form-control', 'disabled']) !!}--}}
                     </div>
                 </div>
             </div>
