@@ -155,6 +155,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         yajra\Datatables\DatatablesServiceProvider::class,
         'Maatwebsite\Excel\ExcelServiceProvider',
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*

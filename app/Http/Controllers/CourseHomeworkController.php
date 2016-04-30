@@ -376,14 +376,29 @@ class CourseHomeworkController extends Controller {
             'accept_time' => 'required|array',
         ]);
 
+        // ตรวจจำนวน array ของ date กับ time เท่ากับจำนวน section
+        $validator->after(function($validator) use ($request){
+            $sectionCount = count($request->input('section'));
+            $indexArr = ['due_date','due_time', 'accept_date', 'accept_time'];
+            $indexCount = array();
+            for ($i=0; $i<count($indexArr); $i++){
+                $indexCount[$i] = count($request->input($indexArr[$i]));
+                if($indexCount[$i]!==$sectionCount){
+                    $validator->errors()->add($indexArr[$i]
+                        , $indexArr[$i] . ' count is ' . $indexCount[$i] . ' but section count is ' . $sectionCount);
+                }
+            }
+        });
+        //TODO-nong check if due/accept date time
+
         if($validator->fails()){
             return redirect(url('assignment/create/'.$request->input('course_id')))
+                ->withInput()
                 ->withErrors($validator);
         }
 
 //        dd($request->input());
 //        dd(auth()->user()->id);
-        //TODO-nong check if due/accept date time
 
         $input = $request->all();
         for($i = 0 ; $i < count($input['section']); $i++){
@@ -400,7 +415,7 @@ class CourseHomeworkController extends Controller {
 
             $newHW->name = $input['name'];
             $newHW->type_id = 1; // test
-            $newHW->detail = $input['details'];
+            $newHW->detail = $input['detail'];
             $newHW->assign_date = Carbon::now();
             $newHW->due_date = Carbon::createFromFormat('Y-m-d H:i',
                 $input['due_date'][$i] . ' ' . $input['due_time'][$i]);

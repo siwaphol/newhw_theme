@@ -30,19 +30,19 @@
                 <div class="row">
                     <label for="name" class="control-label col-lg-2">File Name</label>
                     <div class="col-lg-10">
-                        {!! Form::input('text', 'name', null,['class'=>'form-control', 'placeholder'=>'ex. lab_01_{id}']) !!}
+                        {!! Form::input('text', 'name', old('name'),['class'=>'form-control', 'placeholder'=>'ex. lab_01_{id}']) !!}
                     </div>
                 </div>
                 <div class="row">
                     <label for="type_id" class="control-label col-lg-2">Extension</label>
                     <div class="col-lg-10">
-                        {!! Form::input('text', 'type', null,['class'=>'form-control', 'placeholder'=>'ex. .xls,.xlsx']) !!}
+                        {!! Form::input('text', 'type', old('type'),['class'=>'form-control', 'placeholder'=>'ex. .xls,.xlsx']) !!}
                     </div>
                 </div>
                 <div class="row">
                     <label for="details" class="control-label col-lg-2">Details</label>
                     <div class="col-lg-10">
-                        {!! Form::textarea( 'details', null,['class'=>'form-control']) !!}
+                        {!! Form::textarea( 'detail', old('detail'),['class'=>'form-control']) !!}
                     </div>
                 </div>
 

@@ -26,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
         Validator::replacer('section3', function($message, $attribute, $rule, $parameters) {
             return "section number must has length of 3";
         });
+
+        
     }
 
     /**
