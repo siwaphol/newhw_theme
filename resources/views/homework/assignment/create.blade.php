@@ -48,7 +48,7 @@
         </div>
 
         @foreach($distinctSection as $section)
-            <div class="panel panel-body border-top-primary" id="section-{{$section}}-panel">
+            <div class="panel panel-body border-top-primary hidden" id="section-{{$section}}-panel">
                 {{--Assign Date & Time ควรจะถูกกำหนดหลังจากที่ข้อมูลถูกต้อง และบันทึกลงฐานข้อมูลสำเร็จ--}}
                 {{--<div class="form-group">--}}
                     {{--<label for="" class="control-label col-lg-2">Section {{$section->section}} Assign Date</label>--}}
@@ -65,25 +65,25 @@
                 <div class="form-group">
                     <label for="" class="control-label col-lg-2">Section {{$section}} Due Date</label>
                     <div class="col-lg-4">
-                        {!! Form::input( 'date','due_date[]',null,['class'=>'form-control']) !!}
+                        {!! Form::input( 'date','due_date[]',null,['class'=>'form-control', 'disabled']) !!}
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="" class="control-label col-lg-2">Section {{$section}} Due Time</label>
                     <div class="col-lg-4">
-                        {!! Form::input( 'time','due_time[]','00:00',['class'=>'form-control']) !!}
+                        {!! Form::input( 'time','due_time[]','00:00',['class'=>'form-control', 'disabled']) !!}
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="" class="control-label col-lg-2">Section {{$section}} Accept Date</label>
                     <div class="col-lg-4">
-                        {!! Form::input( 'date','accept_date[]',null,['class'=>'form-control']) !!}
+                        {!! Form::input( 'date','accept_date[]',null,['class'=>'form-control', 'disabled']) !!}
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="" class="control-label col-lg-2">Section {{$section}} Accept Time</label>
                     <div class="col-lg-4">
-                        {!! Form::input( 'time','accept_time[]','23:59',['class'=>'form-control']) !!}
+                        {!! Form::input( 'time','accept_time[]','23:59',['class'=>'form-control', 'disabled']) !!}
                     </div>
                 </div>
             </div>
@@ -98,11 +98,38 @@
         $(function(){
             var $selectClass = $(".select");
 
+            function showAndHideSectionPanel(section, option) {
+                var $cSectionPanel = $("#section-"+section+"-panel");
+
+                if(option==='show'){
+//                    $cSectionPanel.prop("disabled", true);
+                    $cSectionPanel.find('input').each(function(index){
+                        $(this).prop("disabled", false);
+                    });
+                    $cSectionPanel.removeClass("hidden");
+                    return 0;
+                }
+
+//                $cSectionPanel.prop("disabled", false);
+                $cSectionPanel.find('input').each(function(index){
+                    $(this).prop("disabled", true);
+                });
+                $cSectionPanel.addClass("hidden");
+            }
+
             $selectClass.select2({
                 minimumResultsForSearch: "-1",
                 placeholder: "Click to select..."
             });
-            $selectClass.on("change", function (e) { console.log("change",e); });
+            $selectClass.on("change", function (e) {
+                console.log("change",e);
+                if(e.added){
+                    showAndHideSectionPanel(e.added.id,'show');
+                }
+                else{
+                    showAndHideSectionPanel(e.removed.id,'hidden');
+                }
+            });
 
             $("#select-all-btn").click(function (e) {
                 e.preventDefault();
