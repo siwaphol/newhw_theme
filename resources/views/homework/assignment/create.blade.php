@@ -102,7 +102,6 @@
                 var $cSectionPanel = $("#section-"+section+"-panel");
 
                 if(option==='show'){
-//                    $cSectionPanel.prop("disabled", true);
                     $cSectionPanel.find('input').each(function(index){
                         $(this).prop("disabled", false);
                     });
@@ -110,7 +109,6 @@
                     return 0;
                 }
 
-//                $cSectionPanel.prop("disabled", false);
                 $cSectionPanel.find('input').each(function(index){
                     $(this).prop("disabled", true);
                 });
@@ -134,10 +132,16 @@
             $("#select-all-btn").click(function (e) {
                 e.preventDefault();
                 $selectClass.select2('destroy').find('option').prop('selected', 'selected').end().select2();
+                $selectClass.find("option").each(function (index) {
+                    showAndHideSectionPanel($(this).val(),'show');
+                });
             });
             $("#deselect-all-btn").click(function (e) {
                 e.preventDefault();
                 $selectClass.select2('destroy').find('option').prop('selected', false).end().select2();
+                $selectClass.find("option").each(function (index) {
+                    showAndHideSectionPanel($(this).val(),'hidden');
+                });
             });
         });
     </script>
