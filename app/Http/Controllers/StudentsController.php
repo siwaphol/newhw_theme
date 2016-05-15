@@ -268,4 +268,9 @@ class StudentsController extends Controller {
             }
         }
     }
+
+    public function displayCourseHomeworkPage($course_id, $section)
+    {
+        return view('student.homework.index');
+    }
 }

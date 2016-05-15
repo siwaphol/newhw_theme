@@ -477,7 +477,8 @@ class CourseHomeworkController extends Controller {
             $newHW->save();
         }
 
-        dd('save complete', $newHW);
+        return redirect('assignment/create/'.$input['course_id']);
+//        dd('save complete', $newHW);
 //        dd('complete: ',$request->input());
     }
 

@@ -161,19 +161,54 @@ class HomeController extends Controller
         }
         else if (Auth::user()->isStudent()) {
             $currentStudentId = Auth::user()->id;
-            $sent = Course::with([
-                'students'=>function($q) use($section,$currentSemester,$currentYear,$currentStudentId){ //constraints on parent
-                $q->wherePivot('section','=',$section)
-                    ->wherePivot('semester','=',$currentSemester)
-                    ->wherePivot('year','=',$currentYear)
-                    ->wherePivot('student_id','=',$currentStudentId);
-            },'students.submittedHomework'=>function($q) use($section,$currentSemester,$currentYear){ //constraints on children
-                    $q->wherePivot('section','=',$section)
-                        ->wherePivot('semester','=',$currentSemester)
-                        ->wherePivot('year','=',$currentYear);
-            }])->where('id','=',$course_no)->first();
+//            $sent = Course::with([
+//                'students'=>function($q) use($section,$currentSemester,$currentYear,$currentStudentId){ //constraints on parent
+//                $q->wherePivot('section','=',$section)
+//                    ->wherePivot('semester','=',$currentSemester)
+//                    ->wherePivot('year','=',$currentYear)
+//                    ->wherePivot('student_id','=',$currentStudentId);
+//            },'students.submittedHomework'=>function($q) use($section,$currentSemester,$currentYear){ //constraints on children
+//                    $q->wherePivot('section','=',$section)
+//                        ->wherePivot('semester','=',$currentSemester)
+//                        ->wherePivot('year','=',$currentYear);
+//            }])->where('id','=',$course_no)->first();
 
-            $sent = $sent->students->first();
+            $sqlStr = "SELECT *
+            FROM course_student cs
+            LEFT JOIN homework h
+            ON cs.course_id=h.course_id and cs.section=h.section
+            LEFT JOIN homework_student hs
+            ON h.id=hs.homework_id
+            LEFT JOIN homework_types ht 
+            ON h.type_id=ht.id
+            WHERE 
+            cs.course_id='{$course_no}'
+            and cs.section='{$section}' 
+            and cs.semester='{$currentSemester}'
+            and cs.year='{$currentYear}'
+            and cs.student_id='{$currentStudentId}'
+            ";
+            $sent= DB::select($sqlStr);
+            foreach ($sent as $aHomework){
+                if(!is_null($aHomework)){
+                    switch ($aHomework->status){
+                        case 1:
+                            $aHomework->{"status_text"} = "OK";
+                            break;
+                        case 2:
+                            $aHomework->{"status_text"} = "LATE";
+                            break;
+                        case 3:
+                            $aHomework->{"status_text"} = "!!!";
+                            break;
+                    }
+                }
+
+                $aHomework->name = str_replace("{id}",$currentStudentId,$aHomework->name);
+            }
+//            dd($sent);
+
+//            $sent = $sent->students->first();
 //            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
 //                            from course_student cs
 //                            left join users stu on cs.student_id=stu.id
@@ -183,6 +218,10 @@ class HomeController extends Controller
 //        dd($sent->toJson());
 
         $removeHeader = true;
+
+        if(auth()->user()->isStudent())
+            return view('students.homework.index', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
+
 //        return view('home.preview', compact('teachers', 'ta', 'student', 'homework', 'sent', 'removeHeader','teachersAndTA','course_no','section'))->with('course', array('co' => $course_no, 'sec' => $section));
         return view('home.preview', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
     }
