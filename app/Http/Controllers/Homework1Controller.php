@@ -185,4 +185,9 @@ class Homework1Controller extends Controller {
 
     }
 
+	public function testPost(Request $request)
+	{
+		dd($request);
+	}
+
 }

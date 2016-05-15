@@ -63,6 +63,7 @@ Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);
+Route::post('test-post-homework','Homework1Controller@testPost');
 
 Route::get('assign', 'HomeController@assign');
 Route::get('course_section/auto', 'Course_SectionController@auto');

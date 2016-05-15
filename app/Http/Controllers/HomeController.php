@@ -205,6 +205,12 @@ class HomeController extends Controller
                 }
 
                 $aHomework->name = str_replace("{id}",$currentStudentId,$aHomework->name);
+                $extensions = explode(",",$aHomework->extension );
+                $aHomework->{"expected_name"} = "";
+                foreach ($extensions as $ext){
+                    $aHomework->{"expected_name"} .= $aHomework->name . $ext . ",";
+                }
+                $aHomework->{"expected_name"} = rtrim($aHomework->{"expected_name"}, ",");
             }
 //            dd($sent);
 

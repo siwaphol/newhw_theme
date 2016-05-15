@@ -51,9 +51,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="active border-double">
-                            <td colspan="8" class="text-semibold">Today</td>
-                        </tr>
                         <?php $odd=true;?>
                         @foreach($sent as $aHomework)
                         <tr role="row" class="{{$odd?'odd':'even'}}">
@@ -92,7 +89,11 @@
                                 @endif
                             </td>
                             <td>
-                                {!! Form::file('test') !!}
+                                {!! Form::open(['url'=>'test-post-homework','method'=>'post','files'=>true]) !!}
+                                <input type="hidden" value="{{$aHomework->name}}" name="name">
+                                <input type="hidden" value="{{$aHomework->extension}}" name="extension">
+                                {!! Form::file('test',["data-expected-name"=>$aHomework->expected_name]) !!}
+                                {!! Form::close() !!}
                             </td>
                         </tr>
                         @endforeach
@@ -106,5 +107,18 @@
 
 @endsection
 @section('script')
-
+    <script type="text/javascript">
+        $(function() {
+            $("input:file").change(function (){
+                var fileName = $(this).val();
+                var expectedName = $(this).attr("data-expected-name").split(",");
+                if(expectedName.indexOf(fileName)>-1){
+                    console.log("should submit");
+                    return;
+                }
+                console.log("should alert wrong file name");
+//                $(this).parent().trigger('submit');
+            });
+        });
+    </script>
 @endsection
