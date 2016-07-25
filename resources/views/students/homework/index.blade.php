@@ -48,13 +48,17 @@
                                 style="width: 15%;" aria-label="Assigned users: activate to sort column ascending">
                                 Upload
                             </th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                style="width: 15%;" aria-label="Assigned users: activate to sort column ascending">
+                                Submit
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php $odd=true;?>
+                        <?php $odd=true; ?>
                         @foreach($sent as $aHomework)
                         <tr role="row" class="{{$odd?'odd':'even'}}">
-                            <?php $odd=!$odd?>
+                            <?php $odd=!$odd; ?>
                             <td>
                                 <div class="text-semibold">{{$aHomework->name}} ({{$aHomework->extension}})
                                 </div>
@@ -89,11 +93,12 @@
                                 @endif
                             </td>
                             <td>
-                                {!! Form::open(['url'=>'test-post-homework','method'=>'post','files'=>true]) !!}
                                 <input type="hidden" value="{{$aHomework->name}}" name="name">
                                 <input type="hidden" value="{{$aHomework->extension}}" name="extension">
-                                {!! Form::file('test',["data-expected-name"=>$aHomework->expected_name]) !!}
-                                {!! Form::close() !!}
+                                {!! Form::file('test-'.$aHomework->id,["data-expected-name"=>$aHomework->expected_name]) !!}
+                            </td>
+                            <td>
+                                <a class="btn btn-default" href="{{url('homework/upload')}}/{{$aHomework->id}}">Upload</a>
                             </td>
                         </tr>
                         @endforeach
@@ -118,6 +123,20 @@
                 }
                 console.log("should alert wrong file name");
 //                $(this).parent().trigger('submit');
+            });
+
+            $(".submit-form").submit(function (e) {
+                var self = this;
+                console.log('submiting',self);
+                e.preventDefault();
+
+                if($(self).find("input[name='test']").val()){
+                    self.submit();
+                }else{
+                    alert('error no file upload');
+                }
+
+                return false;
             });
         });
     </script>

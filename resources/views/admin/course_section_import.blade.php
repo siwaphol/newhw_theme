@@ -68,8 +68,7 @@
 
             },
             "dom" : 'l<"#mycustombutton.dataTables_filter">ftipr'
-
-        } );
+        });
 
         $('#mycustombutton').html('' +
                 '<label style="margin-left: 5px;"> Success Filter: ' +

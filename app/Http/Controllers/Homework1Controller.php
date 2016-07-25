@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Course;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -188,6 +189,28 @@ class Homework1Controller extends Controller {
 	public function testPost(Request $request)
 	{
 		dd($request);
+	}
+
+    public function getUploadView($id)
+    {
+        $section = Session::get('section');
+        $currentSemester = Session::get('semester');
+        $currentYear = Session::get('year');
+        $course_no = Session::get('course_no');
+
+        $courseWithTeaAssist = Course::with(['teachers'=>function($q) use($section,$currentSemester,$currentYear){
+            $q->where('course_section.section','=',$section)
+                ->where('course_section.semester','=',$currentSemester)
+                ->where('course_section.year','=',$currentYear);
+        }])
+            ->with(['assistants'=>function($q) use($section,$currentSemester,$currentYear) {
+                $q->where('course_ta.section', '=', $section)
+                    ->where('course_ta.semester', '=', $currentSemester)
+                    ->where('course_ta.year', '=', $currentYear);
+            }])->where('id','=',$course_no)->first();
+        Session::put('course_name', $courseWithTeaAssist->name);
+
+        return view('students.homework.upload', compact('courseWithTeaAssist','course_no','section'));
 	}
 
 }

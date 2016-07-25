@@ -15,9 +15,7 @@
                                 <tr>
                                     <th>SL.</th><th>Name</th><th>Actions</th>
                                 </tr>
-                                {{-- */$x=0;/* --}}
-                                @foreach($crud-teachers as $item)
-                                    {{-- */$x++;/* --}}
+                                @foreach($crud_teachers as $item)
                                     <tr>
                                         <td>{{ $x }}</td><td><a href="{{ url('/crud-teachers', $item->id) }}">{{ $item->name }}</a></td><td><a href="{{ url('/crud-teachers/'.$item->id.'/edit') }}">Edit</a> / {{ Form::open(['method'=>'delete','action'=>['Crud-teachersController@destroy',$item->id]]) }}<button type="submit" class="btn btn-link">Delete</button>{{ Form::close() }}</td>
                                     </tr>

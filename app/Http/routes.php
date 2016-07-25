@@ -64,6 +64,7 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 Route::post('test-post-homework','Homework1Controller@testPost');
+Route::get('homework/upload/{id}', 'Homework1Controller@getUploadView');
 
 Route::get('assign', 'HomeController@assign');
 Route::get('course_section/auto', 'Course_SectionController@auto');

@@ -100,6 +100,8 @@ class HomeController extends Controller
     {
         $course_no = $_GET['course'];
         $section = $_GET['sec'];
+        Session::put('course_no', $course_no);
+        Session::put('section', $section);
         $currentSemester = Session::get('semester');
         $currentYear = Session::get('year');
 
