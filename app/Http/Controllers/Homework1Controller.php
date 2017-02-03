@@ -173,6 +173,7 @@ class Homework1Controller extends Controller {
         $homeworkStudent = HomeworkStudent::where('course_id', $input['course_id'])
             ->where('section', $input['section'])
             ->where('student_id', $input['student_id'])
+            ->where('homework_id', $input['homework_id'])
             ->where('semester', $input['semester'])
             ->where('year', $input['year'])
             ->first();

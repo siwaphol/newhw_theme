@@ -175,10 +175,13 @@ class HomeController extends Controller
 //                        ->wherePivot('year','=',$currentYear);
 //            }])->where('id','=',$course_no)->first();
 
-            $sqlStr = "SELECT *
+            $sqlStr = "SELECT cs.course_id,cs.section,cs.student_id,cs.semester,cs.year
+            ,h.id ,h.name,h.type_id,h.detail,h.assign_date,h.due_date,h.accept_date
+            ,hs.homework_id,hs.homework_name,hs.status,hs.submitted_at,hs.path
+            ,ht.extension
             FROM course_student cs
             LEFT JOIN homework h
-            ON cs.course_id=h.course_id and cs.section=h.section
+            ON cs.course_id=h.course_id and cs.section=h.section and h.semester='{$currentSemester}' and h.year='{$currentYear}'
             LEFT JOIN homework_student hs
             ON h.id=hs.homework_id
             LEFT JOIN homework_types ht 
@@ -190,7 +193,9 @@ class HomeController extends Controller
             and cs.year='{$currentYear}'
             and cs.student_id='{$currentStudentId}'
             ";
+
             $sent= DB::select($sqlStr);
+
             foreach ($sent as $aHomework){
                 if(!is_null($aHomework)){
                     switch ($aHomework->status){
