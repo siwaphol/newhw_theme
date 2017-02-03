@@ -59,6 +59,13 @@
                         @foreach($sent as $aHomework)
                         <tr role="row" class="{{$odd?'odd':'even'}}">
                             <?php $odd=!$odd; ?>
+                            {!! Form::open(['url'=>'homework/upload', 'method'=>'post', 'files'=>true]) !!}
+                                <input type="hidden" name="course_id" value="{{$course_no}}">
+                                <input type="hidden" name="section" value="{{$section}}">
+                                <input type="hidden" name="homework_id" value="{{$aHomework->id}}">
+                                <input type="hidden" name="student_id" value="{{auth()->user()->id}}">
+                                <input type="hidden" name="semester" value="{{Session::get('semester')}}">
+                                <input type="hidden" name="year" value="{{Session::get('year')}}">
                             <td>
                                 <div class="text-semibold">{{$aHomework->name}} ({{$aHomework->extension}})
                                 </div>
@@ -98,8 +105,9 @@
                                 {!! Form::file('test-'.$aHomework->id,["data-expected-name"=>$aHomework->expected_name]) !!}
                             </td>
                             <td>
-                                <a class="btn btn-default" href="{{url('homework/upload')}}/{{$aHomework->id}}">Upload</a>
+                                <button class="btn btn-default" type="submit">Upload</button>
                             </td>
+                            {!! Form::close() !!}
                         </tr>
                         @endforeach
                         </tbody>

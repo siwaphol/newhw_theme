@@ -13,6 +13,7 @@
 {{--<script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/styling/switchery.min.js')}}"></script>--}}
 {{--<script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/styling/uniform.min.js')}}"></script>--}}
 <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/selects/bootstrap_multiselect.js')}}"></script>
+<script type="text/javascript" src="{{asset('limitless_assets/js/plugins/plugins/notifications/sweetalert2.min.js')}}"></script>
 {{--<script type="text/javascript" src="{{asset('limitless_assets/js/plugins/ui/moment/moment.min.js')}}"></script>--}}
 {{--<script type="text/javascript" src="{{asset('limitless_assets/js/plugins/pickers/daterangepicker.js')}}"></script>--}}
 

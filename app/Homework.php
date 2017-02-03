@@ -6,14 +6,20 @@ use DB;
 
 class Homework extends Model {
 
+    const STATUS_OK = 1;
+    const STATUS_LATE = 2;
+    const STATUS_TOO_LATE = 3;
+
     protected $table = 'homework';
 
     //s is short for simple :P
     protected $appends = ['extension','s_due_date','s_accept_date','no_id_name'];
-//    protected $fillable = ['course_id', 'section', 'name', 'type_id'
-//        ,'detail', 'assign_date', 'due_date'
-//        ,'accept_date','created_by','semester','year'];
-    protected $guarded = [];
+    protected $fillable = ['course_id', 'section', 'name', 'type_id'
+        ,'detail', 'assign_date', 'due_date'
+        ,'accept_date','created_by','semester','year'];
+
+    protected $dates =['assign_date', 'due_date', 'accept_date'];
+//    protected $guarded = [];
 
     public function extension(){
         return $this->hasMany('App\HomeworkType','id','type_id')->first();

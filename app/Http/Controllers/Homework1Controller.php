@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Course;
+use App\Homework;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -150,6 +151,50 @@ class Homework1Controller extends Controller {
 	{
 		Homework1s::destroy($id);
 		return redirect('homework1');
+	}
+
+    public function uploadHomework(Request $request)
+    {
+        dd($request->input(), $request->file('test-'.$request->input('homework_id')));
+        if (!$request->hasFile('test-'.$request->input('homework_id'))){
+            flash('File not found', 'danger');
+            return redirect()->back();
+        }
+
+        $input = $request->input();
+        $now = Carbon::now();
+        $homework = Homework::find($input['homework_id']);
+        if (is_null($homework)){
+            flash('Current homework id not found' . $input['homework_id'], 'danger');
+            return redirect()->back();
+        }
+
+        $homeworkStudent = HomeworkStudent::where('course_id', $input['course_id'])
+            ->where('section', $input['section'])
+            ->where('student_id', $input['student_id'])
+            ->where('semester', $input['semester'])
+            ->where('year', $input['year'])
+            ->first();
+        if (is_null($homeworkStudent))
+            $homeworkStudent = new HomeworkStudent();
+
+        $homeworkStudent->fill($input);
+        // check status
+        if ($now->gt($homework->accept_date)){
+            $homeworkStudent->status = Homework::STATUS_TOO_LATE;
+        }elseif ($now->gt($homework->due_date)){
+            $homeworkStudent->status = Homework::STATUS_LATE;
+        }else{
+            $homeworkStudent->status = Homework::STATUS_OK;
+        }
+
+
+
+        $homeworkStudent->submitted_at = $now;
+        $homeworkStudent->save();
+
+        flash('Upload successfully', 'success');
+        return redirect()->back();
 	}
 
     public function exportzip(){

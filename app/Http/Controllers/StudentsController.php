@@ -24,9 +24,11 @@ class StudentsController extends Controller {
 	 */
 	public function index()
 	{
-		$students =DB::select('select * from users WHERE  role_id=0001');
+//		$students =DB::select('select * from users WHERE  role_id=0001');
+        $students = User::student()->currentSemester()->first();
+        dd($students);
 		//return view('students.index', compact('students'));
-        return view('students.index');
+        return view('students.index', compact('students'));
 	}
 
 	/**

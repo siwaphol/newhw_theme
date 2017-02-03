@@ -8,5 +8,6 @@ class HomeworkStudent extends Model {
 
     protected $fillable = ['course_id', 'section', 'homework_id',
         'homework_name', 'student_id', 'status', 'submitted_at','semester','year'];
+    protected $dates = ['submitted_at'];
 
 }

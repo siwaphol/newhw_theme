@@ -59,6 +59,10 @@ Route::post('homework/create/save','Homework1Controller@store');
 Route::patch('homework/update/{id}','Homework1Controller@update');
 Route::post('homework/showlist','Homework1Controller@showlist');
 Route::get('homework/{id}/edit','Homework1Controller@edit');
+
+// สำหรับนักเรียนอัพโหลดไฟล์การบ้านขึ้นมา
+Route::post('homework/upload', 'Homework1Controller@uploadHomework');
+
 Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',

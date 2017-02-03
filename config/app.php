@@ -156,6 +156,7 @@ return [
         yajra\Datatables\DatatablesServiceProvider::class,
         'Maatwebsite\Excel\ExcelServiceProvider',
         Barryvdh\Debugbar\ServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
     ],
 
     /*
