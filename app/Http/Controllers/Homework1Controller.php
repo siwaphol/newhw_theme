@@ -155,8 +155,9 @@ class Homework1Controller extends Controller {
 
     public function uploadHomework(Request $request)
     {
-        dd($request->input(), $request->file('test-'.$request->input('homework_id')));
-        if (!$request->hasFile('test-'.$request->input('homework_id'))){
+        $fileName = 'test-'.$request->input('homework_id');
+//        dd($request->input(), $request->file($fileName));
+        if (!$request->hasFile($fileName)){
             flash('File not found', 'danger');
             return redirect()->back();
         }
@@ -188,8 +189,15 @@ class Homework1Controller extends Controller {
             $homeworkStudent->status = Homework::STATUS_OK;
         }
 
+        $destinationPath = storage_path(
+            'homework/'. $input['year'] . '_' . $input['semester']
+            . '/' .$input['course_id'] . '/' . str_pad($input['section'],3,'0', STR_PAD_LEFT) . '/' .
+            $input['student_id']
+        );
+        $request->file($fileName)->move($destinationPath,$request->file($fileName)->getClientOriginalName());
 
-
+        $homeworkStudent->homework_name = $request->file($fileName)->getClientOriginalName();
+        $homeworkStudent->path = $destinationPath;
         $homeworkStudent->submitted_at = $now;
         $homeworkStudent->save();
 

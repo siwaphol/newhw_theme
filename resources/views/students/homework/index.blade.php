@@ -16,7 +16,7 @@
     @endforeach
 
     <div class="content">
-
+        @include('flash::message')
         <!-- Task manager table -->
         <div class="panel panel-white">
             <div class="panel-heading">
