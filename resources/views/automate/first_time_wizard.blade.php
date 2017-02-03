@@ -126,12 +126,12 @@
     <script type="text/javascript" src="{{asset('limitless_assets/js/core/libraries/jasny_bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/validation/validate.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/extensions/cookie.js')}}"></script>
-    <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/notifications/sweet_alert.min.js')}}"></script>
 
     <script type="text/javascript">
         var getAllCourseSectionURL = '{{url('api/v1/auto_ajax1')}}';
         var storeEachCourseSection = '{{url('api/v1/auto_ajax2')}}';
         var spinGifPath = '{{asset('images/spinner.gif')}}';
+        var bigSpinner = '{{asset('images/bigloading.gif')}}'
     </script>
     <script type="text/javascript" src="{{asset('limitless_assets/js/pages/wizard_steps.js')}}"></script>
 

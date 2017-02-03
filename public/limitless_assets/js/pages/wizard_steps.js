@@ -207,6 +207,16 @@ $(function() {
                 });
                 var allRequests = notSkipCourseSection.length;
                 var counter = 0;
+                swal({
+                    title:'Please wait while importing courses'
+                    ,imageUrl: bigSpinner
+                    ,showConfirmButton:false
+                    ,showCancelButton:false
+                    ,allowOutsideClick: false
+                    ,allowEscapeKey: false
+                    ,closeOnConfirm:false
+                    ,closeOnCancel: false
+                });
                 console.log('allRequests : ', allRequests);
                 // start ajaxManager
                 ajaxManager.run();

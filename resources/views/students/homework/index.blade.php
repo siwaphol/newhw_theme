@@ -42,6 +42,9 @@
                                 style="width: 15%;" aria-label="Latest update: activate to sort column ascending">Accept Date Time
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                style="width: 15%;" aria-label="Latest update: activate to sort column ascending">Submitted Date Time
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                 style="width: 15%;" aria-label="Status: activate to sort column ascending">Status
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
@@ -90,6 +93,13 @@
                                     <div class="input-group-addon"><i class="icon-calendar2 position-left"></i></div>
                                     <input type="text" class="form-control datepicker hasDatepicker"
                                            value="{{$aHomework->accept_date}}" id="dp1463318786677">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group input-group-transparent">
+                                    <div class="input-group-addon"><i class="icon-calendar2 position-left"></i></div>
+                                    <input type="text" class="form-control datepicker hasDatepicker"
+                                           value="{{$aHomework->submitted_at}}" id="dp1463318786677">
                                 </div>
                             </td>
                             <td>
