@@ -126,7 +126,7 @@
                                     @if($homework->count())
                                         @foreach($homework as $aHomework)
                                                 <th>
-                                                    <a href="#get-homework-zip/{{$aHomework->id}}" type="button">Export to zip file(In progress...)</a>
+                                                    <a href="{{url('homework/download')}}/{{$aHomework->id}}?course_no={{$course_no}}&section={{$section}}" type="button">Export to zip file(In progress...)</a>
                                                 </th>
                                         @endforeach
                                     @endif

@@ -190,12 +190,12 @@ class Homework1Controller extends Controller {
             $homeworkStudent->status = Homework::STATUS_OK;
         }
 
-        $pattern = '/{\w+}/';
-        $replace = '';
+//        $pattern = '/{\w+}/';
+//        $replace = '';
         $destinationPath = storage_path(
             'homework/'. $input['year'] . '_' . $input['semester']
             . '/' .$input['course_id'] . '/' . str_pad($input['section'],3,'0', STR_PAD_LEFT)
-            . '/' . preg_replace($pattern, $replace, $homework->name)
+            . '/' . $homework->no_id_name
         );
         $request->file($fileName)->move($destinationPath,$request->file($fileName)->getClientOriginalName());
 
@@ -267,6 +267,31 @@ class Homework1Controller extends Controller {
         Session::put('course_name', $courseWithTeaAssist->name);
 
         return view('students.homework.upload', compact('courseWithTeaAssist','course_no','section'));
+	}
+
+    public function downloadZip(Request $request,$id)
+    {
+        $homework = Homework::find($id);
+        if (!$request->has('course_no') || !$request->has('section'))
+            return abort(404);
+
+        $input = $request->input();
+
+        $zipper = new \Chumper\Zipper\Zipper();
+        $files = glob(storage_path(
+            'homework/'. Session::get('year').'_'.Session::get('semester')
+            .'/'.$input['course_no']
+            .'/'.str_pad($input['section'],3,STR_PAD_LEFT)
+            .'/'.$homework->no_id_name.'/*'
+        ));
+
+        if (empty($files))
+            return abort(404);
+
+        $outputName = $input['course_no'].'_'.$input['section'].'_'.$homework->no_id_name.'.zip';
+        $zipper->make('zip/'.$outputName)->add($files)->close();
+
+        return Response()->download('zip/'.$outputName);
 	}
 
 }

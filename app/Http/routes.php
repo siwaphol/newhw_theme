@@ -63,6 +63,8 @@ Route::get('homework/{id}/edit','Homework1Controller@edit');
 
 // สำหรับนักเรียนอัพโหลดไฟล์การบ้านขึ้นมา
 Route::post('homework/upload', 'Homework1Controller@uploadHomework');
+// for zip download
+Route::get('homework/download/{id}', 'Homework1Controller@downloadZip');
 
 Route::controllers([
     'auth' => 'Auth\AuthController',
