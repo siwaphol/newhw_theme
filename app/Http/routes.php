@@ -13,6 +13,8 @@
 //this route actually accept first incoming request
 Route::get('/', 'WelcomeController@index');
 
+Route::get('/github/login', 'Auth\AuthController@redirectToProvider');
+
 Route::get('teststylus', 'WelcomeController@testStylus');
 
 Route::get('home', 'HomeController@firstpage');

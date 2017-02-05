@@ -157,6 +157,7 @@ return [
         'Maatwebsite\Excel\ExcelServiceProvider',
         Barryvdh\Debugbar\ServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -209,7 +210,7 @@ return [
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
