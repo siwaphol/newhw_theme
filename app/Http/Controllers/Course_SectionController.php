@@ -2,6 +2,7 @@
 
 use App\Http\Requests\course_section;
 use App\Http\Controllers\Controller;
+use App\Semesteryears;
 use App\User;
 use DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -433,7 +434,7 @@ class Course_SectionController extends Controller
 
         $semester=Session::get('semester');
         $year=substr(Session::get('year'),-2);
-        if(env('APP_DEBUG')){
+        if(env('IMPORT_TEST')){
             $tempRegistPath = storage_path('temp\regist157.txt');
             $result = \File::get($tempRegistPath);
         }else{
@@ -610,12 +611,21 @@ class Course_SectionController extends Controller
             )
         );
 
+        $semesterYear = Semesteryears::where('semester', $request->input('semester'))
+            ->where('year', $request->input('year'))
+            ->first();
+        if (is_null($semesterYear)){
+            $semesterYear = new Semesteryears();
+            $semesterYear->fill($request->input());
+            $semesterYear->save();
+        }
+
         // Request should have query string like ?semester=2&year=2557
         $semester= $request->input('semester');
         $year=substr($request->input('year'),-2);
         $virtualId = 1;
 
-        if(env('APP_DEBUG')){
+        if(env('IMPORT_TEST')){
             $tempRegistPath = storage_path('temp\regist157.txt');
             $result = \File::get($tempRegistPath);
         }else{
@@ -688,9 +698,18 @@ class Course_SectionController extends Controller
                 {
                     foreach($t_array_for_section as $teacher)
                     {
-                        $a_course_array = array('id'=>$course_no,'name'=>$course_name,'section'=>$course_sec,
-                            'teacher' => ['firstname_en'=>$teacher['firstname_en'], 'lastname_en'=>$teacher['lastname_en'],
-                                'firstname_th'=>$teacher['firstname_th'], 'lastname_th'=>$teacher['lastname_th']], 'skip'=> false, 'virtual_id'=>$virtualId++);
+                        $a_course_array = array(
+                            'id'=>$course_no,
+                            'name'=>$course_name,
+                            'section'=>$course_sec,
+                            'teacher' => [
+                                'firstname_en'=>$teacher['firstname_en'],
+                                'lastname_en'=>$teacher['lastname_en'],
+                                'firstname_th'=>$teacher['firstname_th'],
+                                'lastname_th'=>$teacher['lastname_th']
+                            ],
+                            'skip'=> false,
+                            'virtual_id'=>$virtualId++);
                         array_push($all_courses_array,$a_course_array);
                     }
                 }
@@ -730,7 +749,8 @@ class Course_SectionController extends Controller
         //find if there is this teacher in database
         try {
             $teacher = User::where('firstname_en',trim($request->input('teacher.firstname_en')))
-                ->where('lastname_en',trim($request->input('teacher.lastname_en')))->firstOrFail();
+                ->where('lastname_en',trim($request->input('teacher.lastname_en')))
+                ->firstOrFail();
             $teacher_id = $teacher->id;
         }catch (ModelNotFoundException $e){
             $last_emp_id = User::lastEmployee()->id;

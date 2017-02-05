@@ -11,6 +11,7 @@ use App\Course;
 
 //use Request;
 use App\Http\Requests\CourseRequest;
+ use App\Http\Requests\Request;
  use App\User;
  use yajra\Datatables\Datatables;
 
@@ -86,12 +87,16 @@ use App\Http\Requests\CourseRequest;
         $course=Course::find($id);
         return view('course.edit',compact('course'));
     }
-    public function saveedit(){
 
-    $input = Request::get('id');
+    public function saveedit(Request $request){
+
+    $input = $request->input('id');
     $Course=Course::findOrfail($input);
-    $input=Request::all();
+
+    $input = $request->all();
+
     $Course->fill($input)->save();
+
     return redirect('course');
 
 }
@@ -99,7 +104,6 @@ use App\Http\Requests\CourseRequest;
         $Course=Course::findOrfail($id);
         $Course->delete();
         return redirect('course');
-
     }
 
 }

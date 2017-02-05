@@ -192,8 +192,7 @@ class Homework1Controller extends Controller {
 
         $destinationPath = storage_path(
             'homework/'. $input['year'] . '_' . $input['semester']
-            . '/' .$input['course_id'] . '/' . str_pad($input['section'],3,'0', STR_PAD_LEFT) . '/' .
-            $input['student_id']
+            . '/' .$input['course_id'] . '/' . str_pad($input['section'],3,'0', STR_PAD_LEFT)
         );
         $request->file($fileName)->move($destinationPath,$request->file($fileName)->getClientOriginalName());
 
