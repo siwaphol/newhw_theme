@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Homework;
 use App\Http\Requests\course_section;
 use App\Http\Controllers\Controller;
 use App\Semesteryears;
@@ -37,6 +38,53 @@ class Course_SectionController extends Controller
                               ',array(Session::get('semester'),Session::get('year')));
 
         return view('course_section.index', compact('result'));
+    }
+
+    public function show(Request $request, $course_no, $section)
+    {
+        Session::put('course_no', $course_no);
+        Session::put('section', $section);
+        $currentSemester = Session::get('semester');
+        $currentYear = Session::get('year');
+        $temp = \App\Course_Section::where('course_id', $course_no)
+            ->where('section', $section)
+            ->where('semester', $currentSemester)
+            ->where('year', $currentYear)
+            ->count();
+
+        if ($temp<=0)
+            return abort(404);
+
+        $courseWithTeaAssist = Course::with(['teachers'=>function($q) use($section,$currentSemester,$currentYear){
+            $q->where('course_section.section','=',$section)
+                ->where('course_section.semester','=',$currentSemester)
+                ->where('course_section.year','=',$currentYear);
+        }])
+            ->with(['assistants'=>function($q) use($section,$currentSemester,$currentYear) {
+                $q->where('course_ta.section', '=', $section)
+                    ->where('course_ta.semester', '=', $currentSemester)
+                    ->where('course_ta.year', '=', $currentYear);
+            }])->where('id','=',$course_no)->first();
+
+        $student = User::student()
+            ->currentSemester()
+            ->get();
+
+        //การบ้านทั้งหมดที่นักเรียนต้องส่ง / All homework that should be submitted by students
+        $homework = Homework::fromCourseAndSection($course_no,$section,Session::get('semester'),Session::get('year'))
+            ->orderBy('due_date')
+            ->get();
+
+        $sent = DB::select('select cs.student_id as id,stu.firstname_th,stu.lastname_th,cs.status as status,
+                    stu.firstname_en, stu.lastname_en
+                        from course_student cs
+                        left join users stu 
+                        on cs.student_id=stu.id
+                       where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=?',
+            array($course_no, $section, Session::get('semester'), Session::get('year')));
+
+        $removeHeader = true;
+        return view('admin.dashboard', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
     }
 
     /**
