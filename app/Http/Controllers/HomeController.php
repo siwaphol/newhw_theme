@@ -141,39 +141,21 @@ class HomeController extends Controller
         }
 
         //การบ้านทั้งหมดที่นักเรียนต้องส่ง / All homework that should be submitted by students
-        $homework = Homework::fromCourseAndSection($course_no,$section,Session::get('semester'),Session::get('year'))->orderBy('due_date')->get();
+        $homework = Homework::fromCourseAndSection($course_no,$section,Session::get('semester'),Session::get('year'))
+            ->orderBy('due_date')
+            ->get();
 
         if (Auth::user()->isAdmin() || Auth::user()->isTeacher() || Auth::user()->isTa() || Auth::user()->isStudentandTa()) {
-            $sent = Course::with(['students'=>function($q) use($section,$currentSemester,$currentYear){
-                $q->wherePivot('section','=',$section)
-                    ->wherePivot('semester','=',$currentSemester)
-                    ->wherePivot('year','=',$currentYear)
-                    ->orderBy('id');
-            },'students.submittedHomework'=>function($q) use($section,$currentSemester,$currentYear){ //constraints on children
-                $q->wherePivot('section','=',$section)
-                    ->wherePivot('semester','=',$currentSemester)
-                    ->wherePivot('year','=',$currentYear);
-            }])->where('id','=',$course_no)->first();
-
-//            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
-//                            from course_student cs
-//                            left join users stu on cs.student_id=stu.id
-//                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=?',
-//                array($course_no, $section, Session::get('semester'), Session::get('year')));
+            $sent = DB::select('select cs.student_id as id,stu.firstname_th,stu.lastname_th,cs.status as status,
+                        stu.firstname_en, stu.lastname_en
+                            from course_student cs
+                            left join users stu 
+                            on cs.student_id=stu.id
+                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=?',
+                array($course_no, $section, Session::get('semester'), Session::get('year')));
         }
         else if (Auth::user()->isStudent()) {
             $currentStudentId = Auth::user()->id;
-//            $sent = Course::with([
-//                'students'=>function($q) use($section,$currentSemester,$currentYear,$currentStudentId){ //constraints on parent
-//                $q->wherePivot('section','=',$section)
-//                    ->wherePivot('semester','=',$currentSemester)
-//                    ->wherePivot('year','=',$currentYear)
-//                    ->wherePivot('student_id','=',$currentStudentId);
-//            },'students.submittedHomework'=>function($q) use($section,$currentSemester,$currentYear){ //constraints on children
-//                    $q->wherePivot('section','=',$section)
-//                        ->wherePivot('semester','=',$currentSemester)
-//                        ->wherePivot('year','=',$currentYear);
-//            }])->where('id','=',$course_no)->first();
 
             $sqlStr = "SELECT cs.course_id,cs.section,cs.student_id,cs.semester,cs.year
             ,h.id ,h.name,h.type_id,h.detail,h.assign_date,h.due_date,h.accept_date
@@ -236,7 +218,7 @@ class HomeController extends Controller
             return view('students.homework.index', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
 
 //        return view('home.preview', compact('teachers', 'ta', 'student', 'homework', 'sent', 'removeHeader','teachersAndTA','course_no','section'))->with('course', array('co' => $course_no, 'sec' => $section));
-        return view('home.preview', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
+        return view('admin.dashboard', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
     }
 
 //    public function preview1()

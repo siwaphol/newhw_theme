@@ -190,9 +190,12 @@ class Homework1Controller extends Controller {
             $homeworkStudent->status = Homework::STATUS_OK;
         }
 
+        $pattern = '/{\w+}/';
+        $replace = '';
         $destinationPath = storage_path(
             'homework/'. $input['year'] . '_' . $input['semester']
             . '/' .$input['course_id'] . '/' . str_pad($input['section'],3,'0', STR_PAD_LEFT)
+            . '/' . preg_replace($pattern, $replace, $homework->name)
         );
         $request->file($fileName)->move($destinationPath,$request->file($fileName)->getClientOriginalName());
 

@@ -22,39 +22,20 @@
             <div class="panel-heading">
                 <h6 class="panel-title">Homework</h6>
 
-            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer" style="overflow: scroll;">
                 <div class="datatable-scroll-lg">
                     <table class="table tasks-list table-lg dataTable no-footer" id="DataTables_Table_0" role="grid"
                            aria-describedby="DataTables_Table_0_info">
                         <thead>
                         <tr role="row">
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                style="width: 40%;" aria-label="Task Description: activate to sort column ascending">
-                                Homework Name
-                            </th>
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                style="width: 10%;" aria-label="Priority: activate to sort column ascending">Assign Date Time
-                            </th>
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                style="width: 15%;" aria-label="Latest update: activate to sort column ascending">Due Date Time
-                            </th>
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                style="width: 15%;" aria-label="Latest update: activate to sort column ascending">Accept Date Time
-                            </th>
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                style="width: 15%;" aria-label="Latest update: activate to sort column ascending">Submitted Date Time
-                            </th>
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                style="width: 15%;" aria-label="Status: activate to sort column ascending">Status
-                            </th>
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                style="width: 15%;" aria-label="Assigned users: activate to sort column ascending">
-                                Upload
-                            </th>
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                style="width: 15%;" aria-label="Assigned users: activate to sort column ascending">
-                                Submit
-                            </th>
+                            <th class="sorting">Homework Name</th>
+                            <th class="sorting" >Assign Date Time</th>
+                            <th class="sorting" >Due Date Time</th>
+                            <th class="sorting" >Accept Date Time</th>
+                            <th class="sorting" >Submitted Date Time</th>
+                            <th class="sorting">Status</th>
+                            <th class="sorting">File</th>
+                            {{--<th>Upload</th>--}}
                         </tr>
                         </thead>
                         <tbody>
@@ -62,13 +43,6 @@
                         @foreach($sent as $aHomework)
                         <tr role="row" class="{{$odd?'odd':'even'}}">
                             <?php $odd=!$odd; ?>
-                            {!! Form::open(['url'=>'homework/upload', 'method'=>'post', 'files'=>true]) !!}
-                                <input type="hidden" name="course_id" value="{{$course_no}}">
-                                <input type="hidden" name="section" value="{{$section}}">
-                                <input type="hidden" name="homework_id" value="{{$aHomework->id}}">
-                                <input type="hidden" name="student_id" value="{{auth()->user()->id}}">
-                                <input type="hidden" name="semester" value="{{Session::get('semester')}}">
-                                <input type="hidden" name="year" value="{{Session::get('year')}}">
                             <td>
                                 <div class="text-semibold">{{$aHomework->name}} ({{$aHomework->extension}})
                                 </div>
@@ -110,14 +84,23 @@
                                 @endif
                             </td>
                             <td>
-                                <input type="hidden" value="{{$aHomework->name}}" name="name">
-                                <input type="hidden" value="{{$aHomework->extension}}" name="extension">
-                                {!! Form::file('test-'.$aHomework->id,["data-expected-name"=>$aHomework->expected_name]) !!}
+                                {!! Form::open(['url'=>'homework/upload', 'method'=>'post', 'files'=>true]) !!}
+                                <div style="float:left;">
+                                    <input type="hidden" name="course_id" value="{{$course_no}}">
+                                    <input type="hidden" name="section" value="{{$section}}">
+                                    <input type="hidden" name="homework_id" value="{{$aHomework->id}}">
+                                    <input type="hidden" name="student_id" value="{{auth()->user()->id}}">
+                                    <input type="hidden" name="semester" value="{{Session::get('semester')}}">
+                                    <input type="hidden" name="year" value="{{Session::get('year')}}">
+                                    <input type="hidden" value="{{$aHomework->name}}" name="name">
+                                    <input type="hidden" value="{{$aHomework->extension}}" name="extension">
+                                    {!! Form::file('test-'.$aHomework->id,["data-expected-name"=>$aHomework->expected_name]) !!}
+                                </div>
+                                <div style="float: right;margin-top: -30px;">
+                                    <button  class="btn btn-default" type="submit">Upload</button>
+                                    {!! Form::close() !!}
+                                </div>
                             </td>
-                            <td>
-                                <button class="btn btn-default" type="submit">Upload</button>
-                            </td>
-                            {!! Form::close() !!}
                         </tr>
                         @endforeach
                         </tbody>

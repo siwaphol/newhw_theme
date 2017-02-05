@@ -1,19 +1,19 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
 //this route actually accept first incoming request
 Route::get('/', 'WelcomeController@index');
 
-Route::get('/github/login', 'Auth\AuthController@redirectToProvider');
+Route::get('test-replace', function (){
+   $string = 'lab01_{id}____{id}';
+   $pattern = '/{\w+}/';
+   $replace = '';
+   echo preg_replace($pattern, $replace, $string);
+});
+
+// routes for Oauth login
+Route::get('github/login', 'Auth\AuthController@redirectToProvider');
+// routes for receive Oauth return data from server
+Route::get('github/callback-url', 'Auth\AuthController@handleProviderCallback');
 
 Route::get('teststylus', 'WelcomeController@testStylus');
 
