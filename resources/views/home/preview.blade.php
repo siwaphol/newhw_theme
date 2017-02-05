@@ -251,7 +251,7 @@
         var _section = '{{$section}}';
         var _uploadURL = 'uploadFiles';
         var _sFileName = '{{$course_no}}' + '-' + '{{$section}}' + '-*.xls';
-        var _isStudent = {{\Auth::user()->isStudent()}};
+        var _isStudent = {{(\Auth::user()->isStudent()?'true':'false')}};
         var _sSwfPath = '{{asset('/libs/datatables/tabletools-2.2.4/swf/copy_csv_xls_pdf.swf')}}';
         var table;
 

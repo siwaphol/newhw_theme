@@ -191,6 +191,103 @@ class StudentsController extends Controller {
     }
     public function autoimport()
     {
+        libxml_use_internal_errors(false);
+        set_time_limit(0);
+
+        $semester=Session::get('semester');
+        $fullYear = Session::get('year');
+        $year=substr(Session::get('year'),-2);
+        $sql=DB::select('select *  from course_section where semester=? and year=?', array($semester, $fullYear));
+        $excelType = 'Excel2007';
+        $count=count($sql);
+        $j=0;
+        $k=0;
+
+        for($i=0;$i<$count;$i++){
+            $course = $sql[$i]->course_id;
+            $sec = $sql[$i]->section;
+            if($sec=='000'){
+                $fileupload_name = 'https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/stdtotal_xlsx.php?var=maxregist&COURSENO='.$course.'&SECLEC='.$sec.'&SECLAB=001&border=1&mime=xlsx&ctype=&';
+            }else {
+                $fileupload_name = 'https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/stdtotal_xlsx.php?var=maxregist&COURSENO='.$course.'&SECLEC='.$sec.'&SECLAB=000&border=1&mime=xlsx&ctype=&';
+            }
+            echo $course . " " . $sec . "</br>";
+            echo $fileupload_name . "</br>";
+//            dd($fileupload_name);
+//            $fileupload=storage_path('excel/file'.$i.'.xlsx');
+            $filename = 'file'.$i.'.xlsx';
+            $fileupload = tempnam(sys_get_temp_dir(), $filename);
+
+            if(copy($fileupload_name,$fileupload)){
+
+                $reader = \PHPExcel_IOFactory::createReader($excelType);
+                if (!$reader->canRead($fileupload)){
+                    echo 'cannot download file from ' . $course . ' - ' . $sec . "</br>";
+                    continue;
+                }
+
+                $sco[$j]=$course;
+                $sse[$j]=$sec;
+                $l=0;
+                $objPHPExcel =\PHPExcel_IOFactory::load($fileupload);
+
+                foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+                    $worksheetTitle     = $worksheet->getTitle();
+                    $highestRow         = $worksheet->getHighestRow(); // e.g. 10
+                    $highestColumn      = $worksheet->getHighestColumn(); // e.g 'F'
+                    $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($highestColumn);
+                    $nrColumns = ord($highestColumn) - 64;
+
+                    for ($row =8; $row <= $highestRow; ++ $row) {
+                        $cell = $worksheet->getCellByColumnAndRow(1,$row);
+                        $no = $cell->getValue();
+                        $cell = $worksheet->getCellByColumnAndRow(2,$row);
+                        $code = (string)$cell->getValue();
+                        $cell = $worksheet->getCellByColumnAndRow(3,$row);
+                        $fname = $cell->getValue();
+                        $cell = $worksheet->getCellByColumnAndRow(4,$row);
+                        $lname = $cell->getValue();
+                        $cell=$worksheet->getCellByColumnAndRow(5,$row);
+                        $status=$cell->getValue();
+
+                        if ($no>0 && $no<=200) {
+                            $reg=DB::select(' select * from course_student where course_id=? and section=? and student_id=?
+                                                  and semester=? and year=?',array($course,$sec,$code,Session::get('semester'),Session::get('year')));
+                            $user=DB::select('select * from users where id=? ',array($code));
+                            $cuser=count($user);
+                            $rowregist=count($reg);
+                            if ($rowregist==0 && $cuser==0 ) {
+                                //  $command =DB::insert('insert into students (id,studentName,status) values (?,?,?)',array($code,$fullnames,$status)) ;
+                                $command =DB::insert('insert into users (id,firstname_th,lastname_th,role_id) values (?,?,?,?)',array($code,$fname,$lname,'0001')) ;
+                                $regis =DB::insert('insert into course_student(student_id,course_id,section,status,semester,year) values (?,?,?,?,?,?)',array($code,$course,$sec,$status,Session::get('semester'),Session::get('year')));
+                                $l++;
+                            }
+                            if ($rowregist==0 && $cuser>0 ) {
+                                $regis =DB::insert('insert into course_student(student_id,course_id,section,status,semester,year) values (?,?,?,?,?,?)',array($code,$course,$sec,$status,Session::get('semester'),Session::get('year')));
+                                $l++;
+                            }
+                            if($rowregist>0){
+                                if($reg[0]->status!=$status){
+                                    $update=DB::update('update course_student set status=? where student_id=?
+                                                          and semester=? and year=?',array($status,$code,Session::get('semester'),Session::get('year')));
+                                }
+                            }
+
+                        }
+                    }
+                }
+                $stu[$j]=$l;
+                $j++;
+            }else{
+                $fco[$k]=$course;
+                $fse[$k]=$sec;
+                $k++;
+
+            }
+        }
+
+        dd('success');
+
         return view('students.autoinsert');
     }
 

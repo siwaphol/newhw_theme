@@ -137,7 +137,8 @@
                    <li><a href="{{url('first_time_wizard')}}"><i class="icon-magic-wand2"></i> First Time Wizard...</a></li>
                    <li class="dropdown-header"> Reg Website Import</li>
                    <li><a href="{{url('course_section/auto')}}"><i class="icon-cloud-download"></i> Course And Section</a></li>
-                   <li><a href="{{url('students/autoimport')}}"><i class="icon-cloud-download"></i> Students</a></li>
+                   <li><a href="{{url('students/autoimport')}}"><i class="icon-cloud-download"></i> Students For All Course and Section</a></li>
+                   <li><a href="#{{url('students/autoimport-select')}}"><i class="icon-cloud-download"></i> Students For Selected Section</a></li>
                    <li class="dropdown-header"> Excel Import</li>
                    <li><a href="#toStudentManagement"><i class="icon-file-excel"></i> Student</a></li>
                </ul>
