@@ -15,7 +15,8 @@
         "laravelcollective/html": "5.1.*",
         "barryvdh/laravel-debugbar": "^2.0",
         "laracasts/flash": "^2.0",
-        "laravel/socialite": "^2.0"
+        "laravel/socialite": "^2.0",
+        "chumper/zipper":"1.0.x"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

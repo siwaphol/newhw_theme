@@ -4,10 +4,9 @@
 Route::get('/', 'WelcomeController@index');
 
 Route::get('test-replace', function (){
-   $string = 'lab01_{id}____{id}';
-   $pattern = '/{\w+}/';
-   $replace = '';
-   echo preg_replace($pattern, $replace, $string);
+    $zipper = new \Chumper\Zipper\Zipper();
+    $files = glob(storage_path('homework'));
+    $zipper->make('zip/test.zip')->add($files)->close();
 });
 
 // routes for Oauth login
