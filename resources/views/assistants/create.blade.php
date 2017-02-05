@@ -1,9 +1,6 @@
 @extends('app')
 
 @section('content')
-
-
-
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -50,5 +47,15 @@
                 </div>
             </div>
         </div>
+
+        {{--<div id="myApp">--}}
+            {{--<v-select :value.sync="selected" :options="options"></v-select>--}}
+        {{--</div>--}}
     </div>
+@endsection
+
+@section('script')
+    <script src="{{asset('js/vue2.min.js')}}"></script>
+    <script src="{{asset('js/vue-select2.min.js')}}"></script>
+    <script src="{{asset('js/assistant/create.js')}}"></script>
 @endsection
