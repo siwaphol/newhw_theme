@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading" align="center">Successfull</div>
+                    <div class="panel-heading" align="center">Import Result {{$semester}}-{{$year}}</div>
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table" id="example" cellspacing="0" width="100%">

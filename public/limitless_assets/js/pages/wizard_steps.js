@@ -155,7 +155,7 @@ $(function() {
             }
         })
         .on( 'init.dt', function () {
-            console.log( 'Table initialisation complete: '+new Date().getTime() );
+            // console.log( 'Table initialisation complete: '+new Date().getTime() );
             tableLoaded = true;
         } );
     }
@@ -217,7 +217,7 @@ $(function() {
                     ,closeOnConfirm:false
                     ,closeOnCancel: false
                 });
-                console.log('allRequests : ', allRequests);
+                // console.log('allRequests : ', allRequests);
                 // start ajaxManager
                 ajaxManager.run();
                 onLoadingState = true;
@@ -236,25 +236,25 @@ $(function() {
                             type: 'post',
                             success: function (data) {
                                 counter++;
-                                console.log('from success ajax: ',data);
+                                // console.log('from success ajax: ',data);
                                 courseSectionTable.row(element.virtual_id - 1).data().success = parseInt(data.overview.success[0]);
                                 courseSectionTable.draw(false);
                             }
                             ,beforeSend: function () {
-                                console.log('beforeSend virtual id: ', element.virtual_id);
+                                // console.log('beforeSend virtual id: ', element.virtual_id);
                                 courseSectionTable.row(element.virtual_id - 1).data().loading = true;
                                 courseSectionTable.draw(false);
                             }
                             ,error: function (data) {
                                 counter++;
-                                console.log(' Error at ',currentIdAndSection);
+                                // console.log(' Error at ',currentIdAndSection);
                                 courseSectionTable.row(element.virtual_id - 1).data().success = 2;
                                 courseSectionTable.draw(false);
                             }
                             ,complete: function () {
                                 allRequests--;
                                 if(allRequests<1){
-                                    console.log('last course section');
+                                    // console.log('last course section');
                                     // stop ajaxManager after push all requests to server
                                     ajaxManager.stop();
                                     isCourseSectionUpdated = true;
@@ -264,7 +264,7 @@ $(function() {
                             }
                        });
                 });
-                console.log("Waiting for course section insert to complete...");
+                // console.log("Waiting for course section insert to complete...");
                 return false;
             }
 
@@ -317,7 +317,7 @@ $(function() {
                         ,complete: function () {
                             allRequests--;
                             if(allRequests<1){
-                                console.log('last course section\'s student list');
+                                // console.log('last course section\'s student list');
                                 // stop ajaxManager after push all requests to server
                                 ajaxManager.stop();
                                 swal('Import all available students complete');
@@ -347,6 +347,11 @@ $(function() {
         $("select[name='new-semester']").prop('disabled', true);
         oldSemesterYear=true;
     });
+
+    $('#student-import-btn').on('click',function () {
+        window.location = $(this).attr('data-import-url') + '?semester=' + selectedSemester+'&year='+selectedYear
+        $(this).unbind('click')
+    })
 
     $('#import-course-section').click(function () {
         courseSectionTable.rows().every(function (rowIdx, tableLoop, rowLoop) {

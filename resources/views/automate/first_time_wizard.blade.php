@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <a type="button" class="btn btn-default" id="import-course-section"><i class="icon-cog3 position-left"></i> Import</a>
+                        {{--<a type="button" class="btn btn-default" id="import-course-section"><i class="icon-cog3 position-left"></i> Import</a>--}}
                     </div>
                 </div>
             </div>
@@ -95,9 +95,9 @@
         <h6>Student Import</h6>
         <fieldset>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-md-offset-6">
                     <div class="form-group">
-                        <a href="{{url('students/autoimport')}}" class="btn btn-default">Import student</a>
+                        <button id="student-import-btn" data-import-url="{{url('students/autoimport')}}" class="btn btn-default">Import student</button>
                     </div>
                 </div>
             </div>

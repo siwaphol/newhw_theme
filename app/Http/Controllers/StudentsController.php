@@ -205,7 +205,7 @@ class StudentsController extends Controller {
         return "{$course_id} - {$section} - success";
     }
 
-    public function autoimport()
+    public function autoimport(Request $request)
     {
         libxml_use_internal_errors(false);
         set_time_limit(0);
@@ -213,6 +213,13 @@ class StudentsController extends Controller {
         $semester=Session::get('semester');
         $fullYear = Session::get('year');
         $year=substr(Session::get('year'),-2);
+
+        if ($request->has('semester') && $request->has('year')){
+            $semester = $request->get('semester');
+            $fullYear = $request->get('year');
+            $year = substr($fullYear, -2);
+        }
+
         $sql=DB::select('select course_id,section  
 from course_section 
 where semester=? 
@@ -321,8 +328,8 @@ GROUP BY course_id,section', array($semester, $fullYear));
 
 //        dd(json_encode($importStatus));
         $page_name = 'Student';
-        $sub_name = 'Import Result';
-        return view('students.autoinsert', compact('importStatus','page_name','sub_name'));
+        $sub_name = 'Import Result ' . $semester . '-' . $year;
+        return view('students.autoinsert', compact('importStatus','page_name','sub_name','semester','year'));
     }
 
     public function auto_import_ajax()
