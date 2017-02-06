@@ -65,6 +65,19 @@
 
 @yield('script')
 
+<script>
+    $(function () {
+        $('.dataTables_filter input[type=search]').attr('placeholder','Type to filter...');
+
+
+        // Enable Select2 select for the length option
+        $('.dataTables_length select').select2({
+            minimumResultsForSearch: Infinity,
+            width: 'auto'
+        });
+    })
+</script>
+
 {{--@if (config('analytics.enabled', false))--}}
 	{{--@include('analytics')--}}
 {{--@endif--}}

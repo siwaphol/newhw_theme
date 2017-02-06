@@ -31,8 +31,6 @@ Route::post('index/uploadFiles', 'CourseHomeworkController@uploadFiles');
 //physical homework (In progress)
 Route::get('testexcel','ExcelFileController@index');
 
-//Route::get('course/{course_id}', 'CourseHomeworkController@show');
-
 //homework management section
 Route::get('coursehomeworkdata/{course_id}', 'CourseHomeworkController@getHomeworkCreateData');
 Route::get('homework/create/{course_id}','CourseHomeworkController@homeworkCreate');
@@ -76,6 +74,7 @@ Route::get('homework/upload/{id}', 'Homework1Controller@getUploadView');
 Route::get('assign', 'HomeController@assign');
 Route::get('course_section/auto', 'Course_SectionController@auto');
 Route::get('course', 'CourseController@index');
+Route::post('course', 'CourseController@store');
 Route::get('course/create', 'CourseController@create');
 Route::post('course/create/save', 'CourseController@addcourse');
 Route::get('edit/{id}', 'CourseController@edit');
@@ -99,7 +98,6 @@ Route::get('teachers/create','TeachersController@create');
 Route::get('teachers/{id}/edit','TeachersController@edit');
 Route::get('teachers/show/{id}','TeachersController@show');
 Route::post('teachers/delete/{id}','TeachersController@destroy');
-Route::post('course','CourseController@addcourse');
 Route::post('course/saveedit','CourseController@saveedit');
 
 Route::post('test1', 'HomeController@test1');
