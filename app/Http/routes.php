@@ -77,6 +77,8 @@ Route::get('course', 'CourseController@index');
 Route::post('course', 'CourseController@store');
 Route::get('course/create', 'CourseController@create');
 Route::post('course/create/save', 'CourseController@addcourse');
+Route::get('course/{id}/edit', 'CourseController@edit');
+Route::get('course/{id}', 'CourseController@show');
 Route::get('edit/{id}', 'CourseController@edit');
 Route::get('delete/{id}', 'CourseController@delete');
 Route::get('course/{course_no}/{section}', 'Course_SectionController@show');

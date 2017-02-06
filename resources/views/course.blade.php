@@ -50,10 +50,10 @@
                                     <tr>
 
                                         <td>{{$key->id}}</td>
-                                        <td>{{$key->name}}</td>
+                                        <td><a href="{{url('course')}}/{{$key->id}}">{{$key->name}}</a></td>
                                         <td>
                                             <button type="button"
-                                                    class="btn btn-link">{!! Html::link('edit/'.$key->id, 'Edit') !!}</button>
+                                                    class="btn btn-link"><a href="{{url('course')}}/{{$key->id}}/edit">Edit</a></button>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-link"

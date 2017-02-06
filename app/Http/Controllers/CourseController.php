@@ -4,6 +4,7 @@
 
 use App\Course;
 
+use App\Course_Section;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -75,9 +76,20 @@ use App\Http\Controllers\Controller;
 //
 //        return redirect('course');
 //    }
-    public function show($course_id){
+    public function show($id){
+        $course = Course::find($id);
 
-        return view('homework.studenthomework',['course_id'=>$course_id]);
+        $sections = Course_Section::leftJoin('users', 'course_section.teacher_id', '=','users.id')
+            ->where('course_id', $id)
+            ->where('course_section.semester', \Session::get('semester'))
+            ->where('course_section.year', \Session::get('year'))
+            ->select(\DB::raw('users.firstname_en, users.lastname_en,users.firstname_th,users.lastname_th
+            ,course_section.course_id,course_section.section'))
+            ->get();
+
+        $sections = $sections->groupBy('section');
+
+        return view('course.show',compact('course','sections'));
     }
 
      public function getStudentHomeworkData($course_id){
@@ -89,6 +101,7 @@ use App\Http\Controllers\Controller;
     public function edit($id){
 
         $course=Course::find($id);
+
         return view('course.edit',compact('course'));
     }
 
