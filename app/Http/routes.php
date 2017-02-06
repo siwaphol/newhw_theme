@@ -148,6 +148,7 @@ Route::get('students/insert','StudentsController@insert');
 Route::get('students/manualimport','StudentsController@manualimport');
 Route::post('students/manualinsert','StudentsController@manualinsert');
 Route::get('students/autoimport','StudentsController@autoimport');
+Route::get('students/import/{course_id}/{section}', 'StudentsController@importByCourseSection');
 Route::get('students/selectexcel','StudentsController@selectexcel');
 Route::get('students/auto_import_ajax','StudentsController@auto_import_ajax');
 
@@ -184,6 +185,8 @@ Route::group(array('prefix' => 'api/v1'),function()
 {
     Route::get('semesters_and_years','SemesteryearController@getAll');
     Route::post('semesters_and_years/edit','SemesteryearController@updateSemesterAndYear');
+
+    Route::get('course_section','Course_SectionController@indexDistinct');
 
     Route::get('auto_ajax1', 'Course_SectionController@auto_ajax1');
     Route::post('auto_ajax2', 'Course_SectionController@auto_ajax2');

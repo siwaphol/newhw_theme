@@ -92,26 +92,15 @@
             </div>
         </fieldset>
 
-        <h6>Student</h6>
+        <h6>Student Import</h6>
         <fieldset>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Company:</label>
-                        <input type="text" name="experience-company" placeholder="Company name" class="form-control">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Position:</label>
-                        <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                        <a href="{{url('students/autoimport')}}" class="btn btn-default">Import student</a>
                     </div>
                 </div>
             </div>
-        </fieldset>
-
-        <h6>Additional info</h6>
-        <fieldset>
-
         </fieldset>
     </div>
 </div>

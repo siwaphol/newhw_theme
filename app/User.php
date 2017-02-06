@@ -21,6 +21,9 @@ class User extends Model implements AuthenticatableContract {
     const SEARCH_CRITERIA_USERNAME = 3;
     const SEARCH_CRITERIA_ID = 4;
 
+    const IMPORT_NOT_FOUND = 1;
+    const IMPORT_SUCCESS = 2;
+
 	use Authenticatable;
 
 	/**

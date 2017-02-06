@@ -5,10 +5,20 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading" align="center">Teaching Assistant</div>
-
+                    <div class="panel-heading" align="center">
+                        <div class="panel-title">
+                            Teaching Assistant
+                        </div>
+                        <div class="heading-elements">
+                            <div class="btn-group heading-btn">
+                                <button type="button" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown"><i class="icon-person"></i> Course<span class="caret"></span></button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="{{url('ta/create')}}">Add TA</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="panel-body">
-                        <div class="" style="padding-bottom: 5px;"><a class="btn btn-default" href="{{ url('/ta/create') }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add TA</a></div>
                         <div class="table-responsive">
                             <table class="table" id="example" cellspacing="0" width="100%">
                                 <thead>
@@ -60,7 +70,7 @@
     </div>
 @endsection
 @section('script')
-
+    <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#example').dataTable({

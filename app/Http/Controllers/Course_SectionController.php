@@ -40,6 +40,17 @@ class Course_SectionController extends Controller
         return view('course_section.index', compact('result'));
     }
 
+    public function indexDistinct()
+    {
+        return DB::table('course_section')
+            ->where('semester', Session::get('semester'))
+            ->where('year', Session::get('year'))
+            ->groupBy('course_id')
+            ->groupBy('section')
+            ->select(DB::raw('course_id,section'))
+            ->get();
+    }
+
     public function show(Request $request, $course_no, $section)
     {
         Session::put('course_no', $course_no);
