@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Course;
 use App\Course_Section;
 use App\Http\Requests\Formstudents;
 use App\Http\Controllers\Controller;
@@ -37,11 +38,30 @@ class StudentsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create($id)
-
+	public function create(Request $request)
 	{
-        $course=DB::select('select * from course_section  where id=?',array($id));
-		return view('students.create',compact('course'));
+	    $readonly = '';
+	    $id = null;
+	    if ($request->has('course_id')){
+	        if (is_null(Course::find($request->input('course_id'))))
+	            return abort(404);
+
+            $id = $request->input('course_id');
+            $readonly = 'readonly';
+        }
+
+        $course = Course::lists('name','id');
+
+        $page_name = 'Add Student';
+        $sub_name = 'Manual';
+
+        $sections = Course_Section::where('course_id', $id)
+            ->where('semester', Session::get('semester'))
+            ->where('year', Session::get('year'))
+            ->orderBy('section')
+            ->lists('section', 'section');
+
+		return view('students.create',compact('course', 'sub_name', 'page_name', 'id', 'sections','readonly'));
 	}
 
 	/**
@@ -49,22 +69,41 @@ class StudentsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Formstudents $request)
+	public function store(Request $request)
 	{
-		$course_id=$request->get('course_id');
-        $section=$request->get('section');
-        $student_id=$request->get('student_id');
-        $status=$request->get('status');
+		$course_id = $request->input('course_id');
+        $section = $request->input('section');
+
+        if (empty($section)){
+            return redirect()->back()
+                ->withErrors(['no_section'=>'No section enter']);
+        }
+        $findCourseSection = Course_Section::where('course_id', $course_id)
+            ->where('section' , $section)
+            ->where('semester', Session::get('semester'))
+            ->where('year', Session::get('year'))
+            ->first();
+        if (is_null($findCourseSection)){
+            return redirect()->back()
+                ->withErrors(['not_found_course_section'=>'Not found course "' . $course_id . '" section "' . $section. '"']);
+        }
+
+        $student_id=$request->input('student_id');
+        $status=$request->input('status');
+
         $check=DB::select('select * from course_student where course_id=? and section=? and student_id=?
                             and semester=? and year=?',array($course_id,$section,$student_id,Session::get('semester'),Session::get('year')));
         if(count($check)>0){
             return redirect()->back()
                 ->withErrors(['duplicate' => 'รหัสนักศึกษา '.$student_id.' ซ้ำ']);
         }
+
+        $user = User::find($student_id);
+        if (is_null($user))
+            return redirect()->back()->withErrors(['not_found'=>'ไม่พบผู้ใช้งานที่มีรหัส '. $student_id]);
+
         $insert=DB::insert('insert into course_student (course_id,section,student_id,status,semester,year) VALUES (?,?,?,?,?,?)',array($course_id,$section,$student_id,$status,Session::get('semester'),Session::get('year')));
 
-		//return redirect('students/showlist');
-        //return view('students.showlist')->with('course',array('co'=>$course_id,'sec'=>$section));
         return redirect()->action('HomeController@preview',array('course'=>$course_id,'sec'=>$section));
 	}
 
@@ -147,7 +186,6 @@ class StudentsController extends Controller {
 	}
     public function import()
     {
-
         return view('students.selectcourse_section');
     }
     public function manualimport()
@@ -228,9 +266,94 @@ class StudentsController extends Controller {
             ->first();
 
         if (is_null($found))
-            return 'danger';
+            return abort(404);
 
-        return "{$course_id} - {$section} - success";
+        if ($this->regImportOneSection($course_id, $section))
+            return redirect("index/preview?course={$course_id}&sec={$section}");
+
+        return abort(402);
+    }
+
+    public function autoImportByOne(Request $request)
+    {
+        $courseSections = Course_Section::where('semester', Session::get('semester'))
+            ->where('year', Session::get('year'))
+            ->groupBy('course_id','section')
+            ->orderBy('course_id', 'section')
+            ->select(DB::raw('course_id,section'))
+            ->get();
+
+        return view('students.auto_import_by_one', compact('courseSections'));
+    }
+
+    public function regImportOneSection($course_id , $section)
+    {
+        $semester=Session::get('semester');
+        $year=substr(Session::get('year'),-2);
+        $excelType = 'Excel2007';
+
+        if($section=='000'){
+            $fileupload_name = 'https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/stdtotal_xlsx.php?var=maxregist&COURSENO='.$course_id.'&SECLEC='.$section.'&SECLAB=001&border=1&mime=xlsx&ctype=&';
+        }else {
+            $fileupload_name = 'https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/stdtotal_xlsx.php?var=maxregist&COURSENO='.$course_id.'&SECLEC='.$section.'&SECLAB=000&border=1&mime=xlsx&ctype=&';
+        }
+
+        $filename = "import{$course_id}_{$section}.xlsx";
+        $fileupload = tempnam(sys_get_temp_dir(), $filename);
+
+        if(copy($fileupload_name,$fileupload)){
+            $reader = \PHPExcel_IOFactory::createReader($excelType);
+            if (!$reader->canRead($fileupload)){
+                return null;
+            }
+
+            $objPHPExcel =\PHPExcel_IOFactory::load($fileupload);
+
+            foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+                $highestRow         = $worksheet->getHighestRow(); // e.g. 10
+                $highestColumn      = $worksheet->getHighestColumn(); // e.g 'F'
+
+                for ($row =8; $row <= $highestRow; ++ $row) {
+                    $cell = $worksheet->getCellByColumnAndRow(1,$row);
+                    $no = $cell->getValue();
+                    $cell = $worksheet->getCellByColumnAndRow(2,$row);
+                    $code = (string)$cell->getValue();
+                    $cell = $worksheet->getCellByColumnAndRow(3,$row);
+                    $fname = $cell->getValue();
+                    $cell = $worksheet->getCellByColumnAndRow(4,$row);
+                    $lname = $cell->getValue();
+                    $cell=$worksheet->getCellByColumnAndRow(5,$row);
+                    $status=$cell->getValue();
+
+                    if ($no>0 && $no<=200) {
+                        $reg=DB::select(' select * from course_student where course_id=? and section=? and student_id=?
+                                                  and semester=? and year=?',array($course_id,$section,$code,Session::get('semester'),Session::get('year')));
+                        $user=DB::select('select * from users where id=? ',array($code));
+                        $cuser=count($user);
+                        $rowregist=count($reg);
+                        if ($rowregist==0 && $cuser==0 ) {
+                            //  $command =DB::insert('insert into students (id,studentName,status) values (?,?,?)',array($code,$fullnames,$status)) ;
+                            DB::insert('insert into users (id,firstname_th,lastname_th,role_id) values (?,?,?,?)',array($code,$fname,$lname,'0001')) ;
+                            DB::insert('insert into course_student(student_id,course_id,section,status,semester,year) values (?,?,?,?,?,?)',array($code,$course_id,$section,$status,Session::get('semester'),Session::get('year')));
+                        }
+                        if ($rowregist==0 && $cuser>0 ) {
+                            DB::insert('insert into course_student(student_id,course_id,section,status,semester,year) values (?,?,?,?,?,?)',array($code,$course_id,$section,$status,Session::get('semester'),Session::get('year')));
+                        }
+                        if($rowregist>0){
+                            if($reg[0]->status!=$status){
+                                DB::update('update course_student set status=? where student_id=?
+                                                          and semester=? and year=?',array($status,$code,Session::get('semester'),Session::get('year')));
+                            }
+                        }
+
+                    }
+                }
+            }
+        }else{
+            return null;
+        }
+
+        return true;
     }
 
     public function autoimport(Request $request)

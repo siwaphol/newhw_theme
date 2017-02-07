@@ -97,9 +97,9 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>{!! link_to_action('StudentsController@insert','Import from reg.cmu.ac.th',array('ddlCourse'=>$course_no,'ddlSection'=>$section))!!}</li>
                                         <li>{!! link_to_action('StudentsController@selectexcel','Excel import',array('ddlCourse'=>$course_no,'ddlSection'=>$section))!!}</li>
-                                        <li><a href="{{ url('/students/create/'.$course_no) }}">Manual Insert</a></li>
+                                        <li><a href="{{ url('students/create') }}?course_id={{$course_no}}">Manual Insert</a></li>
                                         <li class="divider"></li>
-                                        <li>{!! link_to_action('StudentsController@export','Export Student List',array('course'=>$course_no,'sec'=>$section),array())!!}</li>
+                                        <li><a href="{{url('students/export')}}?course={{$course_no}}&sec={{$section}}">Export Student List</a></li>
                                     </ul>
                                 </div>
                                 @endif

@@ -131,7 +131,7 @@ Route::group(['middleware'=>'admin'], function (){
     Route::get('students','StudentsController@index');
     Route::post('students/delete','StudentsController@destroy');
     Route::get('students/show','StudentsController@show');
-    Route::get('students/create/{id}','StudentsController@create');
+    Route::get('students/create','StudentsController@create');
     Route::get('students/edit/{id}','StudentsController@edit');
     Route::get('students/export','StudentsController@export');
     Route::post('students/create/save','StudentsController@store');
@@ -143,6 +143,7 @@ Route::group(['middleware'=>'admin'], function (){
     Route::get('students/manualimport','StudentsController@manualimport');
     Route::post('students/manualinsert','StudentsController@manualinsert');
     Route::get('students/autoimport','StudentsController@autoimport');
+    Route::get('students/autoimport_one','StudentsController@autoImportByOne');
     Route::get('students/import/{course_id}/{section}', 'StudentsController@importByCourseSection');
     Route::get('students/selectexcel','StudentsController@selectexcel');
     Route::get('students/auto_import_ajax','StudentsController@auto_import_ajax');

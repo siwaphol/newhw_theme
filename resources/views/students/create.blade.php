@@ -1,51 +1,55 @@
 @extends('app')
 
 @section('content')
-    <div class="container">
+    <div class="content">
+        @if ($errors->any())
+            <ul class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading" align="center">Add Student</div>
-                    @foreach($course as  $item)
                     <div class="panel-body">
-
                         <hr/>
-
                         {!! Form::open(['url' => 'students/create/save']) !!}
-                         <div class="form-group">
+                        <div class="form-group">
                             {!! Form::label('course_id', 'Course No: ') !!}
-                            {!! Form::text('course_id', $item->course_id, ['class' => 'form-control','disabled' => 'disabled']) !!}
-                        <div class="form-group">
-                            {!! Form::label('section', 'Section: ') !!}
-                            {!! Form::text('section', $item->section, ['class' => 'form-control','disabled' => 'disabled'])!!}
-                        </div>
-                        <div class="form-group">
-                        {!! Form::label('student_id', 'Student ID: ') !!}
-                        {!! Form::text('student_id', null, ['class' => 'form-control']) !!}
-                    {{--<div class="form-group">--}}
-                        {{--{!! Form::label('status', 'สถานะ: ') !!}--}}
-                        {{--{!! Form::radio('status', 'drop') !!} drop--}}
-                        {{--{!! Form::radio('status', 'no',true) !!} no--}}
-                        {{--{!! Form::text('status', null, ['class' => 'form-control'])!!}--}}
-                    {{--</div>--}}
-                    <input type="hidden" name="course_id" value="{{$item->course_id}}">
-                    <input type="hidden" name="status" value="">
-                     <input type="hidden" name="section" value="{{$item->section}}">
-                        <div class="form-group">
-                            {!! Form::submit('Create', ['class' => 'btn btn-primary form-control'])!!}
+                            @if(is_null($id))
+                                {!! Form::select('course_id', $course, null, ['class'=>'select2']) !!}
+                            @else
+                                {!! Form::text('course_id', $id, ['class' => 'form-control', $readonly]) !!}
+                            @endif
+                            <div class="form-group">
+                                {!! Form::label('section', 'Section: ') !!}
+                                @if($sections->count() <=0)
+                                    {!! Form::text('section',null, ['class' => 'form-control'])!!}
+                                @else
+                                    {!! Form::select('section', $sections,null, ['class' => 'form-control'])!!}
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('student_id', 'Student ID: ') !!}
+                                {!! Form::text('student_id', null, ['class' => 'form-control']) !!}
+                                <input type="hidden" name="status" value="">
+                            </div>
+                            <div class="form-group">
+                                {!! Form::submit('Submit', ['class' => 'btn btn-primary form-control'])!!}
+                            </div>
                         </div>
                         {!! Form::close() !!}
-                        @endforeach
-                        @if ($errors->any())
-                            <ul class="alert alert-danger">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $('.select2').select2();
+    </script>
 @endsection

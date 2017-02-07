@@ -72,7 +72,7 @@
                    <li><a href="{{url('admin')}}"> Admin</a></li>
                    <li><a href="{{url('teachers')}}"> Teacher</a></li>
                    <li><a href="{{url('ta')}}"> TA</a></li>
-                   <li><a href="#toStudentManagement"> Student</a></li>
+                   <li><a href="{{url('students/create')}}"> Student</a></li>
                </ul>
            </li>
            <!--/User Management Menu-->
@@ -99,7 +99,7 @@
                    <li class="dropdown-header"> Reg Website Import</li>
                    <li><a href="{{url('course_section/auto')}}"><i class="icon-cloud-download"></i> Course And Section</a></li>
                    <li><a href="{{url('students/autoimport')}}"><i class="icon-cloud-download"></i> Students For All Course and Section</a></li>
-                   <li><a href="#{{url('students/autoimport-select')}}"><i class="icon-cloud-download"></i> Students For Selected Section</a></li>
+                   <li><a href="{{url('students/autoimport_one')}}"><i class="icon-cloud-download"></i> Students For Selected Section</a></li>
                    <li class="dropdown-header"> Excel Import</li>
                    <li><a href="#toStudentManagement"><i class="icon-file-excel"></i> Student</a></li>
                </ul>
