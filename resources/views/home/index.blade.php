@@ -13,8 +13,8 @@
                                         <th>Course No</th>
                                         <th>Title</th>
                                         <th>Section</th>
-                                        <th>Enroll</th>
                                         @if(Auth::user()->isAdmin())
+                                            <th>Enroll</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
                                         @endif
@@ -25,8 +25,8 @@
                                         <th>Course No</th>
                                         <th>Title</th>
                                         <th>Section</th>
-                                        <th>Enroll</th>
                                         @if(Auth::user()->isAdmin())
+                                            <th>Enroll</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
                                         @endif
@@ -39,8 +39,8 @@
                                         <td>{{$key->course_id}}</td>
                                         <td>{!! link_to_action('HomeController@preview',$key->course_name,array('course'=>$key->course_id,'sec'=>$key->section))!!}</td>
                                         <td>{!! link_to_action('HomeController@preview',$key->section,array('course'=>$key->course_id,'sec'=>$key->section))!!}</td>
-                                        <td>{{$key->enroll_count}}</td>
                                         @if(Auth::user()->isAdmin())
+                                            <td>{{$key->enroll_count}}</td>
                                             <td>{!! link_to_action('Course_SectionController@edit','Edit',array('course'=>$key->course_id,'sec'=>$key->section))!!}</td>
                                             <td>
                                                 <a onclick="return confirm('Are you sure you want to delete student from this section?')">{!! link_to_action('Course_SectionController@delete','Delete',array('id'=>$key->id,'course'=>$key->course_id,'sec'=>$key->section),array('onclick'=>"return confirm('Are you sure you want to delete student from this section?')"))!!}</a>
@@ -55,8 +55,6 @@
                 </div>
             </div>
         </div>
-
-
     @if(Auth::user()->isStudentandTa())
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">

@@ -61,17 +61,17 @@ class HomeController extends Controller
             }
         }
         Session::put('course_list', $course_list_str);
-        return new RedirectResponse(url('home'));
+        return redirect('/home');
     }
 
     public function firstpage()
     {
         if(Auth::user()->isAdmin()){
             $page_name = "Main";
-            $sub_name = "Overview";
+            $sub_name = "Overview" . Session::get('semester') . "-".Session::get('year');
         }else{
             $page_name = "My Courses";
-            $sub_name = "Overview";
+            $sub_name = "Overview " . Session::get('semester') . "-".Session::get('year');
         }
 
         $assist = DB::select('select * from course_ta cs');
@@ -174,6 +174,7 @@ class HomeController extends Controller
             and cs.semester='{$currentSemester}'
             and cs.year='{$currentYear}'
             and cs.student_id='{$currentStudentId}'
+            and h.id is not null
             ";
 
             $sent= DB::select($sqlStr);

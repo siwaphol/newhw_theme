@@ -40,6 +40,9 @@
                         </thead>
                         <tbody>
                         <?php $odd=true; ?>
+                        @if(count($sent)<=0)
+                            <tr><td colspan="7" style="text-align: center;">Not found</td></tr>
+                        @endif
                         @foreach($sent as $aHomework)
                         <tr role="row" class="{{$odd?'odd':'even'}}">
                             <?php $odd=!$odd; ?>
