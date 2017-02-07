@@ -6,6 +6,7 @@ use App\Course_Section;
 use App\Course_Student;
 use App\Course_Ta;
 use App\Homework;
+use App\HomeworkStudent;
 use Auth;
 use Request;
 use Session;
@@ -144,6 +145,7 @@ class HomeController extends Controller
         $homework = Homework::fromCourseAndSection($course_no,$section,Session::get('semester'),Session::get('year'))
             ->orderBy('due_date')
             ->get();
+        $studentSentHomework = null;
 
         if (Auth::user()->isAdmin() || Auth::user()->isTeacher() || Auth::user()->isTa() || Auth::user()->isStudentandTa()) {
             $sent = DB::select('select cs.student_id as id,stu.firstname_th,stu.lastname_th,cs.status as status,
@@ -151,8 +153,17 @@ class HomeController extends Controller
                             from course_student cs
                             left join users stu 
                             on cs.student_id=stu.id
-                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=?',
+                           where cs.course_id=? 
+                           and cs.section=? 
+                           and cs.semester=? 
+                           and cs.year=?',
                 array($course_no, $section, Session::get('semester'), Session::get('year')));
+
+            $studentSentHomework = HomeworkStudent::where('course_id', $course_no)
+                ->where('section', $section)
+                ->where('semester', $currentSemester)
+                ->where('year', $currentYear)
+                ->get();
         }
         else if (Auth::user()->isStudent()) {
             $currentStudentId = Auth::user()->id;
@@ -219,7 +230,7 @@ class HomeController extends Controller
             return view('students.homework.index', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
 
 //        return view('home.preview', compact('teachers', 'ta', 'student', 'homework', 'sent', 'removeHeader','teachersAndTA','course_no','section'))->with('course', array('co' => $course_no, 'sec' => $section));
-        return view('admin.dashboard', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
+        return view('admin.dashboard', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section','studentSentHomework'));
     }
 
 //    public function preview1()

@@ -160,15 +160,16 @@
                                             <td>{!! link_to_action('StudentsController@show',$student->firstname_th." ".$student->lastname_th,array('id'=>$student->id,'course'=>$course_no,'sec'=>$section))!!}</td>
                                             <td>{{ $student->status}}</td>
                                             @foreach($homework as $aHomework)
-                                                @if(!is_null($student) )
-                                                    <?php $hwStatus = $student->status; ?>
+                                                <?php $currentStudentHomework = $studentSentHomework->where('student_id', $student->id)->where('homework_id',$aHomework->id); ?>
+                                                @if($currentStudentHomework->count()>0)
+                                                    <?php $hwStatus = $currentStudentHomework->first()->status; ?>
                                                     <td>
                                                         <p align="center">
-                                                            @if($hwStatus==='1')
+                                                            @if($hwStatus===\App\Homework::STATUS_OK)
                                                                 {{"OK"}}
-                                                            @elseif($hwStatus==='2')
+                                                            @elseif($hwStatus===\App\Homework::STATUS_LATE)
                                                                 {{"LATE"}}
-                                                            @elseif($hwStatus==='3')
+                                                            @elseif($hwStatus===\App\Homework::STATUS_TOO_LATE)
                                                                 {{"!!!"}}
                                                             @endif
                                                         </p>

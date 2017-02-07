@@ -175,11 +175,11 @@
                                                     <?php $hwStatus = $student->submittedHomework->find($aHomework->id)->pivot->status; ?>
                                                     <td>
                                                         <p align="center">
-                                                            @if($hwStatus==='1')
+                                                            @if($hwStatus===\App\Homework::STATUS_OK)
                                                                 {{"OK"}}
-                                                            @elseif($hwStatus==='2')
+                                                            @elseif($hwStatus===\App\Homework::STATUS_LATE)
                                                                 {{"LATE"}}
-                                                            @elseif($hwStatus==='3')
+                                                            @elseif($hwStatus===\App\Homework::STATUS_TOO_LATE)
                                                                 {{"!!!"}}
                                                             @endif
                                                         </p>
@@ -200,11 +200,11 @@
                                                 <?php $hwStatus = $sent->submittedHomework->find($aHomework->id)->pivot->status; ?>
                                                 <td>
                                                     <p align="center">
-                                                        @if($hwStatus==='1')
+                                                        @if($hwStatus===\App\Homework::STATUS_OK)
                                                             {{"OK"}}
-                                                        @elseif($hwStatus==='2')
+                                                        @elseif($hwStatus===\App\Homework::STATUS_LATE)
                                                             {{"LATE"}}
-                                                        @elseif($hwStatus==='3')
+                                                        @elseif($hwStatus===\App\Homework::STATUS_TOO_LATE)
                                                             {{"!!!"}}
                                                         @endif
                                                     </p>
