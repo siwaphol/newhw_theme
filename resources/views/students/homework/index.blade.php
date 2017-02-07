@@ -97,7 +97,7 @@
                                     <input type="hidden" name="year" value="{{Session::get('year')}}">
                                     <input type="hidden" value="{{$aHomework->name}}" name="name">
                                     <input type="hidden" value="{{$aHomework->extension}}" name="extension">
-                                    {!! Form::file('test-'.$aHomework->id,["data-expected-name"=>$aHomework->expected_name]) !!}
+                                    {!! Form::file('test-'.$aHomework->id,["data-expected-name"=>$aHomework->expected_name,'class'=>'student-file-input']) !!}
                                 </div>
                                 <div style="float: right;margin-top: -30px;">
                                     <button  class="btn btn-default" type="submit">Upload</button>
@@ -118,16 +118,20 @@
 @section('script')
     <script type="text/javascript">
         $(function() {
-            $("input:file").change(function (){
-                var fileName = $(this).val();
-                var expectedName = $(this).attr("data-expected-name").split(",");
-                if(expectedName.indexOf(fileName)>-1){
-                    console.log("should submit");
-                    return;
-                }
-                console.log("should alert wrong file name");
-//                $(this).parent().trigger('submit');
-            });
+            
+            $('.student-file-input').each(function () {
+                $(this).on('change', function () {
+//                    console.log($(this).attr('data-expected-name'), ' - ', $(this).val())
+                    var inputFileNameArr = $(this).val().split("\\")
+//                    console.log(inputFileNameArr[inputFileNameArr.length-1])
+                    var expectedName = $(this).attr('data-expected-name')
+                    var showFileName = expectedName.replace(',' , ' or ')
+                    if(expectedName.indexOf(inputFileNameArr[inputFileNameArr.length-1])<0){
+                        swal("Please select file with following name \""+ showFileName + "\"")
+                        $(this).val("")
+                    }
+                })
+            })
 
             $(".submit-form").submit(function (e) {
                 var self = this;
