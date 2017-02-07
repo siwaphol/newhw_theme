@@ -18,6 +18,7 @@
     </div>
 
     <div class="content">
+        @include('flash::message')
         @if(Auth::user()->isAdmin() || Auth::user()->isTeacher())
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
@@ -93,9 +94,9 @@
                             <div class="heading-elements">
                                 @if(Auth::user()->isAdmin() || Auth::user()->isTeacher())
                                 <div class="btn-group heading-btn">
-                                    <button type="button" class="btn btn-primary btn-icon dropdown-toggle" data-toggle="dropdown"><i class="icon-menu6"></i> Student<span class="caret"></span></button>
+                                    <button type="button" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown"><i class="icon-menu6"></i> Student<span class="caret"></span></button>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>{!! link_to_action('StudentsController@insert','Import from reg.cmu.ac.th',array('ddlCourse'=>$course_no,'ddlSection'=>$section))!!}</li>
+                                        <li><a href="{{url('students/import')}}/{{$course_no}}/{{$section}}">Import from reg.cmu.ac.th</a></li>
                                         <li>{!! link_to_action('StudentsController@selectexcel','Excel import',array('ddlCourse'=>$course_no,'ddlSection'=>$section))!!}</li>
                                         <li><a href="{{ url('students/create') }}?course_id={{$course_no}}">Manual Insert</a></li>
                                         <li class="divider"></li>
@@ -104,7 +105,7 @@
                                 </div>
                                 @endif
                                 <div class="btn-group heading-btn">
-                                    <button type="button" class="btn btn-primary btn-icon dropdown-toggle" data-toggle="dropdown"><i class="icon-menu6"></i> Homework<span class="caret"></span></button>
+                                    <button type="button" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown"><i class="icon-menu6"></i> Homework<span class="caret"></span></button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>{!! link_to_action('CourseHomeworkController@homeworkCreate','Manage Homework',array('course'=>$course_no),array() )!!}</li>
                                     </ul>

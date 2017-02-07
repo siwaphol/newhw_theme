@@ -268,8 +268,10 @@ class StudentsController extends Controller {
         if (is_null($found))
             return abort(404);
 
-        if ($this->regImportOneSection($course_id, $section))
+        if ($this->regImportOneSection($course_id, $section)){
+            flash('Import Successfully', 'success');
             return redirect("index/preview?course={$course_id}&sec={$section}");
+        }
 
         return abort(402);
     }
