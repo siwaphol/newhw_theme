@@ -146,8 +146,8 @@
                                         <th>Status</th>
                                         @if($homework->count())
                                             @foreach($homework as $aHomework)
-                                                <th>
-                                                    <a href="{{url('homework/download')}}/{{$aHomework->id}}?course_no={{$course_no}}&section={{$section}}" type="button">Export to zip file(In progress...)</a>
+                                                <th style="text-align: center;">
+                                                    <a class="btn btn-default" href="{{url('homework/download')}}/{{$aHomework->id}}?course_no={{$course_no}}&section={{$section}}" type="button">Download Zip</a>
                                                 </th>
                                             @endforeach
                                         @endif

@@ -179,7 +179,35 @@ class StudentsController extends Controller {
         $course=$_GET['course'];
         $sec=$_GET['sec'];
 
-        return view('students.export')->with('course',array('co'=>$course,'sec'=>$sec));
+        $result =DB::select('SELECT re.student_id,st.firstname_th,st.lastname_th,st.email 
+          FROM users st
+          left join course_student re 
+          on st.id=re.student_id
+          where  re.course_id=? 
+          and re.section=?
+          and re.semester=? 
+          and re.year=?
+          order by re.student_id asc',
+            array($course,$sec,Session::get('semester'),Session::get('year')));
+
+        $result = json_decode(json_encode($result), true);
+        $templateColumns = ['รหัสนักศึกษา', 'ชื่อ', 'นามสกุล', 'อีเมล'];
+        array_unshift($result, $templateColumns);
+        $fileName = $course.'_'.$sec.'.xlsx';
+
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+        $objPHPExcel->getActiveSheet()->fromArray($result, NULL, 'A1');
+
+        $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
+        $objWriter->save($fileName);
+
+        if (!\File::exists(storage_path('excel')))
+            \File::makeDirectory(storage_path('excel'));
+
+        \File::move(public_path($fileName), storage_path('excel/'.$fileName));
+
+        return response()->download(storage_path('excel/'.$fileName));
     }
     public function manualinsert()
     {
