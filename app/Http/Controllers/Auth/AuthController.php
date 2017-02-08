@@ -135,6 +135,8 @@ class AuthController extends Controller {
     {
         $user = Socialite::driver('cmu')->user();
 
+        dd($user);
+
         //$user->token
 
         // OAuth Two Providers

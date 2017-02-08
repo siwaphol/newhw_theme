@@ -19,7 +19,7 @@ Route::get('test-replace', function (){
 // routes for Oauth login
 Route::get('github/login', 'Auth\AuthController@redirectToProvider');
 // routes for receive Oauth return data from server
-Route::get('github/callback-url', 'Auth\AuthController@handleProviderCallback');
+Route::get('github/callback', 'Auth\AuthController@handleProviderCallback');
 
 Route::group(['middleware'=>'admin'], function (){
     Route::get('teststylus', 'WelcomeController@testStylus');
