@@ -135,7 +135,14 @@ class AuthController extends Controller {
     {
         $user = Socialite::driver('cmu')->user();
 
-        dd($user);
+//        dd($user);
+        $credentials = array('email'=>$user->username, 'password'=>null);
+
+        if (Auth::attempt($credentials, null)) {
+            return $this->handleUserWasAuthenticated($user);
+        }
+
+        //TODO-nong handle Unsuccessful login
 
         //$user->token
 
