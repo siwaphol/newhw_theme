@@ -128,12 +128,12 @@ class AuthController extends Controller {
 
     public function redirectToProvider()
     {
-        return Socialite::driver('github')->redirect();
+        return Socialite::driver('cmu')->redirect();
     }
 
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('github')->user();
+        $user = Socialite::driver('cmu')->user();
 
         //$user->token
 

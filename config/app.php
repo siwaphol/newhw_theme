@@ -157,8 +157,9 @@ return [
         'Maatwebsite\Excel\ExcelServiceProvider',
         Barryvdh\Debugbar\ServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
         'Chumper\Zipper\ZipperServiceProvider',
+        SocialiteProviders\Generators\GeneratorsServiceProvider::class,
     ],
 
     /*

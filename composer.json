@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -16,7 +19,9 @@
         "barryvdh/laravel-debugbar": "^2.0",
         "laracasts/flash": "^2.0",
         "laravel/socialite": "^2.0",
-        "chumper/zipper":"1.0.x"
+        "chumper/zipper": "1.0.x",
+        "socialiteproviders/generators": "^3.1",
+        "socialiteproviders/manager": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -29,7 +34,8 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "SocialiteProviders\\CMU\\": "SocialiteProviders/CMU/src/"
         }
     },
     "autoload-dev": {
