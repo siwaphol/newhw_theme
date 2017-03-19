@@ -36,7 +36,12 @@
                             <tbody>
                             @foreach($sections as $section=>$item)
                                 <tr>
-                                    <th colspan="2" class="active">{{$section}}</th>
+                                    <th colspan="2" class="active">{{$section}}
+                                        @if(count($item)>0)
+                                        <a href="{{url("course_section/delete")}}?id={{$item[0]->id}}&course={{$item[0]->course_id}}&sec={{$section}}"
+                                        class="btn btn-default pull-right" onclick="return confirm('Are you sure you want to delete student from this section?')">Delete</a>
+                                        @endif
+                                    </th>
                                 </tr>
                                 @foreach($item as $teacher)
                                     <tr>

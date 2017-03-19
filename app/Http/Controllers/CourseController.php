@@ -84,7 +84,7 @@ use App\Http\Controllers\Controller;
             ->where('course_section.semester', \Session::get('semester'))
             ->where('course_section.year', \Session::get('year'))
             ->select(\DB::raw('users.firstname_en, users.lastname_en,users.firstname_th,users.lastname_th
-            ,course_section.course_id,course_section.section'))
+            ,course_section.course_id,course_section.section, course_section.id'))
             ->get();
 
         $sections = $sections->groupBy('section');

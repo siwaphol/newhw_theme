@@ -206,13 +206,13 @@ class Course_SectionController extends Controller
         //return redirect('course_section');
         return new RedirectResponse(url('home'));
     }
-    public function delete(){
-            $course=$_GET['course'];
-            $sec=$_GET['sec'];
-            $id=$_GET['id'];
-            $result=DB::delete('delete from course_section where course_id=? and section=?
-                                and semester=? and year=? and id=?',array($course,$sec,Session::get('semester'),Session::get('year'),$id));
-        //return redirect('course_section');
+    public function delete(Request $request){
+        $course=$request->input('course');
+        $sec=$request->input('sec');
+        $id=$request->input('id');
+        DB::delete('delete from course_section where course_id=? and section=?
+                            and semester=? and year=? and id=?',array($course,$sec,Session::get('semester'),Session::get('year'),$id));
+
         return redirect('home');
     }
     public function check(){

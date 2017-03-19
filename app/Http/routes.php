@@ -81,6 +81,7 @@ Route::group(['middleware'=>'admin'], function (){
     Route::get('course_section', 'Course_SectionController@index');
     Route::get('course_section/create', 'Course_SectionController@create');
     Route::get('course_section/delete/', 'Course_SectionController@delete');
+    Route::post('course_section/delete/', 'Course_SectionController@delete');
     Route::post('course_section/create/save', 'Course_SectionController@store');
     Route::get('course_section/edit/', 'Course_SectionController@edit');
     Route::post('course_section/update/','Course_sectionController@update');
