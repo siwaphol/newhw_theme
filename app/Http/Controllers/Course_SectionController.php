@@ -75,7 +75,9 @@ class Course_SectionController extends Controller
                 $q->where('course_ta.section', '=', $section)
                     ->where('course_ta.semester', '=', $currentSemester)
                     ->where('course_ta.year', '=', $currentYear);
-            }])->where('id','=',$course_no)->first();
+            }])
+            ->where('id','=',$course_no)
+            ->first();
 
         $student = User::student()
             ->currentSemester()
@@ -154,6 +156,7 @@ class Course_SectionController extends Controller
     public  function create(){
         $teachers = User::teacher()->currentSemester()->get(['id', 'firstname_en', 'lastname_en']);
         $out = array();
+
         foreach ($teachers as $teacher){
             $out[$teacher->id] = $teacher->firstname_en . ' ' . $teacher->lastname_en;
         }
@@ -223,7 +226,6 @@ class Course_SectionController extends Controller
         $count=count($result);
         if($count>0){
             return 0;
-
         }
 
         return 1;
@@ -270,11 +272,6 @@ class Course_SectionController extends Controller
     }
     public function saveteacher(Request $request){
 
-        //courseid
-        //sectionid
-        //teacherid
-//        dd($request->all());
-
         $validator = \Validator::make($request->all(),[
             'courseid' => 'required',
             'sectionid' => 'required|array|section3',
@@ -290,7 +287,6 @@ class Course_SectionController extends Controller
         $sections = $request->input('sectionid');
         $teacherIds = $request->input('teacherid');
 
-//        dd($validator->fails());
         $errors = array();
         $success = array();
         $hasError = false;
@@ -873,5 +869,30 @@ class Course_SectionController extends Controller
 
         return compact('overview');
 
+    }
+
+    public function apiGetSection(Request $request, $course_no)
+    {
+        $input = $request->input();
+
+        $sections = \App\Course_Section::where('course_id', $course_no)
+            ->where('semester', $input['semester'])
+            ->where('year', $input['year'])
+            ->groupBy('section')
+            ->get(['section']);
+
+        $returnData = array();
+        foreach ($sections as $item){
+            $temp = array();
+            $temp['id'] = $item->section;
+            $temp['text'] = $item->section;
+            $returnData[] = $temp;
+        }
+
+        if ($sections->count()<=0){
+            return response()->json(array());
+        }
+
+        return response()->json($returnData);
     }
 }

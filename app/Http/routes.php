@@ -189,5 +189,7 @@ Route::group(array('prefix' => 'api/v1'),function()
     // Route::get('download_xlsx/{semester}/{year}','StudentsController@downloadAllExcelForCourseSection');
     Route::get('user', 'UserController@index');
     Route::post('admin/{id}', 'UserController@update');
+
+    Route::get('course/{course_no}/sections', 'Course_SectionController@apiGetSection');
 });
 

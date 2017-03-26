@@ -52,6 +52,11 @@ class StudentsController extends Controller {
 
         $course = Course::lists('name','id');
 
+	    foreach ($course as $key=>$value)
+        {
+            $course[$key] = $key . " " . $value;
+        }
+
         $page_name = 'Add Student';
         $sub_name = 'Manual';
 

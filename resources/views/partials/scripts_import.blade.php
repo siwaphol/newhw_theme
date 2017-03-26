@@ -15,6 +15,7 @@
 <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/selects/bootstrap_multiselect.js')}}"></script>
 <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/notifications/sweet_alert.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/selects/select2.min.js')}}"></script>
+{{--<script type="text/javascript" src="{{asset('js/select2.min.js')}}"></script>--}}
 <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/notifications/pnotify.min.js')}}"></script>
 {{--<script type="text/javascript" src="{{asset('limitless_assets/js/plugins/plugins/notifications/sweetalert2.min.js')}}"></script>--}}
 {{--<script type="text/javascript" src="{{asset('limitless_assets/js/plugins/ui/moment/moment.min.js')}}"></script>--}}
