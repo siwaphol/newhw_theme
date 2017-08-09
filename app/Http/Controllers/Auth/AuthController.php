@@ -134,8 +134,6 @@ class AuthController extends Controller {
     public function handleProviderCallback()
     {
         $user = Socialite::driver('cmu')->user();
-
-//        dd($user);
         $credentials = array('email'=>$user->username, 'password'=>null);
 
         if (Auth::attempt($credentials, null)) {
