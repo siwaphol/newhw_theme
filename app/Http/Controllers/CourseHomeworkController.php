@@ -218,9 +218,111 @@ class CourseHomeworkController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($homework_id, Request $request)
 	{
-		//
+		$validator = \Validator::make($request->all(),[
+			'course_id' => 'required',
+			'name' => 'required',
+			'type' => 'required',
+			'section' => 'required',
+			'due_date' => 'required',
+			'due_time' => 'required',
+			'accept_date' => 'required',
+			'accept_time' => 'required',
+		]);
+
+		// ตรวจจำนวน array ของ date กับ time เท่ากับจำนวน section
+		$validator->after(function($validator) use ($request){
+			// Check time and date format
+			if(!$this->isCorrectTimeFormat($request->input('due_time'))){
+				$validator->errors()->add('due_time'.$request->input('section')
+					, 'Incorrect section '.$request->input('section').' due time');
+			}
+
+			if(!$this->isCorrectDateFormat($request->input('due_date'), 'Y-m-d')){
+				$validator->errors()->add('due_date'.$request->input('section')
+					, 'Incorrect section '.$request->input('section').' due date');
+			}
+
+			if(!$this->isCorrectTimeFormat($request->input('accept_time'))){
+				$validator->errors()->add('accept_time'.$request->input('section')
+					, 'Incorrect section '.$request->input('section').' accept time');
+			}
+
+			if(!$this->isCorrectDateFormat($request->input('accept_date'), 'Y-m-d')){
+				$validator->errors()->add('accept_date'.$request->input('section')
+					, 'Incorrect section '.$request->input('section').' accept date');
+			}
+		});
+
+		if($validator->fails()){
+			return redirect(url('assignment/'.$request->input('course_id') . "/".$homework_id."/edit"))
+				->withInput()
+				->withErrors($validator);
+		}
+
+		$input = $request->all();
+		$duplicate = Homework::currentSemester()
+			->where('course_id', $input['course_id'])
+			->where('section', $input['section'])
+			->where('name', $input['name'])
+			->first();
+		if ($duplicate && (int)$duplicate->id!==(int)$homework_id){
+			$message = " มีชื่อการบ้านซ้ำกับการบ้านอื่นใน section เดียวกัน ";
+
+			return redirect()->back()
+				->with("extra-error", $message);
+		}
+
+		$homework = Homework::find($homework_id);
+
+		// ตรวจว่าถ้ามีการบ้านใน homework_student ไม่ให้เปลี่ยนชื่อ
+		$hasSentHomework = HomeworkStudent::currentSemester()
+			->where('homework_id', $homework_id)
+			->count();
+		if ($hasSentHomework > 0 && $homework->name !== $input['name']){
+			$message = " ไม่สามารถแก้ไขชื่อได้เพราะมีการบ้านของนักศึกษาที่ส่งมาแล้ว ";
+
+			return redirect()->back()
+			                 ->with("extra-error", $message);
+		}
+
+		//TODO-nong ถ้า due_date กับ accept_date เปลี่ยน ให้ไปแก้ไข status ใน homework_student
+
+
+		$homeworkType = HomeworkType::where('extension', $input['type'])->first();
+		if (is_null($homeworkType)){
+			$homeworkType = new  HomeworkType();
+			$homeworkType->extension = $input['type'];
+
+			$lastType = HomeworkType::orderBy('id', 'desc')->first();
+			$homeworkType->id = str_pad(((int)$lastType->id) +1, '3','0', STR_PAD_LEFT);
+			$homeworkType->save();
+		}
+		$homework->name = $input['name'];
+		$input['type'] = str_replace(" ", "", $input['type']);
+		$homeworkType = HomeworkType::where('extension', $input['type'])->first();
+		if (is_null($homeworkType)){
+			$homeworkType = new  HomeworkType();
+			$homeworkType->extension = $input['type'];
+
+			$lastType = HomeworkType::orderBy('id', 'desc')->first();
+			$homeworkType->id = str_pad(((int)$lastType->id) +1, '3','0', STR_PAD_LEFT);
+			$homeworkType->save();
+		}
+		$homework->type_id = $homeworkType->id;
+		$homework->detail = $input['detail'];
+		$homework->assign_date = Carbon::now();
+		$homework->due_date = Carbon::createFromFormat('Y-m-d H:i',
+			$input['due_date'] . ' ' . $input['due_time']);
+		$homework->accept_date = Carbon::createFromFormat('Y-m-d H:i',
+			$input['accept_date'] . ' ' . $input['accept_time']);
+		$homework->created_by = auth()->user()->id;
+		$homework->semester = Session::get('semester');
+		$homework->year = Session::get('year');
+		$homework->save();
+
+		return redirect('homework/create/'.$input['course_id'])->with("success", "true");
 	}
 
 	/**
@@ -351,10 +453,29 @@ class CourseHomeworkController extends Controller {
         foreach ($sections as $aSection){
             $distinctSection[$aSection->section] = $aSection->section;
         }
+        $homework = null;
 
         //TODO-nong ถ้า section ไหนเคยสร้างการบ้านแล้วไม่ต้อง hidden กับ disable
-        return view('homework.assignment.create', compact('title','page_name','sub_name','course', 'sections','distinctSection'));
+        return view('homework.assignment.create', compact('title','page_name','sub_name','course'
+	        , 'sections','distinctSection', 'homework'));
     }
+
+	public function editAssignment( $course_id, $homework_id, Request $request ) {
+		$course = Course::find($course_id);
+		$page_name = $course->id . " " . $course->name;
+		$title = 'Edit Assignment ' . $course->id;
+		$sub_name = "Edit Assignment";
+		$sections = Course_Section::currentSemester()->where('course_id', '=', $course_id)->orderBy('section')->get();
+
+		$distinctSection = array();
+
+		$homework = Homework::currentSemester()->find($homework_id);
+		if (is_null($homework)){
+			return abort(404);
+		}
+
+		return view('homework.assignment.create', compact('title','page_name','sub_name','course', 'sections','distinctSection', 'homework'));
+	}
 
     public function isCorrectTimeFormat($time_string)
     {
@@ -387,7 +508,6 @@ class CourseHomeworkController extends Controller {
      */
     public function store(Request $request)
     {
-//        dd($request->input());
         $validator = \Validator::make($request->all(),[
             'course_id' => 'required',
             'name' => 'required',
@@ -447,22 +567,28 @@ class CourseHomeworkController extends Controller {
                 ->withErrors($validator);
         }
 
-//        dd($request->input());
-//        dd(auth()->user()->id);
-
         $input = $request->all();
+	    for($i = 0 ; $i < count($input['section']); $i++){
+	    	// ตรวจการบ้านชื่อซ้ำ
+		    $duplicateHomework = Homework::currentSemester()
+		                                 ->where([
+			                                 'course_id'=>$input['course_id'],
+			                                 'section'=>$input['section'][$i],
+			                                 'name'=>$input['name']
+		                                 ])->first();
+
+		    if ($duplicateHomework){
+		    	$message = " มีชื่อการบ้านชื่อ " . $input['name'] . " สำหรับ {$input['course_id']}-{$input['section'][$i]} อยู่แล้ว";
+
+			    return redirect(url('assignment/create/'.$request->input('course_id')))
+				    ->withInput()
+				    ->with("extra-error", $message);
+		    }
+	    }
         for($i = 0 ; $i < count($input['section']); $i++){
-            $newHW = Homework::currentSemester()
-            ->where('course_id', $input['course_id'])
-            ->where('section', $input['section'][$i])
-            ->first();
-
-            if(is_null($newHW)){
-                $newHW = new Homework();
-                $newHW->course_id = $input['course_id'];
-                $newHW->section = $input['section'][$i];
-            }
-
+            $newHW = new Homework();
+            $newHW->course_id = $input['course_id'];
+            $newHW->section = $input['section'][$i];
             $newHW->name = $input['name'];
 
             $input['type'] = str_replace(" ", "", $input['type']);
@@ -488,7 +614,7 @@ class CourseHomeworkController extends Controller {
             $newHW->save();
         }
 
-        return redirect('assignment/create/'.$input['course_id']);
+        return redirect('homework/create/'.$input['course_id'])->with("success", "true");
     }
 
     public function homeworkCreate($course_id){

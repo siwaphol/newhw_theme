@@ -44,7 +44,9 @@ Route::group(['middleware'=>'admin'], function (){
     Route::post('homework/create','CourseHomeworkController@homeworkPostCreate');
     Route::get('homework/result','CourseHomeworkController@result' );
     Route::get('assignment/create/{course_id}', 'CourseHomeworkController@createAssignment');
+    Route::get('assignment/{course_id}/{homework_id}/edit', 'CourseHomeworkController@editAssignment');
     Route::post('assignment', 'CourseHomeworkController@store');
+    Route::post('assignment/{homework_id}', 'CourseHomeworkController@update');
 
 //homework
     Route::post('index/homework/editstatus','Homework1Controller@editstatus');

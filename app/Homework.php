@@ -27,10 +27,10 @@ class Homework extends Model {
     /**
      * Accessor Function
      */
-//    public function getExtensionAttribute()
-//    {
-//        return $this->hasOne('App\HomeworkType','id','type_id')->first()->extension;
-//    }
+    public function getExtensionAttribute()
+    {
+        return $this->hasOne('App\HomeworkType','id','type_id')->first()->extension;
+    }
 
     public function getSubmitterAndSendStatus()
     {

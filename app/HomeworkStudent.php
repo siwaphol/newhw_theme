@@ -10,4 +10,9 @@ class HomeworkStudent extends Model {
         'homework_name', 'student_id', 'status', 'submitted_at','semester','year'];
     protected $dates = ['submitted_at'];
 
+	public function scopeCurrentSemester($query)
+	{
+		return $query->where('semester', '=', \Session::get('semester'))
+		             ->where('year', '=', \Session::get('year'));
+	}
 }

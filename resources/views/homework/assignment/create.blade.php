@@ -8,7 +8,12 @@
 
 @section('content')
     <div class="row">
+        @if(is_null($homework))
         {!! Form::open(['method'=>'post', 'url'=>'assignment', 'id'=>'new-file-form']) !!}
+        @else
+            {!! Form::model($homework,['method'=>'post', 'url'=>"assignment/" . $homework->id,
+            'id'=>'new-file_form']) !!}
+        @endif
         {!! Form::input('input','course_id',$course->id, ['class'=>'hidden']) !!}
         <div class="panel panel-flat">
             <div class="panel-heading">
@@ -20,6 +25,9 @@
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
+                            @if(Session::has('extra-error'))
+                                <li>{{Session::get('extra-error')}}</li>
+                            @endif
                         </ul>
                     </div>
                 @endif
@@ -34,7 +42,7 @@
                     <div class="form-group">
                         <label for="name" class="control-label col-lg-2">File Name</label>
                         <div class="col-lg-10">
-                            {!! Form::input('text', 'name', old('name'),['class'=>'form-control', 'placeholder'=>'ex. lab_01_{id}']) !!}
+                            {!! Form::text( 'name', old('name'),['class'=>'form-control', 'placeholder'=>'ex. lab_01_{id}']) !!}
                         </div>
                     </div>
                     <div class="row">
@@ -45,7 +53,11 @@
                     <div class="form-group">
                         <label for="type_id" class="control-label col-lg-2">Extension</label>
                         <div class="col-lg-10">
-                            {!! Form::input('text', 'type', old('type'),['class'=>'form-control', 'placeholder'=>'ex. .xls,.xlsx']) !!}
+                            @if(is_null($homework))
+                            {!! Form::text('type', old('type'),['class'=>'form-control', 'placeholder'=>'ex. .xls,.xlsx']) !!}
+                            @else
+                            {!! Form::text('type', $homework->extension ,['class'=>'form-control', 'placeholder'=>'ex. .xls,.xlsx']) !!}
+                            @endif
                         </div>
                     </div>
                     <div class="form-group">
@@ -58,7 +70,11 @@
                     <div class="form-group">
                         <label for="section" class="control-label col-lg-2">Sections</label>
                         <div class="col-lg-10">
+                            @if(is_null($homework))
                             {!! Form::select('section[]',$distinctSection,null,['multiple'=>'multiple','id'=>'section-select','class'=>'select']) !!}
+                            @else
+                            {!! Form::text('section', null, ['readonly', 'class'=>'form-control']) !!}
+                            @endif
                         </div>
                     </div>
                     <div class="form-group text-center" style="margin-top: 10px;">
@@ -72,56 +88,69 @@
             </div>
         </div>
 
-        @foreach($distinctSection as $c_section)
-            <div class="panel panel-body border-top-primary hidden" id="section-{{$c_section}}-panel">
-                {{--Assign Date & Time ควรจะถูกกำหนดหลังจากที่ข้อมูลถูกต้อง และบันทึกลงฐานข้อมูลสำเร็จ--}}
-                {{--<div class="form-group">--}}
-                    {{--<label for="" class="control-label col-lg-2">Section {{$c_section->section}} Assign Date</label>--}}
-                    {{--<div class="col-lg-4">--}}
-                        {{--{!! Form::input( 'date','assign_date[]',null,['class'=>'form-control']) !!}--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="form-group">--}}
-                    {{--<label for="" class="control-label col-lg-2">Section {{$c_section->section}} Assign Time</label>--}}
-                    {{--<div class="col-lg-4">--}}
-                        {{--{!! Form::input( 'time','assign_time[]',null,['class'=>'form-control']) !!}--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                <div class="form-group">
-                    <label for="" class="control-label col-lg-2">Section {{$c_section}} Due Date</label>
-                    <div class="col-lg-4">
-                        <input type="date" name="due_date[]" class="form-control" disabled>
-                        {{--{!! Form::input( 'date','due_date[]',null,['class'=>'form-control', 'disabled']) !!}--}}
+            @if(is_null($homework))
+                @foreach($distinctSection as $c_section)
+                    <div class="panel panel-body border-top-primary hidden" id="section-{{$c_section}}-panel">
+                        <div class="form-group">
+                            <label for="" class="control-label col-lg-2">Section {{$c_section}} Due Date</label>
+                            <div class="col-lg-4">
+                                <input type="date" name="due_date[]" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="control-label col-lg-2">Section {{$c_section}} Due Time</label>
+                            <div class="col-lg-4">
+                                <input type="time" name="due_time[]" value="00:00" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="control-label col-lg-2">Section {{$c_section}} Accept Date</label>
+                            <div class="col-lg-4">
+                                <input type="date" name="accept_date[]" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="control-label col-lg-2">Section {{$c_section}} Accept Time</label>
+                            <div class="col-lg-4">
+                                <input type="time" name="accept_time[]" value="23:59" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div class="panel panel-body border-top-primary" id="section-{{$homework->section}}-panel">
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-2">Section {{$homework->section}} Due Date</label>
+                        <div class="col-lg-4">
+                            {!! Form::date('due_date', $homework->due_date->format('Y-m-d'), ['class'=>"form-control"]) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-2">Section {{$homework->section}} Due Time</label>
+                        <div class="col-lg-4">
+                            {!! Form::time('due_time', $homework->due_date->format("H:i"), ['class'=>"form-control"]) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-2">Section {{$homework->section}} Accept Date</label>
+                        <div class="col-lg-4">
+                            {!! Form::date('accept_date', $homework->accept_date->format('Y-m-d'), ['class'=>"form-control"]) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-2">Section {{$homework->section}} Accept Time</label>
+                        <div class="col-lg-4">
+                            {!! Form::time('accept_time', $homework->accept_date->format("H:i"), ['class'=>"form-control"]) !!}
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="" class="control-label col-lg-2">Section {{$c_section}} Due Time</label>
-                    <div class="col-lg-4">
-                        <input type="time" name="due_time[]" value="00:00" class="form-control" disabled>
-                        {{--{!! Form::input( 'time','due_time[]','00:00',['class'=>'form-control', 'disabled']) !!}--}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="control-label col-lg-2">Section {{$c_section}} Accept Date</label>
-                    <div class="col-lg-4">
-                        <input type="date" name="accept_date[]" class="form-control" disabled>
-                        {{--{!! Form::input( 'date','accept_date[]',null,['class'=>'form-control', 'disabled']) !!}--}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="control-label col-lg-2">Section {{$c_section}} Accept Time</label>
-                    <div class="col-lg-4">
-                        <input type="time" name="accept_time[]" value="23:59" class="form-control" disabled>
-                        {{--{!! Form::input( 'time','accept_time[]','23:59',['class'=>'form-control', 'disabled']) !!}--}}
-                    </div>
-                </div>
-            </div>
-        @endforeach
+            @endif
         {!! Form::close() !!}
     </div>
 @endsection
 
 @section('script')
+    @if(is_null($homework))
     <script type="text/javascript" src="{{asset('limitless_assets/js/plugins/forms/selects/select2.min.js')}}"></script>
     <script>
         $(function(){
@@ -181,4 +210,5 @@
             });
         });
     </script>
+    @endif
 @endsection

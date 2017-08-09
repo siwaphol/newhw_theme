@@ -21,34 +21,13 @@
             </div>
         </div>
 
-        {{--<table id="users-table" class="table table-condensed">--}}
-            {{--<thead>--}}
-            {{--<tr>--}}
-                {{--<th rowspan="2">Name</th>--}}
-                {{--<th rowspan="2">Type</th>--}}
-                {{--<th colspan="{{count($section_list)}}">Due Date</th>--}}
-                {{--<th colspan="{{count($section_list)}}">Accept Until</th>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--@foreach($section_list as $aSection)--}}
-                    {{--<th>{{$aSection->section}}</th>--}}
-                {{--@endforeach--}}
-                {{--@foreach($section_list as $aSection)--}}
-                    {{--<th>{{$aSection->section}}</th>--}}
-                {{--@endforeach--}}
-            {{--</tr>--}}
-            {{--</thead>--}}
-            {{--<tbody>--}}
-                {{--@foreach($homeworks as $aHomework)--}}
-                {{--<tr>--}}
-                    {{--<td>{{$aHomework->name}}</td>--}}
-                {{--</tr>--}}
-                {{--@endforeach--}}
-            {{--</tbody>--}}
+        @if(Session::has('success'))
+            <div class="alert alert-success alert-bordered">
+                <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                <span class="text-semibold">Successfully updated</span>
+            </div>
+        @endif
 
-        {{--</table>--}}
-
-        {{--test--}}
         <table id="users-table" class="table table-condensed">
             <thead>
             <tr>
@@ -62,7 +41,7 @@
             <tbody>
             @foreach($homeworks as $aHomework)
                 <tr>
-                    <td><a>{{$aHomework->name}}</a></td>
+                    <td><a href="{{url('assignment')}}/{{$course_id}}/{{$aHomework->id}}/edit">{{$aHomework->name}}</a></td>
                     <td>{{$aHomework->extension}}</td>
                     <td>{{$aHomework->section}}</td>
                     <td>{{$aHomework->due_date}}</td>
