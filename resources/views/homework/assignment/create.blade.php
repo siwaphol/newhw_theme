@@ -144,6 +144,11 @@
                 $cSectionPanel.addClass("hidden");
             }
 
+            $("#section-select").val().map(function(item){
+                showAndHideSectionPanel(item, 'show')
+                return item
+            })
+
             $selectClass.select2({
                 minimumResultsForSearch: "-1",
                 placeholder: "Click to select..."
