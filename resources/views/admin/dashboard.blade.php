@@ -105,10 +105,7 @@
                                 </div>
                                 @endif
                                 <div class="btn-group heading-btn">
-                                    <button type="button" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown"><i class="icon-menu6"></i> Homework<span class="caret"></span></button>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>{!! link_to_action('CourseHomeworkController@homeworkCreate','Manage Homework',array('course'=>$course_no),array() )!!}</li>
-                                    </ul>
+                                    <a href="{{url("homework/create")}}/{{$course_no}}" class="btn btn-default">Manage Homework</a>
                                 </div>
                             </div>
                         </div>

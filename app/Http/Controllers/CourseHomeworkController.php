@@ -464,7 +464,18 @@ class CourseHomeworkController extends Controller {
             }
 
             $newHW->name = $input['name'];
-            $newHW->type_id = 1; // test
+
+            $input['type'] = str_replace(" ", "", $input['type']);
+            $homeworkType = HomeworkType::where('extension', $input['type'])->first();
+            if (is_null($homeworkType)){
+            	$homeworkType = new  HomeworkType();
+            	$homeworkType->extension = $input['type'];
+
+            	$lastType = HomeworkType::orderBy('id', 'desc')->first();
+            	$homeworkType->id = str_pad(((int)$lastType->id) +1, '3','0', STR_PAD_LEFT);
+            	$homeworkType->save();
+            }
+            $newHW->type_id = $homeworkType->id;
             $newHW->detail = $input['detail'];
             $newHW->assign_date = Carbon::now();
             $newHW->due_date = Carbon::createFromFormat('Y-m-d H:i',
@@ -478,8 +489,6 @@ class CourseHomeworkController extends Controller {
         }
 
         return redirect('assignment/create/'.$input['course_id']);
-//        dd('save complete', $newHW);
-//        dd('complete: ',$request->input());
     }
 
     public function homeworkCreate($course_id){
