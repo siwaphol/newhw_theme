@@ -1,5 +1,6 @@
 <?php
-
+//Auth::loginUsingId('600310173');
+//Auth::loginUsingId('540510828');
 //this route actually accept first incoming request
 Route::get('/', 'WelcomeController@index');
 Route::get('home', 'HomeController@firstpage');

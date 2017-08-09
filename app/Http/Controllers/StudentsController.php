@@ -379,10 +379,10 @@ class StudentsController extends Controller {
         }
 
         $sql=DB::select('select course_id,section  
-from course_section 
-where semester=? 
-and year=? 
-GROUP BY course_id,section', array($semester, $fullYear));
+		from course_section 
+		where semester=? 
+		and year=? 
+		GROUP BY course_id,section', array($semester, $fullYear));
 
         $excelType = 'Excel2007';
         $count=count($sql);
@@ -404,8 +404,7 @@ GROUP BY course_id,section', array($semester, $fullYear));
             }else {
                 $fileupload_name = 'https://www3.reg.cmu.ac.th/regist'.$semester.$year.'/public/stdtotal_xlsx.php?var=maxregist&COURSENO='.$course.'&SECLEC='.$sec.'&SECLAB=000&border=1&mime=xlsx&ctype=&';
             }
-//            echo $course . " " . $sec . "</br>";
-//            echo $fileupload_name . "</br>";
+
             $filename = 'file'.$i.'.xlsx';
             $fileupload = tempnam(sys_get_temp_dir(), $filename);
 
@@ -413,7 +412,6 @@ GROUP BY course_id,section', array($semester, $fullYear));
 
                 $reader = \PHPExcel_IOFactory::createReader($excelType);
                 if (!$reader->canRead($fileupload)){
-//                    echo 'cannot download file from ' . $course . ' - ' . $sec . "</br>";
                     $newStatus->{'status'} = User::IMPORT_NOT_FOUND;
                     $newStatus->{'amount'} = 0;
                     $importStatus[] = $newStatus;

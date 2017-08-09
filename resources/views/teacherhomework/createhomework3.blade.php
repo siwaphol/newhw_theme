@@ -14,16 +14,10 @@
         <h3 align="center">Create Homework {{$course_id}}</h3>
 
         <div class="row" style="margin-bottom: 15px;padding-right: 19px;">
-            <div class="pull-left">
-                <a href="#" class="toggle-vis" data-column="9">999999</a>
-                <a class="toggle-vis" data-column="1">Type</a>
-                <a href="#" class="toggle-vis-all">Show All</a>
-            </div>
             <div class="pull-right">
-                <button type="button" class="btn btn-default" id="file_add_btn">
-                    <span class="extraicon-file-add"></span>
-                </button>
-                <a href="{{url('assignment/create')}}/{{$course_id}}">Create New Assignment(new)</a>
+                <a href="{{url('assignment/create')}}/{{$course_id}}" class="btn btn-default">
+                    <span class="extraicon-file-add"></span>Create New Assignment
+                </a>
             </div>
         </div>
 
@@ -101,16 +95,6 @@
     <script type="text/javascript">
         $(function () {
 
-            if(document.cookie.indexOf('mycookie')==-1) {
-                // cookie doesn't exist, create it now
-                document.cookie = 'mycookie=1';
-            }
-            else {
-                // not first visit, so alert
-                alert('You refreshed!');
-                init_file_add_modal();
-            }
-
             function init_file_add_modal(){
                 $('#homeworkname').val('');
                 $('#homework-ext-label').html('no extension selected');
@@ -182,31 +166,6 @@
                     '<option value="All">All</option>' +
                     '</select>' +
                     '</label>');
-
-//            //test
-//            $('a.toggle-vis-all').on('click', function (e) {
-//                e.preventDefault();
-//                hw_table.columns().visible(true);
-//            });
-//            $('a.toggle-vis').on( 'click', function (e) {
-//                e.preventDefault();
-//
-//                // Get the column API object
-//                var column = hw_table.column( $(this).attr('data-column') );
-//
-//                // Toggle the visibility
-//                column.visible( ! column.visible() );
-//            } );
-            //end test
-//            $('#section_select').change(function () {
-//                if($(this).val() === "All"){
-//                    var columns = hw_table.columns('2,3,4,5,6,7,8,9,10,11,12,13,14,15');
-//                    columns.visible(true);
-//                }else{
-//                    var column = hw_table.columns('2,9');
-//                    column.visible(! column.visible());
-//                }
-//            });
 
         });
     </script>

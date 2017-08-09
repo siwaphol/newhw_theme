@@ -43,6 +43,7 @@ class User extends Model implements AuthenticatableContract {
 
     protected $primaryKey = 'id';
 
+
     public $incrementing = false;
 
     public function teachcourses(){
