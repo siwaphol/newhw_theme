@@ -12,6 +12,9 @@ class Provider extends AbstractProvider implements ProviderInterface
      * Unique Provider Identifier.
      */
     const IDENTIFIER = 'CMU';
+    const REDIRECT_URI = "http://202.28.248.59/oauth/success";
+    const CLIENT_ID = "7J5H7qzHYC7UA3GhYzywyuwcY9wjxgA77yu9bPBj";
+    const CLIENT_SECRET = "JvgfjEACUvh2hrnXujZsEAPbkBxnKYV3a2J3u28j";
 
     /**
      * {@inheritdoc}
@@ -23,7 +26,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://accountapi.cmu.ac.th/auth/Authorize.aspx', $state);
+        return $this->buildAuthUrlFromBase('https://oauth.cmu.ac.th/v1/Authorize.aspx', $state);
     }
 
     /**
@@ -31,7 +34,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://accountapi.cmu.ac.th/auth/GetToken.aspx';
+        return 'https://oauth.cmu.ac.th/v1/GetToken.aspx';
     }
 
     /**
@@ -39,9 +42,9 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $endpoint = 'https://accountapi.cmu.ac.th/auth/UserInfo.aspx';
+        $endpoint = 'https://oauth.cmu.ac.th/v1/UserInfo.aspx';
         $query = [
-            'oauth_token' => $token,
+            'access_token' => $token,
         ];
 
         $response = $this->getHttpClient()->get(
@@ -77,7 +80,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
+	        'redirect_uri'=> Provider::REDIRECT_URI,
+	        'client_id'=> Provider::CLIENT_ID,
+	        'client_secret'=>Provider::CLIENT_SECRET
         ]);
     }
 }

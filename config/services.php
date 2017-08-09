@@ -36,9 +36,9 @@ return [
     ],
 
     'github' => [
-        'client_id' => 'fe06c2e8f69a515be29f',
-        'client_secret' => 'b1593b28c52c7e63126a006bc2138489ff321b6d',
-        'redirect' => 'http://127.0.0.1:8081/newhw_theme/public',
+        'client_id' => '7J5H7qzHYC7UA3GhYzywyuwcY9wjxgA77yu9bPBj',
+        'client_secret' => 'JvgfjEACUvh2hrnXujZsEAPbkBxnKYV3a2J3u28j',
+        'redirect_uri' => 'http://202.28.248.59/oauth/success',
     ],
 
 ];
