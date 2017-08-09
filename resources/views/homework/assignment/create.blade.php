@@ -2,9 +2,7 @@
 
 @section('css')
     <style>
-        .form-group{
-            margin-bottom: 0;
-        }
+
     </style>
 @endsection
 
@@ -27,37 +25,49 @@
                 @endif
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <label for="name" class="control-label col-lg-2">File Name</label>
-                    <div class="col-lg-10">
-                        {!! Form::input('text', 'name', old('name'),['class'=>'form-control', 'placeholder'=>'ex. lab_01_{id}']) !!}
+                <div class="form-horizontal">
+                    <div class="row">
+                        <label for="" class="control-label col-lg-2"></label>
+                        <label for="" class="col-lg-10"><code>การตั้งชื่อไฟล์ ให้ใช้เฉพาะอักขระภาษาอังกฤษ ตัวเลข และเครื่องหมาย _ สำหรับระบุตำแหน่งรหัสนักศึกษาในชื่อไฟล์ให้ใช้ {id} ไม่ต้องใส่นามสกุลไฟล์</code>
+                        </label>
                     </div>
-                </div>
-                <div class="row">
-                    <label for="type_id" class="control-label col-lg-2">Extension</label>
-                    <div class="col-lg-10">
-                        {!! Form::input('text', 'type', old('type'),['class'=>'form-control', 'placeholder'=>'ex. .xls,.xlsx']) !!}
+                    <div class="form-group">
+                        <label for="name" class="control-label col-lg-2">File Name</label>
+                        <div class="col-lg-10">
+                            {!! Form::input('text', 'name', old('name'),['class'=>'form-control', 'placeholder'=>'ex. lab_01_{id}']) !!}
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label for="details" class="control-label col-lg-2">Details</label>
-                    <div class="col-lg-10">
-                        {!! Form::textarea( 'detail', old('detail'),['class'=>'form-control']) !!}
+                    <div class="row">
+                        <label for="" class="control-label col-lg-2"></label>
+                        <label for="" class="col-lg-10"><code>นามสกุลไฟล์ ต้องมี . นำหน้า และคั่นระหว่างหลายนามสกุลด้วย ,</code>
+                        </label>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="type_id" class="control-label col-lg-2">Extension</label>
+                        <div class="col-lg-10">
+                            {!! Form::input('text', 'type', old('type'),['class'=>'form-control', 'placeholder'=>'ex. .xls,.xlsx']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="details" class="control-label col-lg-2">Details</label>
+                        <div class="col-lg-10">
+                            {!! Form::textarea( 'detail', old('detail'),['class'=>'form-control']) !!}
+                        </div>
+                    </div>
 
-                <div class="row">
-                    <label for="section" class="control-label col-lg-2">Sections</label>
-                    <div class="col-lg-10">
-                        {!! Form::select('section[]',$distinctSection,null,['multiple'=>'multiple','id'=>'section-select','class'=>'select']) !!}
+                    <div class="form-group">
+                        <label for="section" class="control-label col-lg-2">Sections</label>
+                        <div class="col-lg-10">
+                            {!! Form::select('section[]',$distinctSection,null,['multiple'=>'multiple','id'=>'section-select','class'=>'select']) !!}
+                        </div>
                     </div>
-                </div>
-                <div class="row text-center" style="margin-top: 10px;">
-                    <a href="" class="btn btn-primary" id="select-all-btn">Select All Sections</a>
-                    <a href="" class="btn btn-primary" id="deselect-all-btn">DeSelect All Sections</a>
-                </div>
-                <div class="row text-center" style="margin-top: 10px;">
-                    {!! Form::input('submit', 'submit', 'submit', ['class'=>'btn btn-success']) !!}
+                    <div class="form-group text-center" style="margin-top: 10px;">
+                        <a href="" class="btn btn-primary" id="select-all-btn">Select All Sections</a>
+                        <a href="" class="btn btn-primary" id="deselect-all-btn">DeSelect All Sections</a>
+                    </div>
+                    <div class="form-group text-center" style="margin-top: 10px;">
+                        {!! Form::input('submit', 'submit', 'submit', ['class'=>'btn btn-success']) !!}
+                    </div>
                 </div>
             </div>
         </div>
