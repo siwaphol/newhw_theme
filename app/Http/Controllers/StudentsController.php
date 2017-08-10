@@ -2,9 +2,11 @@
 
 use App\Course;
 use App\Course_Section;
+use App\Course_Student;
 use App\Http\Requests\Formstudents;
 use App\Http\Controllers\Controller;
 
+use App\Semesteryears;
 use App\Students;
 use App\User;
 use function GuzzleHttp\json_encode;
@@ -107,7 +109,16 @@ class StudentsController extends Controller {
         if (is_null($user))
             return redirect()->back()->withErrors(['not_found'=>'ไม่พบผู้ใช้งานที่มีรหัส '. $student_id]);
 
-        $insert=DB::insert('insert into course_student (course_id,section,student_id,status,semester,year) VALUES (?,?,?,?,?,?)',array($course_id,$section,$student_id,$status,Session::get('semester'),Session::get('year')));
+        $semesterYear = Semesteryears::where('use', 1)->first();
+
+        Course_Student::create([
+        	'course_id'=>$course_id,
+	        'section'=>$section,
+	        'student_id'=>$student_id,
+	        'status'=>"",
+	        'semester'=>$semesterYear->semester,
+	        'year'=>$semesterYear->year
+        ]);
 
         return redirect()->action('HomeController@preview',array('course'=>$course_id,'sec'=>$section));
 	}

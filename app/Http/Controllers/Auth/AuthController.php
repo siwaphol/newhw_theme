@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers\Auth;
+use App\Course;
 use App\Http\Controllers\Controller;
+use App\Semesteryears;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
@@ -135,6 +138,17 @@ class AuthController extends Controller {
     {
         $user = Socialite::driver('cmu')->user();
         $credentials = array('email'=>$user->username, 'password'=>null);
+
+        $systemUser = User::find($user->id);
+        $semesterYear = Semesteryears::where('use', 1)->first();
+        if ($user){
+        	$systemUser->fill($user);
+        	if (is_null($systemUser->semester) || is_null($systemUser->year)){
+        		$systemUser->semester = $semesterYear->semester;
+        		$systemUser->year = $semesterYear->year;
+	        }
+	        $systemUser->save();
+        }
 
         if (Auth::attempt($credentials, null)) {
         	return redirect("/");

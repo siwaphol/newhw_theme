@@ -335,9 +335,14 @@ class CourseHomeworkController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($course_id, $homework_id)
 	{
-		//
+		$homework = Homework::find($homework_id);
+//		if ($homework)
+		$homework->delete();
+
+
+		return redirect("homework/create/".$course_id);
 	}
 
     public function result(){
