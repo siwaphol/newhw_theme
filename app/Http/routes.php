@@ -43,6 +43,7 @@ Route::group(['middleware'=>'admin'], function (){
     Route::get('homework/create2/{course_id}','CourseHomeworkController@create2');
     Route::post('homework/create','CourseHomeworkController@homeworkPostCreate');
     Route::get('homework/result','CourseHomeworkController@result' );
+    Route::get('homework/{course_id}/{section}/{homework_id}/delete', 'CourseHomeworkController@destroy');
     Route::get('assignment/create/{course_id}', 'CourseHomeworkController@createAssignment');
     Route::get('assignment/{course_id}/{homework_id}/edit', 'CourseHomeworkController@editAssignment');
     Route::post('assignment', 'CourseHomeworkController@store');

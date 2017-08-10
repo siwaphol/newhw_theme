@@ -325,14 +325,46 @@ class CourseHomeworkController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($course_id, $homework_id)
+	public function destroy($course_id,$section, $homework_id, Request $request)
 	{
 		$homework = Homework::find($homework_id);
-//		if ($homework)
-		$homework->delete();
+		$userId = \Auth::user()->id;
+		$user = User::find($userId);
+		// admin ลบได้ทุกกระบวนวิชา
+		if ($user->isAdmin()){
+			$countHwStudent = HomeworkStudent::where('homework_id', $homework->id)
+				->count();
+			if ($countHwStudent>0){
+				return redirect()->back()
+				                 ->with("delete-error", "ไม่สามารถลบการบ้านได้เนื่องจากมีการบ้านที่ถูกส่งโดยนักศึกษา");
+			}else{
+				$homework->delete();
+			}
+		}
+		// teacher ลบของตัวเอง
+		elseif ($user->isTeacher()){
+			$teachingCourseSection = Course_Section::currentSemester()
+				->where('course_id', $homework->course_id)
+				->where('section', $homework->section)
+				->count();
 
+			if ($teachingCourseSection>0){
+				$countHwStudent = HomeworkStudent::where('homework_id', $homework->id)
+				                                 ->count();
+				if ($countHwStudent>0){
+					return redirect()->back()
+					                 ->with("delete-error", "ไม่สามารถลบการบ้านได้เนื่องจากมีการบ้านที่ถูกส่งโดยนักศึกษา");
+				}else{
+					$homework->delete();
+				}
+			}else{
+				return redirect()->back()
+					->with("delete-error", "ไม่สามารถลบได้เนื่องจากไม่พบข้อมูลอาจารย์สอนอยู่ใน "
+				                           . $homework->course_id . "-" . $homework->section);
+			}
+		}
 
-		return redirect("homework/create/".$course_id);
+		return redirect("homework/create/".$course_id)->with("success", "ทำการลบสำเร็จ");
 	}
 
     public function result(){
