@@ -47,7 +47,7 @@
                     <td>{{$aHomework->section}}</td>
                     <td>{{$aHomework->due_date}}</td>
                     <td>{{$aHomework->accept_date}}</td>
-                    <td><a href="{{url("homework")}}/{{$course_id}}/{{$section}}/{{$aHomework->id}}/delete"
+                    <td><a href="{{url("homework")}}/{{$course_id}}/{{$aHomework->section}}/{{$aHomework->id}}/delete"
                            onclick="return confirm('Are you sure? you cannot undo this action.')"
                            class="btn btn-danger">Delete</a></td>
                 </tr>
