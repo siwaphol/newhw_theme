@@ -21,15 +21,20 @@ class Homework extends Model {
     protected $dates =['assign_date', 'due_date', 'accept_date'];
 //    protected $guarded = [];
 
-    public function extension(){
-        return $this->hasMany('App\HomeworkType','id','type_id')->first();
-    }
+    // public function extension(){
+    //     return $this->hasMany('App\HomeworkType','id','type_id')->first();
+    // }
     /**
      * Accessor Function
      */
     public function getExtensionAttribute()
     {
-        return $this->hasOne('App\HomeworkType','id','type_id')->first()->extension;
+        $homeworkType = App\HomeworkType::find($this->attributes['type_id']);
+        if($homeworkType){
+            return $homeworkType->extension;
+        }
+        
+        return "";
     }
 
     public function getSubmitterAndSendStatus()
