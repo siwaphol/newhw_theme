@@ -307,7 +307,11 @@ class CourseHomeworkController extends Controller {
 			$homeworkType->extension = $input['type'];
 
 			$lastType = HomeworkType::orderBy('id', 'desc')->first();
-			$homeworkType->id = str_pad(((int)$lastType->id) +1, '3','0', STR_PAD_LEFT);
+			if ($lastType){
+				$homeworkType->id = str_pad(((int)$lastType->id) +1, '3','0', STR_PAD_LEFT);
+			}else{
+				$homeworkType->id = '001';
+			}
 			$homeworkType->save();
 		}
 		$homework->type_id = $homeworkType->id;
@@ -598,7 +602,11 @@ class CourseHomeworkController extends Controller {
             	$homeworkType->extension = $input['type'];
 
             	$lastType = HomeworkType::orderBy('id', 'desc')->first();
-            	$homeworkType->id = str_pad(((int)$lastType->id) +1, '3','0', STR_PAD_LEFT);
+            	if ($lastType){
+		            $homeworkType->id = str_pad(((int)$lastType->id) +1, '3','0', STR_PAD_LEFT);
+	            }else{
+            		$homeworkType->id = '001';
+	            }
             	$homeworkType->save();
             }
             $newHW->type_id = $homeworkType->id;
