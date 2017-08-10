@@ -140,7 +140,7 @@ class AuthController extends Controller {
 
         $systemUser = User::find($user->id);
         $semesterYear = Semesteryears::where('use', 1)->first();
-        if ($user){
+        if ($systemUser){
         	$systemUser->username = $user->username;
         	$systemUser->firstname_th = $user->firstname_th;
         	$systemUser->firstname_en = $user->firstname_en;
