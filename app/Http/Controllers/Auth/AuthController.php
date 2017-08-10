@@ -70,7 +70,6 @@ class AuthController extends Controller {
 //        }
         //Nong test
         if (Auth::attempt($credentials, $request->has('remember'))) {
-//        	dd(Auth::check());
             return $this->handleUserWasAuthenticated($request);
         }
         //End Nong test
@@ -155,24 +154,7 @@ class AuthController extends Controller {
         }
 
         //TODO-nong handle Unsuccessful login
-
-        //$user->token
-
-        // OAuth Two Providers
-//        $token = $user->token;
-//        $refreshToken = $user->refreshToken; // not always provided
-//        $expiresIn = $user->expiresIn;
-//
-//// OAuth One Providers
-//        $token = $user->token;
-//        $tokenSecret = $user->tokenSecret;
-//
-//// All Providers
-//        $user->getId();
-//        $user->getNickname();
-//        $user->getName();
-//        $user->getEmail();
-//        $user->getAvatar();
+	    return redirect("/");
     }
 
     /**

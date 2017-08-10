@@ -156,12 +156,15 @@ class CustomUserProvider implements UserProviderInterface {
 //        return redirect('/login')->withErrors([
 //            'email' => 'The credentials you entered did not match our records. Try again?',
 //        ]);
-        return redirect("oauth/login");
+        return null;
     }
 
     public function validateCredentials(UserContract $user, array $credentials)
     {
-        return true;
+    	if ($user){
+    		return true;
+	    }
+        return false;
     }
 
     public function createModel()
