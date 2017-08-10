@@ -44,7 +44,7 @@ class AuthController extends Controller {
      */
     public function getLogin()
     {
-        return view('auth.login');
+        return redirect('oauth/login');
     }
 
     /**
@@ -67,6 +67,7 @@ class AuthController extends Controller {
 //        }
         //Nong test
         if (Auth::attempt($credentials, $request->has('remember'))) {
+//        	dd(Auth::check());
             return $this->handleUserWasAuthenticated($request);
         }
         //End Nong test
@@ -107,7 +108,7 @@ class AuthController extends Controller {
     {
         Auth::logout();
 
-        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/oauth/login');
     }
 
     /**
@@ -122,7 +123,6 @@ class AuthController extends Controller {
             return $this->redirectPath;
         }
 
-//       // return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
         return property_exists($this, 'redirectTo') ? $this->redirectTo : '/index';
     }
 
@@ -137,7 +137,7 @@ class AuthController extends Controller {
         $credentials = array('email'=>$user->username, 'password'=>null);
 
         if (Auth::attempt($credentials, null)) {
-            return $this->handleUserWasAuthenticated($user);
+        	return redirect("/");
         }
 
         //TODO-nong handle Unsuccessful login
@@ -168,7 +168,7 @@ class AuthController extends Controller {
      */
     public function loginPath()
     {
-        return property_exists($this, 'loginPath') ? $this->loginPath : '/auth/login';
+        return property_exists($this, 'loginPath') ? $this->loginPath : '/oauth/login';
     }
 
 

@@ -58,7 +58,6 @@ class CustomUserProvider implements UserProviderInterface {
                         }
                     }
                     Session::put('course_list', $course_list_str);
-
                 }
             }
 

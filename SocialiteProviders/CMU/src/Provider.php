@@ -81,9 +81,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
-	        'redirect_uri'=> Provider::REDIRECT_URI,
-	        'client_id'=> Provider::CLIENT_ID,
-	        'client_secret'=>Provider::CLIENT_SECRET
+	        'redirect_uri'=> env("CMU_REDIRECT_URI"),
+	        'client_id'=> env("CMU_KEY"),
+	        'client_secret'=>env("CMU_SECRET")
         ]);
     }
 }
