@@ -9,7 +9,7 @@ class WelcomeController extends Controller {
 
 	public function index()
 	{
-		return redirect('oauth/login');
+		return view("auth.landing_page");
 	}
 
 	public function testStylus()
