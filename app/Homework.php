@@ -29,11 +29,11 @@ class Homework extends Model {
      */
     public function getExtensionAttribute()
     {
-        $homeworkType = App\HomeworkType::find($this->attributes['type_id']);
+        $homeworkType = HomeworkType::find($this->attributes['type_id']);
         if($homeworkType){
             return $homeworkType->extension;
         }
-        
+
         return "";
     }
 
