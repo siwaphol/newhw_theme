@@ -99,7 +99,7 @@
                                     <input type="hidden" value="{{$aHomework->extension}}" name="extension">
                                     {!! Form::file('test-'.$aHomework->id,["data-expected-name"=>$aHomework->expected_name,'class'=>'student-file-input']) !!}
                                 </div>
-                                <div style="float: right;margin-top: -30px;">
+                                <div class="text-center">
                                     <button  class="btn btn-default" type="submit">Upload</button>
                                     {!! Form::close() !!}
                                 </div>
