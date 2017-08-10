@@ -336,7 +336,7 @@ class CourseHomeworkController extends Controller {
 				->count();
 			if ($countHwStudent>0){
 				return redirect()->back()
-				                 ->with("delete-error", "ไม่สามารถลบการบ้านได้เนื่องจากมีการบ้านที่ถูกส่งโดยนักศึกษา");
+				                 ->with("delete-error", "Cannot delete because there are submitted homework");
 			}else{
 				$homework->delete();
 			}
@@ -353,18 +353,18 @@ class CourseHomeworkController extends Controller {
 				                                 ->count();
 				if ($countHwStudent>0){
 					return redirect()->back()
-					                 ->with("delete-error", "ไม่สามารถลบการบ้านได้เนื่องจากมีการบ้านที่ถูกส่งโดยนักศึกษา");
+					                 ->with("delete-error", "Cannot delete because there are submitted homework");
 				}else{
 					$homework->delete();
 				}
 			}else{
 				return redirect()->back()
-					->with("delete-error", "ไม่สามารถลบได้เนื่องจากไม่พบข้อมูลอาจารย์สอนอยู่ใน "
+					->with("delete-error", " Teacher id not found in "
 				                           . $homework->course_id . "-" . $homework->section);
 			}
 		}
 
-		return redirect("homework/create/".$course_id)->with("success", "ทำการลบสำเร็จ");
+		return redirect("homework/create/".$course_id)->with("delete-success", "Successfully deleted");
 	}
 
     public function result(){

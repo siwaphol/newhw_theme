@@ -27,6 +27,18 @@
                 <span class="text-semibold">Successfully updated</span>
             </div>
         @endif
+        @if(Session::has('delete-success'))
+            <div class="alert alert-success alert-bordered">
+                <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                <span class="text-semibold">{{Session::get('delete-success')}}</span>
+            </div>
+        @endif
+        @if(Session::has('delete-error'))
+            <div class="alert alert-danger alert-bordered">
+                <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                <span class="text-semibold">{{Session::get('delete-error')}}</span>
+            </div>
+        @endif
 
         <table id="users-table" class="table table-condensed">
             <thead>
