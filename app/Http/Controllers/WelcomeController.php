@@ -9,11 +9,7 @@ class WelcomeController extends Controller {
 
 	public function index()
 	{
-		if (\Auth::check()){
-			return redirect("/home");
-		}
-
-		return view("auth.landing_page");
+		return redirect('oauth/login');
 	}
 
 	public function testStylus()
