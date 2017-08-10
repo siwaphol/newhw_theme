@@ -140,6 +140,14 @@ class AuthController extends Controller {
 
         $systemUser = User::find($user->id);
         $semesterYear = Semesteryears::where('use', 1)->first();
+
+        if (is_null($systemUser)){
+        	$systemUser = User::where([
+        		'firstname_en' => $user->firstname_en,
+		        'lastname_en' => $user->lastname_en
+	        ])->first();
+        }
+
         if ($systemUser){
         	$systemUser->username = $user->username;
         	$systemUser->firstname_th = $user->firstname_th;

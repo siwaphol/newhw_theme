@@ -214,69 +214,15 @@ class HomeController extends Controller
                 }
                 $aHomework->{"expected_name"} = rtrim($aHomework->{"expected_name"}, ",");
             }
-//            dd($sent);
-
-//            $sent = $sent->students->first();
-//            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
-//                            from course_student cs
-//                            left join users stu on cs.student_id=stu.id
-//                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=? and cs.student_id=?',
-//                array($course_no, $section, Session::get('semester'), Session::get('year'), Auth::user()->id));
         }
-//        dd($sent->toJson());
 
         $removeHeader = true;
 
         if(auth()->user()->isStudent())
             return view('students.homework.index', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section'));
 
-//        return view('home.preview', compact('teachers', 'ta', 'student', 'homework', 'sent', 'removeHeader','teachersAndTA','course_no','section'))->with('course', array('co' => $course_no, 'sec' => $section));
         return view('admin.dashboard', compact('courseWithTeaAssist','student','sent','homework','removeHeader','course_no','section','studentSentHomework'));
     }
-
-//    public function preview1()
-//    {
-//        $course = $_GET['course'];
-//        $sec = $_GET['sec'];
-//
-//        $teachers = DB::select('select cs.id as id,tea.id as teacher_id,tea.firstname_en as firstname,tea.lastname_en as lastname
-//                            from course_section cs
-//                            LEFT  join users tea on cs.teacher_id=tea.id
-//                            where cs.semester=? and cs.year=? and cs.course_id=? and cs.section=?', array(Session::get('semester'), Session::get('year'), $course, $sec));
-//        $ta = DB::select('select ct.id as id,tea.id as ta_id,tea.firstname_th as firstname,tea.lastname_th as lastname
-//                            from course_ta ct
-//                            LEFT  join users tea on ct.student_id=tea.id
-//                            where ct.semester=? and ct.year=? and ct.course_id=? and ct.section=?', array(Session::get('semester'), Session::get('year'), $course, $sec));
-//
-//        if (Auth::user()->isAdmin() || Auth::user()->isTeacher() || Auth::user()->isTa()) {
-//            $student = DB::select('select * from users where role_id=0001');
-//        }
-//        if (Auth::user()->isStudent()) {
-//            $student = DB::select('select * from users where id=?', array(Auth::user()->id));
-//        }
-//        $homework = DB::select('select * from homework where course_id=? and section=?
-//                                and semester=? and year=?', array($course, $sec, Session::get('semester'), Session::get('year')));
-//        if (Auth::user()->isAdmin() || Auth::user()->isTeacher()) {
-//            $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
-//                            from course_student cs
-//                            left join users stu on cs.student_id=stu.id
-//                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=?',
-//                array($course, $sec, Session::get('semester'), Session::get('year')));
-//        }
-//        if (Auth::user()->isStudent() || Auth::user()->isStudentandTa()) {
-//            $student = DB::select('select * from users where id=?', array(Auth::user()->id));
-//            if (Auth::user()->isStudent() || Auth::user()->isStudentandTa()) {
-//                $sent = DB::select('select cs.student_id as studentid,stu.firstname_th as firstname,stu.lastname_th as lastname,cs.status as status
-//                            from course_student cs
-//                            left join users stu on cs.student_id=stu.id
-//                           where cs.course_id=? and cs.section=? and cs.semester=? and cs.year=? and cs.student_id=?',
-//                    array($course, $sec, Session::get('semester'), Session::get('year'), Auth::user()->id));
-//            }
-//
-//            return view('home.previewdownload', compact('teachers', 'ta', 'student', 'homework', 'sent'))->with('course', array('co' => $course, 'sec' => $sec));
-//
-//        }
-//    }
 
     public function exportzip()
     {

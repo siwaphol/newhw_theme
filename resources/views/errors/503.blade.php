@@ -34,7 +34,7 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">Log in not successful</div>
+				<div class="title">User not found!</div>
 			</div>
 		</div>
 	</body>
