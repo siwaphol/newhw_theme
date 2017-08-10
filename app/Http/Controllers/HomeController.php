@@ -174,9 +174,10 @@ class HomeController extends Controller
             ,ht.extension
             FROM course_student cs
             LEFT JOIN homework h
-            ON cs.course_id=h.course_id and cs.section=h.section and h.semester='{$currentSemester}' and h.year='{$currentYear}'
+            ON cs.course_id=h.course_id and cs.section=h.section 
+            and h.semester='{$currentSemester}' and h.year='{$currentYear}'
             LEFT JOIN homework_student hs
-            ON h.id=hs.homework_id
+            ON h.id=hs.homework_id and hs.student_id=cs.student_id
             LEFT JOIN homework_types ht 
             ON h.type_id=ht.id
             WHERE 
