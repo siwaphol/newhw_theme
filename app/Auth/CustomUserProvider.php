@@ -161,10 +161,7 @@ class CustomUserProvider implements UserProviderInterface {
 
     public function validateCredentials(UserContract $user, array $credentials)
     {
-    	if (!is_null($user)){
-    		return true;
-	    }
-        return false;
+    	return true;
     }
 
     public function createModel()
