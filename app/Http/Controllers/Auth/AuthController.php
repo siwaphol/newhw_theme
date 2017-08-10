@@ -138,9 +138,18 @@ class AuthController extends Controller {
         $user = Socialite::driver('cmu')->user();
         $credentials = array('email'=>$user->username, 'password'=>null);
 
+        // 1. match จาก student_id
         $systemUser = User::find($user->id);
         $semesterYear = Semesteryears::where('use', 1)->first();
 
+        // 2. match จาก username
+	    if (is_null($systemUser)){
+		    $systemUser = User::where([
+		    	'username'=>$user->username
+		    ])->first();
+	    }
+
+	    // 3. match จาก ชื่อภาษาอังกฤษ
         if (is_null($systemUser)){
         	$systemUser = User::where([
         		'firstname_en' => $user->firstname_en,
