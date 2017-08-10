@@ -9,6 +9,10 @@ class WelcomeController extends Controller {
 
 	public function index()
 	{
+		if (\Auth::check()){
+			return redirect("/home");
+		}
+
 		return view("auth.landing_page");
 	}
 
