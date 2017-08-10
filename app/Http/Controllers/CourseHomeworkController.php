@@ -289,16 +289,6 @@ class CourseHomeworkController extends Controller {
 
 		//TODO-nong ถ้า due_date กับ accept_date เปลี่ยน ให้ไปแก้ไข status ใน homework_student
 
-
-		$homeworkType = HomeworkType::where('extension', $input['type'])->first();
-		if (is_null($homeworkType)){
-			$homeworkType = new  HomeworkType();
-			$homeworkType->extension = $input['type'];
-
-			$lastType = HomeworkType::orderBy('id', 'desc')->first();
-			$homeworkType->id = str_pad(((int)$lastType->id) +1, '3','0', STR_PAD_LEFT);
-			$homeworkType->save();
-		}
 		$homework->name = $input['name'];
 		$input['type'] = str_replace(" ", "", $input['type']);
 		$homeworkType = HomeworkType::where('extension', $input['type'])->first();
