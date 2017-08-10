@@ -134,8 +134,8 @@ class StudentsController extends Controller {
         $id=$_GET['id'];
         $course=$_GET['course'];
         $sec=$_GET['sec'];
-		//$student = Student::findOrFail($id);
-        $student=DB::select('select cs.student_id as student_id
+
+        $student=DB::select("select cs.student_id as student_id
                               ,stu.firstname_th as firstname
                               ,stu.lastname_th as lastname
                               ,stu.email as email
@@ -145,10 +145,15 @@ class StudentsController extends Controller {
                               from course_student cs
                               left join users stu on cs.student_id=stu.id
                               left join faculties fac on stu.faculty_id=fac.id
-                               where (stu.role_id=0001 OR stu.role_id=0011) and cs.student_id=?
-                               and cs.semester=? and cs.year=?',array($id,Session::get('semester'),Session::get('year')));
-		return view('students.show', compact('student'))->with('course',array('co'=>$course,'sec'=>$sec));
+                               where (stu.role_id='0001' OR stu.role_id='0011') 
+                               and cs.course_id='{$course}'
+                               and cs.section='{$sec}' 
+                               and cs.student_id=?
+                               and cs.semester=? and cs.year=? ",
+	        array($id,Session::get('semester'),Session::get('year')));
 
+		return view('students.show', compact('student'))
+			->with('course',array('co'=>$course,'sec'=>$sec));
 	}
 
 	/**
